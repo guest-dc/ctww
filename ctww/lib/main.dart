@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 
+import 'utils/colors.dart';
+
+import 'pages/lessons_page.dart';
+// import 'pages/story_walk_page.dart';
+// import 'pages/anatomy_page.dart';
+// import 'pages/matching_page.dart';
+
 void main() {
-  runApp(const MainApp());
+  runApp(CtwwApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
+class CtwwApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
+    return MaterialApp(
+      title: 'CtWW - Chinese the "Write" Way',
+      theme: ThemeData(
+        primaryColor: colorRED,
       ),
+      home: LessonsPage(),
     );
   }
 }
