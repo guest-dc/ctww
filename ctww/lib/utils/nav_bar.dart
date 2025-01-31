@@ -22,7 +22,7 @@ class NavBarButton extends StatelessWidget {
           color: colorGOLD,
           fontWeight: FontWeight.bold,
           fontSize: 20,
-          ),
+        ),
       ),
     );
   }
@@ -32,7 +32,6 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-
 
     if (screenWidth > 850) {
       return AppBar(
@@ -51,33 +50,58 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                NavBarButton(title: 'Lessons', onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LessonsPage()),
-                  );
-                }),
+                NavBarButton(
+                    title: 'Lessons',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LessonsPage()),
+                      );
+                    }),
                 SizedBox(width: 20),
-                NavBarButton(title: 'Story Walkthrough', onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => StoryWalkPage()),
-                  );
-                }),
+                NavBarButton(
+                    title: 'Story Walkthrough',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => StoryWalkPage()),
+                      );
+                    }),
                 SizedBox(width: 20),
-                NavBarButton(title: 'Anatomy Lab', onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AnatomyPage()),
-                  );
-                }),
+                NavBarButton(
+                    title: 'Anatomy Lab',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AnatomyPage()),
+                      );
+                    }),
                 SizedBox(width: 20),
-                NavBarButton(title: 'Matching Game', onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MatchingPage()),
-                  );
-                }),
+                NavBarButton(
+                    title: 'Matching Game',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MatchingPage(
+                                  wordBank: [
+                                    'word1',
+                                    'word2',
+                                    'word3',
+                                    'word4',
+                                    'word5'
+                                  ],
+                                  chineseCharacters: [
+                                    'char1',
+                                    'char2',
+                                    'char3',
+                                    'char4',
+                                    'char5'
+                                  ],
+                                )),
+                      );
+                    }),
               ],
             ),
           ),
@@ -115,7 +139,11 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
               } else if (value == 'Matching Game') {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MatchingPage()),
+                  MaterialPageRoute(
+                      builder: (context) => MatchingPage(
+                            wordBank: [],
+                            chineseCharacters: [],
+                          )),
                 );
               }
             },
@@ -123,19 +151,27 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
               return [
                 PopupMenuItem<String>(
                   value: 'Lessons',
-                  child: Text('Lessons', style: TextStyle(color: colorGOLD, fontWeight: FontWeight.bold)),
+                  child: Text('Lessons',
+                      style: TextStyle(
+                          color: colorGOLD, fontWeight: FontWeight.bold)),
                 ),
                 PopupMenuItem<String>(
                   value: 'Story Walkthrough',
-                  child: Text('Story Walkthrough', style: TextStyle(color: colorGOLD, fontWeight: FontWeight.bold)),
+                  child: Text('Story Walkthrough',
+                      style: TextStyle(
+                          color: colorGOLD, fontWeight: FontWeight.bold)),
                 ),
                 PopupMenuItem<String>(
                   value: 'Anatomy Lab',
-                  child: Text('Anatomy Lab', style: TextStyle(color: colorGOLD, fontWeight: FontWeight.bold)),
+                  child: Text('Anatomy Lab',
+                      style: TextStyle(
+                          color: colorGOLD, fontWeight: FontWeight.bold)),
                 ),
                 PopupMenuItem<String>(
                   value: 'Matching Game',
-                  child: Text('Matching Game', style: TextStyle(color: colorGOLD, fontWeight: FontWeight.bold)),
+                  child: Text('Matching Game',
+                      style: TextStyle(
+                          color: colorGOLD, fontWeight: FontWeight.bold)),
                 ),
               ];
             },
