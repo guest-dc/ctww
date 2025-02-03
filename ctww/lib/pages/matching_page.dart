@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 //import '../utils/colors.dart';
 import '../utils/nav_bar.dart';
-import '../utils/match_row.dart';
+import '../utils/matching_page/match_row.dart';
 
 class MatchingPage extends StatelessWidget {
   final List<String> wordBank;
