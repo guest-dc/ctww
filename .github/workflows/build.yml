@@ -3,8 +3,11 @@ name: Deploy Flutter Web to GitHub Pages Branch
 on:
   push:
     branches:
-      - main  # Change this to your main branch if different
-
+      - main
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.txt'
+  
 permissions:
   contents: write
 
@@ -35,5 +38,5 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: ctww/build/web  # Ensure this is the correct path
-          clean: true  # Clears previous deployment files
+          folder: ctww/build/web
+          clean: true 
