@@ -1,0 +1,235 @@
+{
+    "charset": [
+      {
+        "character": "一",
+        "unicode": "U+4E00",
+        "pinyin": "yī",
+        "lessonID": 1,
+        "definition": "one",
+        "story": "A single stroke represents unity and simplicity.",
+        "animation": "",
+        "strokeNum": 1,
+        "strokes": [
+          {
+            "strokeID": 1,
+            "stroke": "一",
+            "story": "A single horizontal line, symbolizing the concept of 'one' and unity."
+          }
+        ]
+      },
+      {
+        "character": "二",
+        "unicode": "U+4E8C",
+        "pinyin": "èr",
+        "lessonID": 1,
+        "definition": "two",
+        "story": "Two strokes symbolize balance and duality.",
+        "animation": "",
+        "strokeNum": 2,
+        "strokes": [
+          {
+            "strokeID": 1,
+            "stroke": "一",
+            "story": "The first stroke represents the foundation or beginning."
+          },
+          {
+            "strokeID": 2,
+            "stroke": "一",
+            "story": "The second stroke reinforces the first, forming the number two."
+          }
+        ]
+      },
+      {
+        "character": "三",
+        "unicode": "U+4E09",
+        "pinyin": "sān",
+        "lessonID": 1,
+        "definition": "three",
+        "story": "Three strokes represent stability and growth.",
+        "animation": "",
+        "strokeNum": 3,
+        "strokes": [
+          {
+            "strokeID": 1,
+            "stroke": "一",
+            "story": "The first stroke sets the base."
+          },
+          {
+            "strokeID": 2,
+            "stroke": "一",
+            "story": "The second stroke balances the first."
+          },
+          {
+            "strokeID": 3,
+            "stroke": "一",
+            "story": "The third stroke completes the set, forming the number three."
+          }
+        ]
+      },
+      {
+        "character": "四",
+        "unicode": "U+56DB",
+        "pinyin": "sì",
+        "lessonID": 1,
+        "definition": "four",
+        "story": "A box enclosing four sides signifies completeness.",
+        "animation": "",
+        "strokeNum": 5,
+        "strokes": [
+          {
+            "strokeID": 1,
+            "stroke": "囗",
+            "story": "The enclosing box, forming a boundary."
+          },
+          {
+            "strokeID": 2,
+            "stroke": "儿",
+            "story": "The inner strokes signify internal structure, forming 'four'."
+          }
+        ]
+      },
+      {
+        "character": "五",
+        "unicode": "U+4E94",
+        "pinyin": "wǔ",
+        "lessonID": 1,
+        "definition": "five",
+        "story": "Five elements symbolize harmony and balance.",
+        "animation": "",
+        "strokeNum": 4,
+        "strokes": [
+          {
+            "strokeID": 1,
+            "stroke": "一",
+            "story": "A base stroke, forming the foundation."
+          },
+          {
+            "strokeID": 2,
+            "stroke": "丨",
+            "story": "A vertical stroke connects the top and bottom."
+          },
+          {
+            "strokeID": 3,
+            "stroke": "丿",
+            "story": "A leftward slash adds structure."
+          },
+          {
+            "strokeID": 4,
+            "stroke": "一",
+            "story": "A final stroke completes the balance of 'five'."
+          }
+        ]
+      },
+      {
+        "character": "六",
+        "unicode": "U+516D",
+        "pinyin": "liù",
+        "lessonID": 1,
+        "definition": "six",
+        "story": "A roof over a person represents shelter and fortune.",
+        "animation": "",
+        "strokeNum": 4,
+        "strokes": [
+          {
+            "strokeID": 1,
+            "stroke": "亠",
+            "story": "A small dot represents the top of the roof."
+          },
+          {
+            "strokeID": 2,
+            "stroke": "八",
+            "story": "Two diverging strokes form the lower part."
+          }
+        ]
+      },
+      {
+        "character": "七",
+        "unicode": "U+4E03",
+        "pinyin": "qī",
+        "lessonID": 1,
+        "definition": "seven",
+        "story": "A fusion of one and six, symbolizing transformation.",
+        "animation": "",
+        "strokeNum": 2,
+        "strokes": [
+          {
+            "strokeID": 1,
+            "stroke": "一",
+            "story": "A base stroke forming a foundation."
+          },
+          {
+            "strokeID": 2,
+            "stroke": "丨",
+            "story": "A slightly curved vertical stroke adds meaning."
+          }
+        ]
+      },
+      {
+        "character": "八",
+        "unicode": "U+516B",
+        "pinyin": "bā",
+        "lessonID": 1,
+        "definition": "eight",
+        "story": "Two diverging strokes represent separation and prosperity.",
+        "animation": "",
+        "strokeNum": 2,
+        "strokes": [
+          {
+            "strokeID": 1,
+            "stroke": "丿",
+            "story": "The first stroke represents one half of division."
+          },
+          {
+            "strokeID": 2,
+            "stroke": "乀",
+            "story": "The second stroke balances the division, forming 'eight'."
+          }
+        ]
+      },
+      {
+        "character": "九",
+        "unicode": "U+4E5D",
+        "pinyin": "jiǔ",
+        "lessonID": 1,
+        "definition": "nine",
+        "story": "A symbol of longevity and completeness.",
+        "animation": "",
+        "strokeNum": 2,
+        "strokes": [
+          {
+            "strokeID": 1,
+            "stroke": "丿",
+            "story": "A sweeping stroke forming the base."
+          },
+          {
+            "strokeID": 2,
+            "stroke": "乚",
+            "story": "A hooked stroke adds completion."
+          }
+        ]
+      },
+      {
+        "character": "十",
+        "unicode": "U+5341",
+        "pinyin": "shí",
+        "lessonID": 1,
+        "definition": "ten",
+        "story": "A cross signifying completeness and wholeness.",
+        "animation": "",
+        "strokeNum": 2,
+        "strokes": [
+          {
+            "strokeID": 1,
+            "stroke": "一",
+            "story": "The first stroke represents the base."
+          },
+          {
+            "strokeID": 2,
+            "stroke": "丨",
+            "story": "The second stroke crosses the first, completing 'ten'."
+          }
+        ]
+      }
+    ]
+  }
+  
