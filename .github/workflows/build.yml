@@ -35,5 +35,5 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: build/web  # Ensure this is the correct path
+          folder: ctww/build/web  # Ensure this is the correct path
           clean: true  # Clears previous deployment files
