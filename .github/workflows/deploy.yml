@@ -21,9 +21,6 @@ jobs:
         with:
           flutter-version: 3.27.3
 
-      - name: Navigate to Flutter project
-        run: cd ctww
-
       - name: Install dependencies
         run: |
           cd ctww
@@ -37,5 +34,5 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: riley
+          branch: main
           folder: ctww/build/web
