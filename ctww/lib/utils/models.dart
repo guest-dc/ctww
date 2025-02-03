@@ -1,5 +1,3 @@
-// models.dart
-
 class Stroke {
   final int strokeID;
   final String stroke;
