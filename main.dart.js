@@ -31116,7 +31116,7 @@ if(r.$2(a,j)>0){s[b]=j
 b=o}}s[b]=a}}
 A.zH.prototype={
 I(a){var s=null
-return new A.rT(new A.j2(s),'CtWW - Chinese the "Write" Way',A.a8D(s,s,B.fq,s),s)}}
+return new A.rT(new A.j2(s),"CtWW",A.a8D(s,s,B.fq,s),s)}}
 A.iA.prototype={
 a8(){return new A.vz()}}
 A.vz.prototype={
@@ -31242,7 +31242,7 @@ I(a){var s=null
 return new A.DN(this.d,s,s,s,s,s,s,!1,s,!0,s,A.dc(this.c,A.cq(s,s,B.av,s,s,s,s,s,s,s,s,20,s,s,B.aK,s,s,!0,s,s,s,s,s,s,s,s)),s)}}
 A.lp.prototype={
 I(a){var s,r=null,q=t.E
-if(A.c6(a,r,t.w).w.a.a>850){s=A.dc("CtWW",A.cq(r,r,B.av,r,r,r,r,r,r,r,r,24,r,r,B.aK,r,r,!0,r,r,r,r,r,r,r,r))
+if(A.c6(a,r,t.w).w.a.a>850){s=A.dc("\u5199 CtWW",A.cq(r,r,B.av,r,r,r,r,r,r,r,r,24,r,r,B.aK,r,r,!0,r,r,r,r,r,r,r,r))
 return A.aag(r,B.fq,A.f3(A.a8p(A.CP(A.b([new A.lq("Lessons",new A.UO(a),r),A.o3(r,r,20),new A.lq("Story Walkthrough",new A.UP(a),r),A.o3(r,r,20),new A.lq("Anatomy Lab",new A.UQ(a),r),A.o3(r,r,20),new A.lq("Matching Game",new A.UR(a),r)],q),B.ao,B.oM,B.d3),r,B.aJ),r,r),s)}else{s=A.dc("CtWW",A.cq(r,r,B.av,r,r,r,r,r,r,r,r,24,r,r,B.aK,r,r,!0,r,r,r,r,r,r,r,r))
 return A.aag(A.b([new A.nC(new A.US(),new A.UT(a),A.Qk(B.fD,B.av,r),r,t.iX)],q),B.fq,r,s)}}}
 A.UO.prototype={
