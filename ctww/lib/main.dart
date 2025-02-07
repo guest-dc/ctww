@@ -15,7 +15,7 @@ class CtwwApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'CtWW - Chinese the "Write" Way',
+      title: 'CtWW',
       theme: ThemeData(
         primaryColor: colorRED,
       ),
