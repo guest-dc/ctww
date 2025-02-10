@@ -37,7 +37,7 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
       return AppBar(
         backgroundColor: colorRED,
         title: Text(
-          'CtWW',
+          '写 CtWW',
           style: TextStyle(
             color: colorGOLD,
             fontWeight: FontWeight.bold,
