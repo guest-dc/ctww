@@ -7,8 +7,15 @@ import '../utils/models.dart';
 class LessonBar extends StatefulWidget {
   final bool isVisible;
   final VoidCallback toggleVisibility;
+  final Function(Character) onCharacterSelected;
+  final Function(List<Lesson>) onLessonsLoaded;
 
-  LessonBar({required this.isVisible, required this.toggleVisibility});
+  LessonBar({
+    required this.isVisible,
+    required this.toggleVisibility,
+    required this.onCharacterSelected,
+    required this.onLessonsLoaded,
+  });
 
   @override
   _LessonBarState createState() => _LessonBarState();
@@ -17,18 +24,29 @@ class LessonBar extends StatefulWidget {
 class _LessonBarState extends State<LessonBar> {
   late Future<List<Lesson>> lessons;
 
+
+
   @override
   void initState() {
     super.initState();
     lessons = loadLessons();
+    lessons.then((loadedLessons) {
+      widget.onLessonsLoaded(loadedLessons);
+    });
   }
 
-  // Function to load JSON data from the asset file
+
+
   Future<List<Lesson>> loadLessons() async {
-    final String jsonString = await rootBundle.loadString('assets/charset.json');
+    final String jsonString =
+        await rootBundle.loadString('assets/charset.json');
     final Map<String, dynamic> data = jsonDecode(jsonString);
-    return (data['charset'] as List).map((json) => Lesson.fromJson(json)).toList();
+    return (data['charset'] as List)
+        .map((json) => Lesson.fromJson(json))
+        .toList();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,19 +77,28 @@ class _LessonBarState extends State<LessonBar> {
                 } else {
                   final lessons = snapshot.data!;
                   return Column(
-                    crossAxisAlignment: CrossAxisAlignment.center, // Align horizontally to the center
                     children: lessons.map((lesson) {
                       return Column(
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text('Lesson ${lesson.lessonID}', style: TextStyle(fontWeight: FontWeight.bold, color: colorGOLD)),
+                            child: Text('Lesson ${lesson.lessonID}',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: colorGOLD)),
                           ),
                           ...lesson.characters.map((character) {
                             return ListTile(
-                              title: Text(character.character, style: TextStyle(fontSize: 18, color: colorGOLD)),
+                              title: Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  character.character,
+                                  style:
+                                      TextStyle(fontSize: 18, color: colorGOLD),
+                                ),
+                              ),
                               onTap: () {
-                                print('Selected: ${character.character}');
+                                widget.onCharacterSelected(character);
                               },
                             );
                           }),
