@@ -2,6 +2,7 @@ import 'package:ctww/utils/colors.dart';
 import 'package:flutter/material.dart';
 import '../utils/nav_bar.dart';
 import '../utils/lesson_bar.dart';
+import '../utils/models.dart';
 
 class AnatomyPage extends StatefulWidget {
   @override
@@ -10,6 +11,24 @@ class AnatomyPage extends StatefulWidget {
 
 class _AnatomyPageState extends State<AnatomyPage> {
   bool _isLessonBarVisible = false;
+  Character? selectedCharacter;
+
+
+  void _onLessonsLoaded(List<Lesson> lessons) {
+    if (lessons.isNotEmpty && lessons[0].characters.isNotEmpty) {
+      _onCharacterSelected(lessons[0].characters[0]);
+    }
+  }
+
+
+   // Function to update the selected character
+  void _onCharacterSelected(Character character) {
+    setState(() {
+      selectedCharacter = character;
+    });
+  }
+
+
 
   void _toggleLessonBar() {
     setState(() {
@@ -33,7 +52,12 @@ class _AnatomyPageState extends State<AnatomyPage> {
             right: 0,
             top: 0,
             bottom: 0,
-            child: LessonBar(isVisible: _isLessonBarVisible, toggleVisibility: _toggleLessonBar),
+            child: LessonBar(
+              isVisible: _isLessonBarVisible,
+              toggleVisibility: _toggleLessonBar,
+              onCharacterSelected: _onCharacterSelected,
+              onLessonsLoaded: _onLessonsLoaded,
+            ),
           ),
         ],
       ),

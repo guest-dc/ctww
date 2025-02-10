@@ -36,14 +36,38 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
     if (screenWidth > 850) {
       return AppBar(
         backgroundColor: colorRED,
-        title: Text(
-          '写 CtWW',
-          style: TextStyle(
-            color: colorGOLD,
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
+        // title: Text(
+        //   'CtWW',
+        //   style: TextStyle(
+        //     color: colorGOLD,
+        //     fontWeight: FontWeight.bold,
+        //     fontSize: 24,
+        //   ),
+        // ),
+
+        title: Row(
+        mainAxisSize: MainAxisSize.min, // This ensures the row size is based on its children
+        children: [
+          // Image widget for the logo (you can replace this with your image path)
+          Container(
+            padding: EdgeInsets.only(right: 5.0), // Space between the image and text
+            child: Image.asset(
+              '../assets/images/ctww_icon_char.png', // Replace with your image asset
+              height: 60, // Adjust size as needed
+            ),
           ),
-        ),
+          // Text widget for the title
+          Text(
+            'CtWW',
+            style: TextStyle(
+              color: colorGOLD,
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+            ),
+          ),
+        ],
+      ),
+        
         flexibleSpace: Center(
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -53,53 +77,58 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                 NavBarButton(
                     title: 'Lessons',
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => LessonsPage()),
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  LessonsPage(),
+                          transitionDuration: Duration(seconds: 0),
+                        ),
                       );
                     }),
                 SizedBox(width: 20),
                 NavBarButton(
                     title: 'Story Walkthrough',
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => StoryWalkPage()),
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  StoryWalkPage(),
+                          transitionDuration: Duration(seconds: 0),
+                        ),
                       );
                     }),
                 SizedBox(width: 20),
                 NavBarButton(
                     title: 'Anatomy Lab',
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => AnatomyPage()),
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  AnatomyPage(),
+                          transitionDuration: Duration(seconds: 0),
+                        ),
                       );
                     }),
                 SizedBox(width: 20),
                 NavBarButton(
                     title: 'Matching Game',
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => MatchingPage(
-                                  wordBank: [
-                                    'word1',
-                                    'word2',
-                                    'word3',
-                                    'word4',
-                                    'word5'
-                                  ],
-                                  chineseCharacters: [
-                                    'char1',
-                                    'char2',
-                                    'char3',
-                                    'char4',
-                                    'char5'
-                                  ],
-                                )),
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) => MatchingPage(
+                                wordBank: ['word1', 'word2', 'word3', 'word4', 'word5'],
+                                chineseCharacters: ['char1','char2','char3','char4','char5'],
+                            ),
+                          transitionDuration: Duration(seconds: 0),
+                        ),
                       );
                     }),
               ],
@@ -122,28 +151,43 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
           PopupMenuButton<String>(
             onSelected: (value) {
               if (value == 'Lessons') {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => LessonsPage()),
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        LessonsPage(),
+                    transitionDuration: Duration(seconds: 0),
+                  ),
                 );
               } else if (value == 'Story Walkthrough') {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => StoryWalkPage()),
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        StoryWalkPage(),
+                    transitionDuration: Duration(seconds: 0),
+                  ),
                 );
               } else if (value == 'Anatomy Lab') {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => AnatomyPage()),
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        AnatomyPage(),
+                    transitionDuration: Duration(seconds: 0),
+                  ),
                 );
               } else if (value == 'Matching Game') {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => MatchingPage(
-                            wordBank: [],
-                            chineseCharacters: [],
-                          )),
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        MatchingPage(
+                      wordBank: ['word1', 'word2', 'word3', 'word4', 'word5'],
+                      chineseCharacters: ['char1','char2','char3','char4','char5'],
+                    ),
+                    transitionDuration: Duration(seconds: 0),
+                  ),
                 );
               }
             },
