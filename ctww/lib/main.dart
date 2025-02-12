@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'utils/colors.dart';
+//import 'utils/colors.dart';
 
 import 'pages/lessons_page.dart';
 // import 'pages/story_walk_page.dart';
@@ -16,9 +16,6 @@ class CtwwApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'CtWW',
-      theme: ThemeData(
-        primaryColor: colorRED,
-      ),
       home: LessonsPage(),
     );
   }
