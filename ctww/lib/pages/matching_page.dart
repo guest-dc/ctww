@@ -1,39 +1,71 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
-//import '../utils/colors.dart';
 import '../utils/nav_bar.dart';
 import '../utils/matching_page/match_row.dart';
 
-class MatchingPage extends StatelessWidget {
-  final List<String> wordBank;
-  final List<String> chineseCharacters; // List of Chinese characters
+class MatchingPage extends StatefulWidget {
+  @override
+  _MatchingPageState createState() => _MatchingPageState();
+}
 
-  MatchingPage({required this.wordBank, required this.chineseCharacters});
+class _MatchingPageState extends State<MatchingPage> {
+  List<String> wordBank = [];
+  List<String> chineseCharacters = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadCharacters();
+  }
+
+  Future<void> loadCharacters() async {
+    String jsonString = await rootBundle.loadString('assets/charset.json');
+    final Map<String, dynamic> jsonData = json.decode(jsonString);
+
+    List<String> tempWords = [];
+    List<String> tempCharacters = [];
+
+    for (var lesson in jsonData['charset']) {
+      if (lesson['lessonID'] == 1) {
+        for (var character in lesson['characters']) {
+          tempCharacters.add(character['character']);
+          tempWords.add(character['definition']);
+        }
+        break;
+      }
+    }
+
+    setState(() {
+      wordBank = tempWords;
+      chineseCharacters = tempCharacters;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: NavBar(),
       body: Column(
         children: [
           // Word Pool spanning top 20%
           Container(
-            height: screenHeight * 0.2,
+            height: MediaQuery.of(context).size.height * 0.2,
             color: Colors.blue[100],
             child: Center(
               child: buildWordBank(),
             ),
           ),
-          // Matching rows
+          // Matching rows (Scrollable)
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: List.generate(
-                    chineseCharacters.length,
-                    (index) =>
-                        MatchRow(chineseCharacter: chineseCharacters[index])),
+              child: ListView.builder(
+                itemCount: chineseCharacters.length,
+                itemBuilder: (context, index) {
+                  return MatchRow(chineseCharacter: chineseCharacters[index]);
+                },
               ),
             ),
           ),
@@ -43,21 +75,29 @@ class MatchingPage extends StatelessWidget {
   }
 
   Widget buildWordBank() {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double cardWidth =
+        screenWidth * 0.2; // Each card takes 20% of the screen width
+    double cardHeight = 50; // Fixed height
+
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: wordBank.map((word) => buildWordCard(word)).toList(),
+        children: wordBank
+            .map((word) => buildWordCard(word, cardWidth, cardHeight))
+            .toList(),
       ),
     );
   }
 
-  Widget buildWordCard(String word) {
+  Widget buildWordCard(String word, double width, double height) {
     return Draggable<String>(
       data: word,
       feedback: Material(
         child: Container(
-          padding: EdgeInsets.all(8.0),
-          margin: EdgeInsets.symmetric(horizontal: 4.0),
+          width: width,
+          height: height,
+          alignment: Alignment.center,
           decoration: BoxDecoration(
             color: Colors.orange,
             borderRadius: BorderRadius.circular(8),
@@ -66,11 +106,14 @@ class MatchingPage extends StatelessWidget {
           child: Text(
             word,
             style: TextStyle(fontSize: 18, color: Colors.white),
+            textAlign: TextAlign.center,
           ),
         ),
       ),
       child: Container(
-        padding: EdgeInsets.all(8.0),
+        width: width,
+        height: height,
+        alignment: Alignment.center,
         margin: EdgeInsets.symmetric(horizontal: 4.0),
         decoration: BoxDecoration(
           color: Colors.orange,
@@ -80,6 +123,7 @@ class MatchingPage extends StatelessWidget {
         child: Text(
           word,
           style: TextStyle(fontSize: 18, color: Colors.white),
+          textAlign: TextAlign.center,
         ),
       ),
     );

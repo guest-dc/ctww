@@ -121,12 +121,11 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
+                        MaterialPageRoute(builder: (context) => MatchingPage()),
                         PageRouteBuilder(
                           pageBuilder:
-                              (context, animation, secondaryAnimation) => MatchingPage(
-                                wordBank: ['word1', 'word2', 'word3', 'word4', 'word5'],
-                                chineseCharacters: ['char1','char2','char3','char4','char5'],
-                            ),
+                              (context, animation, secondaryAnimation) =>
+                                  MatchingPage(),
                           transitionDuration: Duration(seconds: 0),
                         ),
                       );
@@ -180,12 +179,10 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
               } else if (value == 'Matching Game') {
                 Navigator.pushReplacement(
                   context,
+                  MaterialPageRoute(builder: (context) => MatchingPage()),
                   PageRouteBuilder(
                     pageBuilder: (context, animation, secondaryAnimation) =>
-                        MatchingPage(
-                      wordBank: ['word1', 'word2', 'word3', 'word4', 'word5'],
-                      chineseCharacters: ['char1','char2','char3','char4','char5'],
-                    ),
+                        MatchingPage(),
                     transitionDuration: Duration(seconds: 0),
                   ),
                 );
