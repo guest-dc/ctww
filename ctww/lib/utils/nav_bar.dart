@@ -121,14 +121,12 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => MatchingPage()),
                         PageRouteBuilder(
                           pageBuilder:
                               (context, animation, secondaryAnimation) =>
                                   MatchingPage(),
                           transitionDuration: Duration(seconds: 0),
-                        ),
-                      );
+                      ));
                     }),
               ],
             ),
@@ -179,7 +177,6 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
               } else if (value == 'Matching Game') {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => MatchingPage()),
                   PageRouteBuilder(
                     pageBuilder: (context, animation, secondaryAnimation) =>
                         MatchingPage(),
