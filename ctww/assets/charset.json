@@ -43,8 +43,9 @@
         "story": "placeholder",
         "strokeNum": 5,
         "parts": [
-          { "partID": 0, "strokeNums": [0], "story": "placeholder" },
-          { "partID": 1, "strokeNums": [1], "story": "placeholder" }
+          { "partID": 0, "strokeNums": [0, 1], "story": "placeholder" },
+          { "partID": 1, "strokeNums": [2, 3], "story": "placeholder" },
+          { "partID": 2, "strokeNums": [4], "story": "placeholder" }
         ]
       },
       {

@@ -15,8 +15,8 @@ class StoryWalkPage extends StatefulWidget {
 class _StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMixin {
   bool _isLessonBarVisible = true;
   Character? selectedCharacter;
-
-  int charState = 0;
+  int charPart = -1;
+  int maxPartNum = 0;
 
   final _httpClient = http.Client();
   StrokeOrderAnimationController? _completedController;
@@ -66,6 +66,7 @@ class _StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateM
 
 
 
+  // Toggles the visibility of the Lesson Bar.
   void _toggleLessonBar() {
     setState(() {
       _isLessonBarVisible = !_isLessonBarVisible;
@@ -74,8 +75,11 @@ class _StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateM
 
 
 
+  // Loads a new character when selected from the Lesson Bar.
   void _onCharacterSelected(Character character) {
     setState(() {
+      charPart = -1;
+      maxPartNum = character.parts.length;
       selectedCharacter = character;
       _animationController = _loadStrokeOrder(character.character);
       _animationController!.then((a) => _completedController = a);
@@ -84,6 +88,7 @@ class _StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateM
 
 
 
+  // Builds the page.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -192,9 +197,9 @@ class _StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateM
           return Expanded(
             child: Column(
               children: [
-                _buildAnimationControls1(snapshot.data!),
+                _buildAnimationControlsTop(snapshot.data!),
                 _buildStrokeOrderAnimation(snapshot.data!),
-                _buildAnimationControls2(snapshot.data!),
+                _buildAnimationControlsBottom(snapshot.data!),
               ],
             ),
           );
@@ -218,7 +223,8 @@ class _StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateM
   }
 
 
-  Widget _buildAnimationControls1(StrokeOrderAnimationController controller) {
+
+  Widget _buildAnimationControlsTop(StrokeOrderAnimationController controller) {
     return ListenableBuilder(
       listenable: controller,
       builder: (context, child) {
@@ -229,7 +235,7 @@ class _StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateM
             Row(
               children: <Widget>[
 
-                Text(charState != 0 ? 'Part: $charState' : 'Part: FULL',
+                Text(charPart != -1 ? 'Part: ${(charPart + 1)}' : 'Part: FULL',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   textAlign: TextAlign.left,
                 ),
@@ -242,11 +248,7 @@ class _StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateM
               children: <Widget>[
 
                 ElevatedButton(
-                  onPressed: () {
-                    controller.reset();
-                    controller.startAnimation();
-                    charState = 0;
-                  },
+                  onPressed: () { fullReset(controller); },
                   child: Icon(Icons.refresh, size: 25, color: colorGOLD)
                 ),
 
@@ -259,7 +261,9 @@ class _StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateM
     );
   }
 
-  Widget _buildAnimationControls2(StrokeOrderAnimationController controller) {
+
+
+  Widget _buildAnimationControlsBottom(StrokeOrderAnimationController controller) {
     return ListenableBuilder(
       listenable: controller,
       builder: (context, child) {
@@ -271,9 +275,16 @@ class _StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateM
 
               ElevatedButton(
                 onPressed: () {
-                  if (controller.isAnimating) controller.reset();
-                  controller.previousStroke;
-                  charState--;
+
+                  if (charPart == 0 || charPart == -1) {
+                    fullReset(controller);
+                  }
+                  else {
+                    previousPart(controller);
+                    // controller.previousStroke();
+                    // charPart--;
+                  }
+
                 },
                 child: Icon(Icons.arrow_back_ios, size: 25, color: colorGOLD)
               ),
@@ -282,9 +293,15 @@ class _StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateM
 
               ElevatedButton(
                 onPressed: () {
-                  if (controller.isAnimating) controller.reset();
-                  controller.nextStroke();
-                  charState++;
+
+                  if (charPart == -1) {
+                    controller.reset();
+                  }
+                  else if (charPart == maxPartNum - 1) {
+                    return;
+                  }
+                  nextPart(controller);
+
                 },
                 child: Icon(Icons.arrow_forward_ios, size: 25, color: colorGOLD)
               ),
@@ -295,6 +312,41 @@ class _StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateM
         );
       },
     );
+  }
+
+
+  // Resets controller, starts the animation again, and sets the charPart back to -1.
+  void fullReset(StrokeOrderAnimationController controller) {
+    controller.reset();
+    controller.startAnimation();
+    charPart = -1;
+  }
+
+
+  // Performs .previousStroke() based on the amount of strokes a part has.
+  void previousPart(StrokeOrderAnimationController controller) {
+    // int previousPart = charPart - 1;
+    int partDelta = selectedCharacter!.parts[charPart].strokeNums.length;
+
+    for (int i = 0; i < partDelta; i++) {
+      controller.previousStroke();
+    }
+
+    charPart--;
+  }
+
+
+
+  void nextPart(StrokeOrderAnimationController controller) {
+
+    int nextPart = charPart + 1; 
+    int partDelta = selectedCharacter!.parts[nextPart].strokeNums.length;
+
+    for (int i = 0; i < partDelta; i++) {
+      controller.nextStroke();
+    }
+
+    charPart++;
   }
 
 }

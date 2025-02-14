@@ -10,6 +10,8 @@ class LessonBar extends StatefulWidget {
   final Function(Character) onCharacterSelected;
   final Function(List<Lesson>) onLessonsLoaded;
 
+
+
   LessonBar({
     required this.isVisible,
     required this.toggleVisibility,
@@ -17,9 +19,13 @@ class LessonBar extends StatefulWidget {
     required this.onLessonsLoaded,
   });
 
+
+
   @override
   _LessonBarState createState() => _LessonBarState();
 }
+
+
 
 class _LessonBarState extends State<LessonBar> {
   late Future<List<Lesson>> lessons;
@@ -87,7 +93,7 @@ class _LessonBarState extends State<LessonBar> {
 
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text('Lesson ${lesson.lessonID}',
+                            child: Text('Lesson ${int.parse(lesson.lessonName.replaceAll(RegExp(r'[^0-9]'), ''))}',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: colorGOLD)),

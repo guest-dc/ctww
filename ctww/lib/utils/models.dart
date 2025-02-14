@@ -1,19 +1,36 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
+
 class Lesson {
-  final int lessonID;
+  final String lessonName;
   final List<Character> characters;
 
-  Lesson({required this.lessonID, required this.characters});
+  Lesson({
+    required this.lessonName,
+    required this.characters,
+  });
 
-  factory Lesson.fromJson(String lessonID, Map<String, dynamic> json) {
-    var list = json['characters'] as List;
-    int lessonNumber = int.parse(lessonID.replaceAll(RegExp(r'[^0-9]'), ''));
-    List<Character> characterList = list.map((i) => Character.fromJson(i)).toList();
-    
-    return Lesson(
-      lessonID: lessonNumber,
-      characters: characterList,
-    );
-  }
+  factory Lesson.fromJson(String lessonName, Map<String, dynamic> json) => Lesson(
+        lessonName: lessonName,
+        characters: (json['characters'] as List)
+            .map((characterJson) => Character.fromJson(characterJson))
+            .toList(),
+      );
+
+  Map<String, dynamic> toJson() => {
+        'lessonName': lessonName,
+        'characters': characters.map((character) => character.toJson()).toList(),
+      };
+}
+
+
+Future<List<Lesson>> loadLessons() async {
+  final String jsonString = await rootBundle.loadString('assets/charset.json');
+  final Map<String, dynamic> data = jsonDecode(jsonString);
+
+  return data.entries.map((entry) {
+    return Lesson.fromJson(entry.key, entry.value);
+  }).toList();
 }
 
 
@@ -37,20 +54,27 @@ class Character {
     required this.parts,
   });
 
-  factory Character.fromJson(Map<String, dynamic> json) {
-    var list = json['parts'] as List;
-    List<Part> partList = list.map((i) => Part.fromJson(i)).toList();
+  factory Character.fromJson(Map<String, dynamic> json) => Character(
+    character: json['character'] as String,
+    unicode: json['unicode'] as String,
+    pinyin: json['pinyin'] as String,
+    definition: json['definition'] as String,
+    story: json['story'] as String,
+    strokeNum: json['strokeNum'] as int,
+    parts: (json['parts'] as List)
+        .map((partJson) => Part.fromJson(partJson))
+        .toList(),
+  );
 
-    return Character(
-      character: json['character'],
-      unicode: json['unicode'],
-      pinyin: json['pinyin'],
-      definition: json['definition'],
-      story: json['story'],
-      strokeNum: json['strokeNum'],
-      parts: partList,
-    );
-  }
+  Map<String, dynamic> toJson() => {
+    'character': character,
+    'unicode': unicode,
+    'pinyin': pinyin,
+    'definition': definition,
+    'story': story,
+    'strokeNum': strokeNum,
+    'parts': parts.map((part) => part.toJson()).toList(),
+  };
 }
 
 
@@ -60,15 +84,21 @@ class Part {
   final List<int> strokeNums;
   final String story;
 
-  Part({required this.partID, required this.strokeNums, required this.story});
+  Part({
+    required this.partID,
+    required this.strokeNums,
+    required this.story
+  });
 
-  factory Part.fromJson(Map<String, dynamic> json) {
-    return Part(
-      partID: json['partID'],
-      strokeNums: (json['strokeNums'] is List)
-        ? List<int>.from(json['strokeNums'] as List)
-        : [],
-      story: json['story'],
-    );
-  }
+  factory Part.fromJson(Map<String, dynamic> json) => Part(
+    partID: json['partID'] as int,
+    strokeNums: List<int>.from(json['strokeNums'] as List),
+    story: json['story'] as String,
+  );
+
+  Map<String, dynamic> toJson() => {
+    'partID': partID,
+    'strokeNums': strokeNums,
+    'story': story,
+  };
 }
