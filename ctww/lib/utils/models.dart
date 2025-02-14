@@ -1,18 +1,22 @@
-class Stroke {
-  final int strokeID;
-  final String stroke;
-  final String story;
+class Lesson {
+  final int lessonID;
+  final List<Character> characters;
 
-  Stroke({required this.strokeID, required this.stroke, required this.story});
+  Lesson({required this.lessonID, required this.characters});
 
-  factory Stroke.fromJson(Map<String, dynamic> json) {
-    return Stroke(
-      strokeID: json['strokeID'],
-      stroke: json['stroke'],
-      story: json['story'],
+  factory Lesson.fromJson(String lessonID, Map<String, dynamic> json) {
+    var list = json['characters'] as List;
+    int lessonNumber = int.parse(lessonID.replaceAll(RegExp(r'[^0-9]'), ''));
+    List<Character> characterList = list.map((i) => Character.fromJson(i)).toList();
+    
+    return Lesson(
+      lessonID: lessonNumber,
+      characters: characterList,
     );
   }
 }
+
+
 
 class Character {
   final String character;
@@ -20,9 +24,8 @@ class Character {
   final String pinyin;
   final String definition;
   final String story;
-  final String animation;
   final int strokeNum;
-  final List<Stroke> strokes;
+  final List<Part> parts;
 
   Character({
     required this.character,
@@ -30,14 +33,13 @@ class Character {
     required this.pinyin,
     required this.definition,
     required this.story,
-    required this.animation,
     required this.strokeNum,
-    required this.strokes,
+    required this.parts,
   });
 
   factory Character.fromJson(Map<String, dynamic> json) {
-    var list = json['strokes'] as List;
-    List<Stroke> strokeList = list.map((i) => Stroke.fromJson(i)).toList();
+    var list = json['parts'] as List;
+    List<Part> partList = list.map((i) => Part.fromJson(i)).toList();
 
     return Character(
       character: json['character'],
@@ -45,26 +47,28 @@ class Character {
       pinyin: json['pinyin'],
       definition: json['definition'],
       story: json['story'],
-      animation: json['animation'],
       strokeNum: json['strokeNum'],
-      strokes: strokeList,
+      parts: partList,
     );
   }
 }
 
-class Lesson {
-  final int lessonID;
-  final List<Character> characters;
 
-  Lesson({required this.lessonID, required this.characters});
 
-  factory Lesson.fromJson(Map<String, dynamic> json) {
-    var list = json['characters'] as List;
-    List<Character> characterList = list.map((i) => Character.fromJson(i)).toList();
+class Part {
+  final int partID;
+  final List<int> strokeNums;
+  final String story;
 
-    return Lesson(
-      lessonID: json['lessonID'],
-      characters: characterList,
+  Part({required this.partID, required this.strokeNums, required this.story});
+
+  factory Part.fromJson(Map<String, dynamic> json) {
+    return Part(
+      partID: json['partID'],
+      strokeNums: (json['strokeNums'] is List)
+        ? List<int>.from(json['strokeNums'] as List)
+        : [],
+      story: json['story'],
     );
   }
 }
