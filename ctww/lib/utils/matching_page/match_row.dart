@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 
 class MatchRow extends StatefulWidget {
   final String chineseCharacter;
+  final Map<String, String> characterToDef;
 
-  MatchRow({required this.chineseCharacter});
+  MatchRow({required this.chineseCharacter, required this.characterToDef});
 
   @override
-  _MatchRowState createState() => _MatchRowState();
+  MatchRowState createState() => MatchRowState();
 }
 
-class _MatchRowState extends State<MatchRow> {
+class MatchRowState extends State<MatchRow> {
   String? droppedWord;
   Color? answerColor = Colors.grey;
 
@@ -60,7 +61,8 @@ class _MatchRowState extends State<MatchRow> {
               onAcceptWithDetails: (data) {
                 setState(() {
                   droppedWord = data.data;
-                  if (droppedWord == widget.chineseCharacter) {
+                  if (droppedWord ==
+                      widget.characterToDef[widget.chineseCharacter]) {
                     answerColor = Colors.green;
                   } else {
                     answerColor = Colors.red;

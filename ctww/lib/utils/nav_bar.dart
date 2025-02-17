@@ -36,38 +36,29 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
     if (screenWidth > 850) {
       return AppBar(
         backgroundColor: colorRED,
-        // title: Text(
-        //   'CtWW',
-        //   style: TextStyle(
-        //     color: colorGOLD,
-        //     fontWeight: FontWeight.bold,
-        //     fontSize: 24,
-        //   ),
-        // ),
-
         title: Row(
-        mainAxisSize: MainAxisSize.min, // This ensures the row size is based on its children
-        children: [
-          // Image widget for the logo (you can replace this with your image path)
-          Container(
-            padding: EdgeInsets.only(right: 5.0), // Space between the image and text
-            child: Image.asset(
-              '../assets/images/ctww_icon_char.png', // Replace with your image asset
-              height: 60, // Adjust size as needed
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Image widget for the logo
+            Container(
+              padding: EdgeInsets.only(right: 5.0),
+              child: Image.asset(
+                '../assets/images/ctww_icon_char.png',
+                height: 60,
+              ),
             ),
-          ),
-          // Text widget for the title
-          Text(
-            'CtWW',
-            style: TextStyle(
-              color: colorGOLD,
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
+
+            // Text widget for the title
+            Text(
+              'CtWW',
+              style: TextStyle(
+                color: colorGOLD,
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+              ),
             ),
-          ),
-        ],
-      ),
-        
+          ],
+        ),
         flexibleSpace: Center(
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -120,15 +111,13 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                     title: 'Matching Game',
                     onTap: () {
                       Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => MatchingPage()),
-                        PageRouteBuilder(
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) =>
-                                  MatchingPage(),
-                          transitionDuration: Duration(seconds: 0),
-                        ),
-                      );
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    MatchingPage(),
+                            transitionDuration: Duration(seconds: 0),
+                          ));
                     }),
               ],
             ),
@@ -179,7 +168,6 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
               } else if (value == 'Matching Game') {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => MatchingPage()),
                   PageRouteBuilder(
                     pageBuilder: (context, animation, secondaryAnimation) =>
                         MatchingPage(),

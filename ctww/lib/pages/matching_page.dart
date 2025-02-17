@@ -1,18 +1,23 @@
 import 'dart:convert';
+import '../utils/matching_page/game_status_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart';
 
 import '../utils/nav_bar.dart';
 import '../utils/matching_page/match_row.dart';
 
 class MatchingPage extends StatefulWidget {
   @override
-  _MatchingPageState createState() => _MatchingPageState();
+  MatchingPageState createState() => MatchingPageState();
 }
 
-class _MatchingPageState extends State<MatchingPage> {
+class MatchingPageState extends State<MatchingPage> {
   List<String> wordBank = [];
   List<String> chineseCharacters = [];
+  Map<String, String> characterToDef = {};
+  int lessonID = 1;
+  int score = 0;
+  int lives = 3;
 
   @override
   void initState() {
@@ -26,19 +31,21 @@ class _MatchingPageState extends State<MatchingPage> {
 
     List<String> tempWords = [];
     List<String> tempCharacters = [];
+    Map<String, String> characterToDeftemp = {};
 
     for (var lesson in jsonData['charset']) {
       if (lesson['lessonID'] == 1) {
         for (var character in lesson['characters']) {
           tempCharacters.add(character['character']);
+          characterToDeftemp[character['character']] = character['definition'];
           tempWords.add(character['definition']);
         }
         break;
       }
     }
-
     setState(() {
       wordBank = tempWords;
+      characterToDef = characterToDeftemp;
       chineseCharacters = tempCharacters;
     });
   }
@@ -49,9 +56,26 @@ class _MatchingPageState extends State<MatchingPage> {
       appBar: NavBar(),
       body: Column(
         children: [
+          GameStatusBar(
+            currentLesson: lessonID,
+            difficulty: GameDifficulty.easy, // Set initial difficulty
+            lives: lives,
+            onLessonChange: (newLesson) {
+              setState(() {
+                lessonID = newLesson;
+                loadCharacters(); // Reload characters for new lesson
+              });
+            },
+            onDifficultyChange: (newDifficulty) {
+              setState(() {
+                // Handle difficulty change
+                // You might want to adjust game parameters based on difficulty
+              });
+            },
+          ),
           // Word Pool spanning top 20%
           Container(
-            height: MediaQuery.of(context).size.height * 0.2,
+            height: MediaQuery.of(context).size.height * .15,
             color: Colors.blue[100],
             child: Center(
               child: buildWordBank(),
@@ -64,7 +88,9 @@ class _MatchingPageState extends State<MatchingPage> {
               child: ListView.builder(
                 itemCount: chineseCharacters.length,
                 itemBuilder: (context, index) {
-                  return MatchRow(chineseCharacter: chineseCharacters[index]);
+                  return MatchRow(
+                      chineseCharacter: chineseCharacters[index],
+                      characterToDef: characterToDef);
                 },
               ),
             ),
@@ -76,8 +102,9 @@ class _MatchingPageState extends State<MatchingPage> {
 
   Widget buildWordBank() {
     double screenWidth = MediaQuery.of(context).size.width;
-    double cardWidth =
-        screenWidth * 0.2; // Each card takes 20% of the screen width
+    double cardWidth = screenWidth *
+        (1 / wordBank.length) *
+        .9; // Each card takes 20% of the screen width
     double cardHeight = 50; // Fixed height
 
     return SingleChildScrollView(
