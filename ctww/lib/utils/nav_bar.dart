@@ -37,15 +37,14 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
       return AppBar(
         backgroundColor: colorRED,
         title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Image widget for the logo
-            Container(
-              padding: EdgeInsets.only(right: 5.0),
-              child: Image.asset(
-                '../assets/images/ctww_icon_char.png',
-                height: 60,
-              ),
+        mainAxisSize: MainAxisSize.min, // This ensures the row size is based on its children
+        children: [
+          // Image widget for the logo (you can replace this with your image path)
+          Container(
+            padding: EdgeInsets.only(right: 5.0), // Space between the image and text
+            child: Image.asset(
+              '../assets/images/ctww_icon_char.png', // Replace with your image asset
+              height: 60, // Adjust size as needed
             ),
 
             // Text widget for the title
