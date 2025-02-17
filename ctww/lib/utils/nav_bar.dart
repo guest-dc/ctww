@@ -28,45 +28,41 @@ class NavBarButton extends StatelessWidget {
   }
 }
 
+
+
 class NavBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
 
-    if (screenWidth > 850) {
+    if (screenWidth > 960) {
       return AppBar(
         backgroundColor: colorRED,
-        // title: Text(
-        //   'CtWW',
-        //   style: TextStyle(
-        //     color: colorGOLD,
-        //     fontWeight: FontWeight.bold,
-        //     fontSize: 24,
-        //   ),
-        // ),
-
         title: Row(
-        mainAxisSize: MainAxisSize.min, // This ensures the row size is based on its children
-        children: [
-          // Image widget for the logo (you can replace this with your image path)
-          Container(
-            padding: EdgeInsets.only(right: 5.0), // Space between the image and text
-            child: Image.asset(
-              '../assets/images/ctww_icon_char.png', // Replace with your image asset
-              height: 60, // Adjust size as needed
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            
+            // Image widget for the logo
+            Container(
+              padding: EdgeInsets.only(right: 5.0),
+              child: Image.asset(
+                '../assets/images/ctww_icon_char.png',
+                height: 60,
+              ),
             ),
-          ),
-          // Text widget for the title
-          Text(
-            'CtWW',
-            style: TextStyle(
-              color: colorGOLD,
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
+
+            // Text widget for the title
+            Text(
+              'CtWW',
+              style: TextStyle(
+                color: colorGOLD,
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+              ),
             ),
-          ),
-        ],
-      ),
+
+          ],
+        ),
         
         flexibleSpace: Center(
           child: SingleChildScrollView(
@@ -74,6 +70,7 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+
                 NavBarButton(
                     title: 'Lessons',
                     onTap: () {
@@ -87,7 +84,9 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                       );
                     }),
+
                 SizedBox(width: 20),
+
                 NavBarButton(
                     title: 'Story Walkthrough',
                     onTap: () {
@@ -101,7 +100,9 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                       );
                     }),
+
                 SizedBox(width: 20),
+
                 NavBarButton(
                     title: 'Anatomy Lab',
                     onTap: () {
@@ -115,22 +116,22 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                       );
                     }),
+
                 SizedBox(width: 20),
+
                 NavBarButton(
                     title: 'Matching Game',
                     onTap: () {
                       Navigator.pushReplacement(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) => MatchingPage(
-                                wordBank: ['word1', 'word2', 'word3', 'word4', 'word5'],
-                                chineseCharacters: ['char1','char2','char3','char4','char5'],
-                            ),
-                          transitionDuration: Duration(seconds: 0),
-                        ),
-                      );
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    MatchingPage(),
+                            transitionDuration: Duration(seconds: 0),
+                          ));
                     }),
+
               ],
             ),
           ),
@@ -139,13 +140,30 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
     } else {
       return AppBar(
         backgroundColor: colorRED,
-        title: Text(
-          'CtWW',
-          style: TextStyle(
-            color: colorGOLD,
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-          ),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            
+            // Image widget for the logo
+            Container(
+              padding: EdgeInsets.only(right: 5.0),
+              child: Image.asset(
+                '../assets/images/ctww_icon_char.png',
+                height: 60,
+              ),
+            ),
+
+            // Text widget for the title
+            Text(
+              'CtWW',
+              style: TextStyle(
+                color: colorGOLD,
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+              ),
+            ),
+
+          ],
         ),
         actions: [
           PopupMenuButton<String>(
@@ -182,10 +200,7 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                   context,
                   PageRouteBuilder(
                     pageBuilder: (context, animation, secondaryAnimation) =>
-                        MatchingPage(
-                      wordBank: ['word1', 'word2', 'word3', 'word4', 'word5'],
-                      chineseCharacters: ['char1','char2','char3','char4','char5'],
-                    ),
+                        MatchingPage(),
                     transitionDuration: Duration(seconds: 0),
                   ),
                 );
