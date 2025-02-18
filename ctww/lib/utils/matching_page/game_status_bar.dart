@@ -78,7 +78,9 @@ class GameStatusBarState extends State<GameStatusBar> {
           // Previous Lesson Button
           IconButton(
             icon: Icon(Icons.arrow_back_ios),
-            onPressed: () => widget.onLessonChange(widget.currentLesson - 1),
+            onPressed: () => widget.onLessonChange(widget.currentLesson - 1 > 0
+                ? widget.currentLesson - 1
+                : widget.currentLesson),
           ),
 
           // Lesson Display
@@ -140,7 +142,9 @@ class GameStatusBarState extends State<GameStatusBar> {
           // Next Lesson Button
           IconButton(
             icon: Icon(Icons.arrow_forward_ios),
-            onPressed: () => widget.onLessonChange(widget.currentLesson + 1),
+            onPressed: () =>
+                widget.currentLesson + 1 <
+                widget.onLessonChange(widget.currentLesson + 1),
           ),
         ],
       ),
@@ -151,11 +155,19 @@ class GameStatusBarState extends State<GameStatusBar> {
       String text, Color color, GameDifficulty difficulty) {
     bool isSelected = widget.difficulty == difficulty;
     return GestureDetector(
-      onTap: () => widget.onDifficultyChange(difficulty),
+      onTap: () {
+        setState(() {
+          widget.onDifficultyChange(difficulty); // Updates difficulty state
+        });
+
+        // Additional actions to trigger on tap
+        print("Difficulty changed to: $difficulty");
+        isSelected = !isSelected;
+      },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
         decoration: BoxDecoration(
-          color: isSelected ? color : color.withOpacity(0.3),
+          color: isSelected ? color : color.withAlpha((0.3 * 255).toInt()),
           borderRadius: BorderRadius.circular(15),
           border: Border.all(
             color: isSelected ? color.darker() : Colors.grey[300]!,

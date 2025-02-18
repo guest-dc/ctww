@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:ctww/utils/colors.dart';
+
 import '../utils/matching_page/game_status_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -54,48 +56,58 @@ class MatchingPageState extends State<MatchingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: NavBar(),
-      body: Column(
-        children: [
-          GameStatusBar(
-            currentLesson: lessonID,
-            difficulty: GameDifficulty.easy, // Set initial difficulty
-            lives: lives,
-            onLessonChange: (newLesson) {
-              setState(() {
-                lessonID = newLesson;
-                loadCharacters(); // Reload characters for new lesson
-              });
-            },
-            onDifficultyChange: (newDifficulty) {
-              setState(() {
-                // Handle difficulty change
-                // You might want to adjust game parameters based on difficulty
-              });
-            },
-          ),
-          // Word Pool spanning top 20%
-          Container(
-            height: MediaQuery.of(context).size.height * .15,
-            color: Colors.blue[100],
-            child: Center(
-              child: buildWordBank(),
+      body: Container(
+        color: colorGOLD,
+        child: Column(
+          children: [
+            GameStatusBar(
+              currentLesson: lessonID,
+              difficulty: GameDifficulty.easy, // Set initial difficulty
+              lives: lives,
+              onLessonChange: (newLesson) {
+                setState(() {
+                  lessonID = newLesson;
+                  loadCharacters(); // Reload characters for new lesson
+                });
+              },
+              onDifficultyChange: (newDifficulty) {
+                setState(() {
+                  // Handle difficulty change
+                  // You might want to adjust game parameters based on difficulty
+                });
+              },
             ),
-          ),
-          // Matching rows (Scrollable)
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(
-                itemCount: chineseCharacters.length,
-                itemBuilder: (context, index) {
-                  return MatchRow(
-                      chineseCharacter: chineseCharacters[index],
-                      characterToDef: characterToDef);
-                },
+            // Word Pool spanning top 20%
+            Container(
+              height: MediaQuery.of(context).size.height * .15,
+              decoration: BoxDecoration(color: Colors.red, boxShadow: [
+                BoxShadow(
+                  color: Colors.black,
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3),
+                ),
+              ]),
+              child: Center(
+                child: buildWordBank(),
               ),
             ),
-          ),
-        ],
+            // Matching rows (Scrollable)
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView.builder(
+                  itemCount: chineseCharacters.length,
+                  itemBuilder: (context, index) {
+                    return MatchRow(
+                        chineseCharacter: chineseCharacters[index],
+                        characterToDef: characterToDef);
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -132,7 +144,7 @@ class MatchingPageState extends State<MatchingPage> {
           ),
           child: Text(
             word,
-            style: TextStyle(fontSize: 18, color: Colors.white),
+            style: TextStyle(fontSize: 18, color: Colors.black),
             textAlign: TextAlign.center,
           ),
         ),
@@ -149,7 +161,7 @@ class MatchingPageState extends State<MatchingPage> {
         ),
         child: Text(
           word,
-          style: TextStyle(fontSize: 18, color: Colors.white),
+          style: TextStyle(fontSize: 18, color: Colors.black),
           textAlign: TextAlign.center,
         ),
       ),
