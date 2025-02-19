@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 class MatchRow extends StatefulWidget {
   final String chineseCharacter;
   final Map<String, String> characterToDef;
+  final double matchRowWidth;
 
-  MatchRow({required this.chineseCharacter, required this.characterToDef});
+  MatchRow(
+      {required this.chineseCharacter,
+      required this.characterToDef,
+      required this.matchRowWidth});
 
   @override
   MatchRowState createState() => MatchRowState();
@@ -16,15 +20,14 @@ class MatchRowState extends State<MatchRow> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-
+    double matchRowWidth = widget.matchRowWidth;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: Row(
         children: [
           // Chinese Character Box
           Container(
-            width: screenWidth * 0.4, // 40% of screen width
+            width: (matchRowWidth / 2) * 0.9 - 11,
             height: 80,
             alignment: Alignment.center,
             decoration: BoxDecoration(
@@ -40,7 +43,7 @@ class MatchRowState extends State<MatchRow> {
           SizedBox(width: 10),
           // Drag-and-Drop Answer Box
           Container(
-            width: screenWidth * 0.5, // 50% of screen width
+            width: (matchRowWidth / 2),
             height: 80,
             child: DragTarget<String>(
               builder: (context, candidateData, rejectedData) => Container(

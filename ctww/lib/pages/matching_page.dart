@@ -20,6 +20,7 @@ class MatchingPageState extends State<MatchingPage> {
   int lessonID = 1;
   int score = 0;
   int lives = 3;
+  GameDifficulty difficulty = GameDifficulty.easy;
 
   @override
   void initState() {
@@ -36,7 +37,7 @@ class MatchingPageState extends State<MatchingPage> {
     Map<String, String> characterToDeftemp = {};
 
     for (var lesson in jsonData['charset']) {
-      if (lesson['lessonID'] == 1) {
+      if (lesson['lessonID'] == lessonID) {
         for (var character in lesson['characters']) {
           tempCharacters.add(character['character']);
           characterToDeftemp[character['character']] = character['definition'];
@@ -50,6 +51,57 @@ class MatchingPageState extends State<MatchingPage> {
       characterToDef = characterToDeftemp;
       chineseCharacters = tempCharacters;
     });
+  }
+
+  Widget buildMatchRows() {
+    int itemsPerColumn = 5;
+    int numColumns = (chineseCharacters.length / itemsPerColumn).ceil();
+
+    double totalWidth = MediaQuery.of(context).size.width;
+    double matchRowWidth = totalWidth / numColumns; // Ensure equal distribution
+
+    // Chunk characters into sublists
+    List<List<String>> chunkedCharacters = [];
+    for (int i = 0; i < chineseCharacters.length; i += itemsPerColumn) {
+      chunkedCharacters.add(
+        chineseCharacters.sublist(
+          i,
+          (i + itemsPerColumn > chineseCharacters.length)
+              ? chineseCharacters.length
+              : i + itemsPerColumn,
+        ),
+      );
+    }
+
+    return Container(
+      width: totalWidth, // Ensure it takes full screen width
+      child: SingleChildScrollView(
+        scrollDirection:
+            Axis.horizontal, // Allows scrolling if too many columns
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: chunkedCharacters.map((chunk) {
+            return SizedBox(
+              width: matchRowWidth, // Ensure each column has a width
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 8.0), // Space between columns
+                child: Column(
+                  children: chunk
+                      .map((character) => MatchRow(
+                            chineseCharacter: character,
+                            characterToDef: characterToDef,
+                            matchRowWidth: matchRowWidth,
+                          ))
+                      .toList(),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
+    );
   }
 
   @override
@@ -67,17 +119,21 @@ class MatchingPageState extends State<MatchingPage> {
               onLessonChange: (newLesson) {
                 setState(() {
                   lessonID = newLesson;
-                  loadCharacters(); // Reload characters for new lesson
+                  print('New lesson: $lessonID');
+                  loadCharacters();
+                  for (var i = 0; i < chineseCharacters.length; i++) {
+                    print(chineseCharacters[i]);
+                  }
                 });
               },
               onDifficultyChange: (newDifficulty) {
                 setState(() {
+                  difficulty = newDifficulty;
                   // Handle difficulty change
-                  // You might want to adjust game parameters based on difficulty
                 });
               },
             ),
-            // Word Pool spanning top 20%
+
             Container(
               height: MediaQuery.of(context).size.height * .15,
               decoration: BoxDecoration(color: Colors.red, boxShadow: [
@@ -96,14 +152,7 @@ class MatchingPageState extends State<MatchingPage> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: ListView.builder(
-                  itemCount: chineseCharacters.length,
-                  itemBuilder: (context, index) {
-                    return MatchRow(
-                        chineseCharacter: chineseCharacters[index],
-                        characterToDef: characterToDef);
-                  },
-                ),
+                child: buildMatchRows(),
               ),
             ),
           ],
@@ -114,14 +163,14 @@ class MatchingPageState extends State<MatchingPage> {
 
   Widget buildWordBank() {
     double screenWidth = MediaQuery.of(context).size.width;
-    double cardWidth = screenWidth *
-        (1 / wordBank.length) *
-        .9; // Each card takes 20% of the screen width
+    double cardWidth = screenWidth / 5 * 0.9; // 5 cards per row with padding
     double cardHeight = 50; // Fixed height
 
     return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        spacing: 8,
+        runSpacing: 8,
         children: wordBank
             .map((word) => buildWordCard(word, cardWidth, cardHeight))
             .toList(),
