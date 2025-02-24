@@ -6,10 +6,10 @@ class MatchRow extends StatefulWidget {
   MatchRow({required this.chineseCharacter});
 
   @override
-  _MatchRowState createState() => _MatchRowState();
+  MatchRowState createState() => MatchRowState();
 }
 
-class _MatchRowState extends State<MatchRow> {
+class MatchRowState extends State<MatchRow> {
   String? droppedWord;
   Color? answerColor = Colors.grey;
 
