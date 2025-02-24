@@ -41,7 +41,6 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            
             // Image widget for the logo
             Container(
               padding: EdgeInsets.only(right: 5.0),
