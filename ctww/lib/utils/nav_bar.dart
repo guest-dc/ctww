@@ -46,7 +46,7 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
             Container(
               padding: EdgeInsets.only(right: 5.0),
               child: Image.asset(
-                '../assets/images/ctww_icon_char.png',
+                'assets/images/ctww_icon_char.png',
                 height: 60,
               ),
             ),
@@ -146,7 +146,7 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
             Container(
               padding: EdgeInsets.only(right: 5.0),
               child: Image.asset(
-                '../assets/images/ctww_icon_char.png',
+                'assets/images/ctww_icon_char.png',
                 height: 60,
               ),
             ),
