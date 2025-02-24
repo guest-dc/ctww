@@ -6,10 +6,10 @@ import '../utils/models.dart';
 
 class AnatomyPage extends StatefulWidget {
   @override
-  _AnatomyPageState createState() => _AnatomyPageState();
+  AnatomyPageState createState() => AnatomyPageState();
 }
 
-class _AnatomyPageState extends State<AnatomyPage> {
+class AnatomyPageState extends State<AnatomyPage> {
   bool _isLessonBarVisible = false;
   Character? selectedCharacter;
 

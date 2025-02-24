@@ -10,6 +10,8 @@ class LessonBar extends StatefulWidget {
   final Function(Character) onCharacterSelected;
   final Function(List<Lesson>) onLessonsLoaded;
 
+
+
   LessonBar({
     required this.isVisible,
     required this.toggleVisibility,
@@ -17,11 +19,15 @@ class LessonBar extends StatefulWidget {
     required this.onLessonsLoaded,
   });
 
+
+
   @override
-  _LessonBarState createState() => _LessonBarState();
+  LessonBarState createState() => LessonBarState();
 }
 
-class _LessonBarState extends State<LessonBar> {
+
+
+class LessonBarState extends State<LessonBar> {
   late Future<List<Lesson>> lessons;
 
 
@@ -38,12 +44,12 @@ class _LessonBarState extends State<LessonBar> {
 
 
   Future<List<Lesson>> loadLessons() async {
-    final String jsonString =
-        await rootBundle.loadString('assets/charset.json');
+    final String jsonString = await rootBundle.loadString('assets/charset.json');
     final Map<String, dynamic> data = jsonDecode(jsonString);
-    return (data['charset'] as List)
-        .map((json) => Lesson.fromJson(json))
-        .toList();
+
+    return data.entries.map((entry) {
+      return Lesson.fromJson(entry.key, entry.value);
+    }).toList();
   }
 
 
@@ -70,23 +76,29 @@ class _LessonBarState extends State<LessonBar> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
+
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
+
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return Center(child: Text('No lessons available'));
+
                 } else {
                   final lessons = snapshot.data!;
+
                   return Column(
                     children: lessons.map((lesson) {
                       return Column(
                         children: [
+
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text('Lesson ${lesson.lessonID}',
+                            child: Text('Lesson ${int.parse(lesson.lessonName.replaceAll(RegExp(r'[^0-9]'), ''))}',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: colorGOLD)),
                           ),
+
                           ...lesson.characters.map((character) {
                             return ListTile(
                               title: Align(
@@ -102,6 +114,7 @@ class _LessonBarState extends State<LessonBar> {
                               },
                             );
                           }),
+                          
                         ],
                       );
                     }).toList(),

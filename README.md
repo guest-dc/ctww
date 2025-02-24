@@ -15,9 +15,6 @@ These files include global--site wide--variables (like colors) and any universal
 Chinese Text Project  
 https://ctext.org/dictionary.pl?if=en
 
-StrokeOrder.com  
-https://www.strokeorder.com/
-
 stroke_order_animator Package Documentation  
 https://pub.dev/packages/stroke_order_animator
 

@@ -24,15 +24,17 @@ jobs:
         with:
           flutter-version: 3.27.3
 
-      - name: Install dependencies
+      - name: Install and Verify dependencies
         run: |
           cd ctww
           flutter pub get
+          flutter pub deps
+          flutter analyze
 
       - name: Build Flutter Web
         run: |
           cd ctww
-          flutter build web --base-href="/ctww/"
+          flutter build web --base-href="/ctww/" --no-tree-shake-icons
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
