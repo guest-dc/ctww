@@ -34947,7 +34947,7 @@ A.mz.prototype={
 K(a){var s=null
 return new A.GY(this.d,s,s,s,s,s,s,!1,s,!0,s,A.cR(this.c,A.cA(s,s,B.ag,s,s,s,s,s,s,s,s,20,s,s,B.ax,s,s,!0,s,s,s,s,s,s,s,s),s),s)}}
 A.my.prototype={
-K(a){var s,r=null,q="../assets/images/ctww_icon_char.png",p=t.F
+K(a){var s,r=null,q="assets/images/ctww_icon_char.png",p=t.F
 if(A.cc(a,r,t.w).w.a.a>960){s=A.iV(A.b([A.hq(r,A.aiI(q,60),B.v,r,r,r,r,r,r,new A.b3(0,0,5,0),r,r,r),A.cR("CtWW",A.cA(r,r,B.ag,r,r,r,r,r,r,r,r,24,r,r,B.ax,r,r,!0,r,r,r,r,r,r,r,r),r)],p),B.W,B.a_,B.dg)
 return A.ahg(r,B.jB,A.hn(A.afd(A.iV(A.b([new A.mz("Lessons",new A.ZJ(a),r),A.hV(r,r,20),new A.mz("Story Walkthrough",new A.ZK(a),r),A.hV(r,r,20),new A.mz("Anatomy Lab",new A.ZL(a),r),A.hV(r,r,20),new A.mz("Matching Game",new A.ZM(a),r)],p),B.W,B.ek,B.bm),r,B.aQ),r,r),s)}else{s=A.iV(A.b([A.hq(r,A.aiI(q,60),B.v,r,r,r,r,r,r,new A.b3(0,0,5,0),r,r,r),A.cR("CtWW",A.cA(r,r,B.ag,r,r,r,r,r,r,r,r,24,r,r,B.ax,r,r,!0,r,r,r,r,r,r,r,r),r)],p),B.W,B.a_,B.dg)
 return A.ahg(A.b([new A.p8(new A.ZN(),new A.ZO(a),A.ox(B.fS,B.ag,r,r),r,t.iX)],p),B.jB,r,s)}}}
