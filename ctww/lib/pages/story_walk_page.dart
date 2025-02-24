@@ -27,7 +27,7 @@ class _StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateM
   @override
   void initState() {
     super.initState();
-    _animationController = _loadStrokeOrder('');
+    _animationController = _loadStrokeOrder('一');
     _animationController!.then((a) => _completedController = a);
   }
 
