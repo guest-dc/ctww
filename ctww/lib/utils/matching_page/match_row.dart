@@ -36,9 +36,11 @@ class MatchRowState extends State<MatchRow> {
               style: TextStyle(fontSize: 22),
             ),
           ),
+          
           SizedBox(width: 10),
+          
           // Drag-and-Drop Answer Box
-          Container(
+          SizedBox(
             width: screenWidth * 0.5, // 50% of screen width
             height: 80,
             child: DragTarget<String>(
