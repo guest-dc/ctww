@@ -11,50 +11,60 @@ class MatchRow extends StatefulWidget {
 
 class _MatchRowState extends State<MatchRow> {
   String? droppedWord;
+  Color? answerColor = Colors.grey;
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: Row(
         children: [
           // Chinese Character Box
-          Expanded(
-            child: Container(
-              height: 60,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.red[100],
-                border: Border.all(color: Colors.black),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text(
-                widget.chineseCharacter,
-                style: TextStyle(fontSize: 22),
-              ),
+          Container(
+            width: screenWidth * 0.4, // 40% of screen width
+            height: 80,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Colors.cyan[100],
+              border: Border.all(color: Colors.black),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              widget.chineseCharacter,
+              style: TextStyle(fontSize: 22),
             ),
           ),
           SizedBox(width: 10),
           // Drag-and-Drop Answer Box
-          Expanded(
+          Container(
+            width: screenWidth * 0.5, // 50% of screen width
+            height: 80,
             child: DragTarget<String>(
               builder: (context, candidateData, rejectedData) => Container(
-                height: 60,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: Colors.green[100],
+                  color: answerColor,
                   border: Border.all(color: Colors.black),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
                   droppedWord ?? 'Drop Here',
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
               onAcceptWithDetails: (data) {
                 setState(() {
-                  droppedWord = data
-                      .data; // Set the dropped word answer box to the answer that is dropped on it
+                  droppedWord = data.data;
+                  if (droppedWord == widget.chineseCharacter) {
+                    answerColor = Colors.green;
+                  } else {
+                    answerColor = Colors.red;
+                  }
                 });
               },
             ),

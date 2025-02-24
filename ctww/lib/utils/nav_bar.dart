@@ -60,10 +60,8 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                 fontSize: 24,
               ),
             ),
-
           ],
-        ),
-        
+        )
         flexibleSpace: Center(
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,

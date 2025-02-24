@@ -1,0 +1,42 @@
+name: Deploy Flutter Web to GitHub Pages Branch
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.txt'
+  
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.27.3
+
+      - name: Install dependencies
+        run: |
+          cd ctww
+          flutter pub get
+
+      - name: Build Flutter Web
+        run: |
+          cd ctww
+          flutter build web --base-href="/ctww/"
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: ctww/build/web
+          clean: true 
