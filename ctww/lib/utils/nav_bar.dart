@@ -28,12 +28,14 @@ class NavBarButton extends StatelessWidget {
   }
 }
 
+
+
 class NavBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
 
-    if (screenWidth > 850) {
+    if (screenWidth > 960) {
       return AppBar(
         backgroundColor: colorRED,
         title: Row(
@@ -59,13 +61,14 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
           ],
-        ),
+        )
         flexibleSpace: Center(
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+
                 NavBarButton(
                     title: 'Lessons',
                     onTap: () {
@@ -79,7 +82,9 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                       );
                     }),
+
                 SizedBox(width: 20),
+
                 NavBarButton(
                     title: 'Story Walkthrough',
                     onTap: () {
@@ -93,7 +98,9 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                       );
                     }),
+
                 SizedBox(width: 20),
+
                 NavBarButton(
                     title: 'Anatomy Lab',
                     onTap: () {
@@ -107,7 +114,9 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                       );
                     }),
+
                 SizedBox(width: 20),
+
                 NavBarButton(
                     title: 'Matching Game',
                     onTap: () {
@@ -120,6 +129,7 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                             transitionDuration: Duration(seconds: 0),
                           ));
                     }),
+
               ],
             ),
           ),
@@ -128,13 +138,30 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
     } else {
       return AppBar(
         backgroundColor: colorRED,
-        title: Text(
-          'CtWW',
-          style: TextStyle(
-            color: colorGOLD,
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-          ),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            
+            // Image widget for the logo
+            Container(
+              padding: EdgeInsets.only(right: 5.0),
+              child: Image.asset(
+                '../assets/images/ctww_icon_char.png',
+                height: 60,
+              ),
+            ),
+
+            // Text widget for the title
+            Text(
+              'CtWW',
+              style: TextStyle(
+                color: colorGOLD,
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+              ),
+            ),
+
+          ],
         ),
         actions: [
           PopupMenuButton<String>(
