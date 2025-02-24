@@ -24,13 +24,11 @@ jobs:
         with:
           flutter-version: 3.27.3
 
-      - name: Install dependencies
+      - name: Install and Verify dependencies
         run: |
           cd ctww
           flutter pub get
-
-      - name: Verify Installed Packages
-        run: flutter pub deps
+          flutter pub deps
 
       - name: Build Flutter Web
         run: |
