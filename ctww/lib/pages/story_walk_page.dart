@@ -205,7 +205,7 @@ class _StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateM
           return CircularProgressIndicator();
         }
         if (snapshot.hasData) {
-          return Expanded(
+          return Container(
             child: Column(
               children: [
                 _buildAnimationControlsTop(snapshot.data!),
