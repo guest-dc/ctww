@@ -1,234 +1,117 @@
 {
-  "charset": [
-    {
-      "lessonID": 1,
-      "characters": [
-        {
-          "character": "一",
-          "unicode": "U+4E00",
-          "pinyin": "yī",
-          "definition": "one",
-          "story": "A single stroke represents unity and simplicity.",
-          "animation": "",
-          "strokeNum": 1,
-          "strokes": [
-            {
-              "strokeID": 1,
-              "stroke": "一",
-              "story": "A single horizontal line, symbolizing the concept of 'one' and unity."
-            }
-          ]
-        },
-        {
-          "character": "二",
-          "unicode": "U+4E8C",
-          "pinyin": "èr",
-          "definition": "two",
-          "story": "Two strokes symbolize balance and duality.",
-          "animation": "",
-          "strokeNum": 2,
-          "strokes": [
-            {
-              "strokeID": 1,
-              "stroke": "一",
-              "story": "The first stroke represents the foundation or beginning."
-            },
-            {
-              "strokeID": 2,
-              "stroke": "一",
-              "story": "The second stroke reinforces the first, forming the number two."
-            }
-          ]
-        },
-        {
-          "character": "三",
-          "unicode": "U+4E09",
-          "pinyin": "sān",
-          "definition": "three",
-          "story": "Three strokes represent stability and growth.",
-          "animation": "",
-          "strokeNum": 3,
-          "strokes": [
-            {
-              "strokeID": 1,
-              "stroke": "一",
-              "story": "The first stroke sets the base."
-            },
-            {
-              "strokeID": 2,
-              "stroke": "一",
-              "story": "The second stroke balances the first."
-            },
-            {
-              "strokeID": 3,
-              "stroke": "一",
-              "story": "The third stroke completes the set, forming the number three."
-            }
-          ]
-        },
-        {
-          "character": "四",
-          "unicode": "U+56DB",
-          "pinyin": "sì",
-          "definition": "four",
-          "story": "A box enclosing four sides signifies completeness.",
-          "animation": "",
-          "strokeNum": 5,
-          "strokes": [
-            {
-              "strokeID": 1,
-              "stroke": "囗",
-              "story": "The enclosing box, forming a boundary."
-            },
-            {
-              "strokeID": 2,
-              "stroke": "儿",
-              "story": "The inner strokes signify internal structure, forming 'four'."
-            }
-          ]
-        },
-        {
-          "character": "五",
-          "unicode": "U+4E94",
-          "pinyin": "wǔ",
-          "definition": "five",
-          "story": "Five elements symbolize harmony and balance.",
-          "animation": "",
-          "strokeNum": 4,
-          "strokes": [
-            {
-              "strokeID": 1,
-              "stroke": "一",
-              "story": "A base stroke, forming the foundation."
-            },
-            {
-              "strokeID": 2,
-              "stroke": "丨",
-              "story": "A vertical stroke connects the top and bottom."
-            },
-            {
-              "strokeID": 3,
-              "stroke": "丿",
-              "story": "A leftward slash adds structure."
-            },
-            {
-              "strokeID": 4,
-              "stroke": "一",
-              "story": "A final stroke completes the balance of 'five'."
-            }
-          ]
-        },
-        {
-          "character": "六",
-          "unicode": "U+516D",
-          "pinyin": "liù",
-          "definition": "six",
-          "story": "A roof over a person represents shelter and fortune.",
-          "animation": "",
-          "strokeNum": 4,
-          "strokes": [
-            {
-              "strokeID": 1,
-              "stroke": "亠",
-              "story": "A small dot represents the top of the roof."
-            },
-            {
-              "strokeID": 2,
-              "stroke": "八",
-              "story": "Two diverging strokes form the lower part."
-            }
-          ]
-        },
-        {
-          "character": "七",
-          "unicode": "U+4E03",
-          "pinyin": "qī",
-          "definition": "seven",
-          "story": "A fusion of one and six, symbolizing transformation.",
-          "animation": "",
-          "strokeNum": 2,
-          "strokes": [
-            {
-              "strokeID": 1,
-              "stroke": "一",
-              "story": "A base stroke forming a foundation."
-            },
-            {
-              "strokeID": 2,
-              "stroke": "丨",
-              "story": "A slightly curved vertical stroke adds meaning."
-            }
-          ]
-        },
-        {
-          "character": "八",
-          "unicode": "U+516B",
-          "pinyin": "bā",
-          "definition": "eight",
-          "story": "Two diverging strokes represent separation and prosperity.",
-          "animation": "",
-          "strokeNum": 2,
-          "strokes": [
-            {
-              "strokeID": 1,
-              "stroke": "丿",
-              "story": "The first stroke represents one half of division."
-            },
-            {
-              "strokeID": 2,
-              "stroke": "乀",
-              "story": "The second stroke balances the division, forming 'eight'."
-            }
-          ]
-        },
-        {
-          "character": "九",
-          "unicode": "U+4E5D",
-          "pinyin": "jiǔ",
-          "definition": "nine",
-          "story": "A symbol of longevity and completeness.",
-          "animation": "",
-          "strokeNum": 2,
-          "strokes": [
-            {
-              "strokeID": 1,
-              "stroke": "丿",
-              "story": "A sweeping stroke forming the base."
-            },
-            {
-              "strokeID": 2,
-              "stroke": "乚",
-              "story": "A hooked stroke adds completion."
-            }
-          ]
-        },
-        {
-          "character": "十",
-          "unicode": "U+5341",
-          "pinyin": "shí",
-          "definition": "ten",
-          "story": "A cross signifying completeness and wholeness.",
-          "animation": "",
-          "strokeNum": 2,
-          "strokes": [
-            {
-              "strokeID": 1,
-              "stroke": "一",
-              "story": "The first stroke represents the base."
-            },
-            {
-              "strokeID": 2,
-              "stroke": "丨",
-              "story": "The second stroke crosses the first, completing 'ten'."
-            }
-          ]
-        }
-      ]
-    },
-
-    {
-      "lessonID": 2,
-      "characters": []
-    }
-  ]
+  "lesson-1": {
+    "characters": [
+      {
+        "character": "一",
+        "unicode": "U+4E00",
+        "pinyin": "yī",
+        "definition": "one",
+        "strokeNum": 1,
+        "parts": [{ "partID": 0, "strokeNums": [0], "story": "placeholder 一 a" }]
+      },
+      {
+        "character": "二",
+        "unicode": "U+4E8C",
+        "pinyin": "èr",
+        "definition": "two",
+        "strokeNum": 2,
+        "parts": [
+          { "partID": 0, "strokeNums": [0], "story": "placeholder 二 a" },
+          { "partID": 1, "strokeNums": [1], "story": "placeholder 二 b" }
+        ]
+      },
+      {
+        "character": "三",
+        "unicode": "U+4E09",
+        "pinyin": "sān",
+        "definition": "three",
+        "strokeNum": 3,
+        "parts": [
+          { "partID": 0, "strokeNums": [0], "story": "placeholder 三 a" },
+          { "partID": 1, "strokeNums": [1], "story": "placeholder 三 b" },
+          { "partID": 2, "strokeNums": [2], "story": "placeholder 三 c" }
+        ]
+      },
+      {
+        "character": "四",
+        "unicode": "U+56DB",
+        "pinyin": "sì",
+        "definition": "four",
+        "strokeNum": 5,
+        "parts": [
+          { "partID": 0, "strokeNums": [0, 1], "story": "placeholder 四 a" },
+          { "partID": 1, "strokeNums": [2, 3], "story": "placeholder 四 b" },
+          { "partID": 2, "strokeNums": [4], "story": "placeholder 四 c" }
+        ]
+      },
+      {
+        "character": "五",
+        "unicode": "U+4E94",
+        "pinyin": "wǔ",
+        "definition": "five",
+        "strokeNum": 4,
+        "parts": [
+          { "partID": 0, "strokeNums": [0], "story": "placeholder 五 a" },
+          { "partID": 1, "strokeNums": [1], "story": "placeholder 五 b" },
+          { "partID": 2, "strokeNums": [2], "story": "placeholder 五 c" },
+          { "partID": 3, "strokeNums": [3], "story": "placeholder 五 d" }
+        ]
+      },
+      {
+        "character": "六",
+        "unicode": "U+516D",
+        "pinyin": "liù",
+        "definition": "six",
+        "strokeNum": 4,
+        "parts": [
+          { "partID": 0, "strokeNums": [0], "story": "placeholder 六" },
+          { "partID": 1, "strokeNums": [1], "story": "placeholder 六" }
+        ]
+      },
+      {
+        "character": "七",
+        "unicode": "U+4E03",
+        "pinyin": "qī",
+        "definition": "seven",
+        "strokeNum": 2,
+        "parts": [
+          { "partID": 0, "strokeNums": [0], "story": "placeholder 七" },
+          { "partID": 1, "strokeNums": [1], "story": "placeholder 七" }
+        ]
+      },
+      {
+        "character": "八",
+        "unicode": "U+516B",
+        "pinyin": "bā",
+        "definition": "eight",
+        "strokeNum": 2,
+        "parts": [
+          { "partID": 0, "strokeNums": [0], "story": "placeholder 八" },
+          { "partID": 1, "strokeNums": [1], "story": "placeholder 八" }
+        ]
+      },
+      {
+        "character": "九",
+        "unicode": "U+4E5D",
+        "pinyin": "jiǔ",
+        "definition": "nine",
+        "strokeNum": 2,
+        "parts": [
+          { "partID": 0, "strokeNums": [0], "story": "placeholder 九" },
+          { "partID": 1, "strokeNums": [1], "story": "placeholder 九" }
+        ]
+      },
+      {
+        "character": "十",
+        "unicode": "U+5341",
+        "pinyin": "shí",
+        "definition": "ten",
+        "strokeNum": 2,
+        "parts": [
+          { "partID": 0, "strokeNums": [0], "story": "placeholder 十" },
+          { "partID": 1, "strokeNums": [1], "story": "placeholder 十" }
+        ]
+      }
+    ]
+  }
 }
