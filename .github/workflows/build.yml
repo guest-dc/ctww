@@ -32,7 +32,7 @@ jobs:
       - name: Build Flutter Web
         run: |
           cd ctww
-          flutter build web
+          flutter build web --base-href="/ctww/"
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
