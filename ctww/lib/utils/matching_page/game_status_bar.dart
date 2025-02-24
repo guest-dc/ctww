@@ -9,6 +9,7 @@ class GameStatusBar extends StatefulWidget {
   final int lives;
   final Function(int) onLessonChange;
   final Function(GameDifficulty) onDifficultyChange;
+  final VoidCallback onGameOver;
 
   const GameStatusBar({
     super.key,
@@ -17,6 +18,7 @@ class GameStatusBar extends StatefulWidget {
     required this.lives,
     required this.onLessonChange,
     required this.onDifficultyChange,
+    required this.onGameOver,
   });
 
   @override
@@ -24,7 +26,8 @@ class GameStatusBar extends StatefulWidget {
 }
 
 class GameStatusBarState extends State<GameStatusBar> {
-  int _timeRemaining = 300; // 5 minutes in seconds
+  final int maxLesson = 10; // the maximum number of lessons
+  int _timeRemaining = 60; // 1 minute default time
   Timer? _timer;
 
   @override
@@ -46,6 +49,7 @@ class GameStatusBarState extends State<GameStatusBar> {
           _timeRemaining--;
         } else {
           _timer?.cancel();
+          widget.onGameOver();
         }
       });
     });
@@ -83,20 +87,21 @@ class GameStatusBarState extends State<GameStatusBar> {
                 : widget.currentLesson),
           ),
 
-          // Lesson Display
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(color: Colors.grey[300]!),
-            ),
-            child: Text(
-              'Lesson ${widget.currentLesson}',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          Flexible(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(color: Colors.grey[300]!),
+              ),
+              child: Text(
+                'Lesson ${widget.currentLesson}',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                overflow: TextOverflow.ellipsis, // Prevents text overflow
+              ),
             ),
           ),
-
           // Difficulty Buttons
           Row(
             children: [
@@ -142,9 +147,9 @@ class GameStatusBarState extends State<GameStatusBar> {
           // Next Lesson Button
           IconButton(
             icon: Icon(Icons.arrow_forward_ios),
-            onPressed: () =>
-                widget.currentLesson + 1 <
-                widget.onLessonChange(widget.currentLesson + 1),
+            onPressed: () => widget.currentLesson + 1 < maxLesson
+                ? widget.onLessonChange(widget.currentLesson + 1)
+                : widget.onLessonChange(widget.currentLesson),
           ),
         ],
       ),
@@ -153,16 +158,17 @@ class GameStatusBarState extends State<GameStatusBar> {
 
   Widget _buildDifficultyButton(
       String text, Color color, GameDifficulty difficulty) {
-    bool isSelected = widget.difficulty == difficulty;
+    bool isSelected =
+        widget.difficulty == difficulty; // Derived from widget state
+
     return GestureDetector(
       onTap: () {
         setState(() {
-          widget.onDifficultyChange(difficulty); // Updates difficulty state
+          widget
+              .onDifficultyChange(difficulty); // Update parent difficulty state
         });
 
-        // Additional actions to trigger on tap
         print("Difficulty changed to: $difficulty");
-        isSelected = !isSelected;
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
@@ -176,8 +182,12 @@ class GameStatusBarState extends State<GameStatusBar> {
         child: Text(
           text,
           style: TextStyle(
-            color: isSelected ? Colors.white : Colors.black,
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            color: isSelected
+                ? Colors.white
+                : Colors.black, // Text color updates correctly
+            fontWeight: isSelected
+                ? FontWeight.bold
+                : FontWeight.normal, // Font weight updates correctly
           ),
         ),
       ),

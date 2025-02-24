@@ -28,6 +28,30 @@ class MatchingPageState extends State<MatchingPage> {
     loadCharacters();
   }
 
+  void showEndGamePopup(BuildContext context, bool isVictory) {
+    showDialog(
+      context: context,
+      barrierDismissible:
+          false, // Prevents closing the popup by tapping outside
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(isVictory ? "Victory!" : "Game Over"),
+          content: Text(isVictory
+              ? "Congratulations! You completed the game!"
+              : "You ran out of lives. Try again!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Closes the popup
+              },
+              child: Text("Play Again"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> loadCharacters() async {
     String jsonString = await rootBundle.loadString('assets/charset.json');
     final Map<String, dynamic> jsonData = json.decode(jsonString);
@@ -36,16 +60,16 @@ class MatchingPageState extends State<MatchingPage> {
     List<String> tempCharacters = [];
     Map<String, String> characterToDeftemp = {};
 
-    for (var lesson in jsonData['charset']) {
-      if (lesson['lessonID'] == lessonID) {
-        for (var character in lesson['characters']) {
-          tempCharacters.add(character['character']);
-          characterToDeftemp[character['character']] = character['definition'];
-          tempWords.add(character['definition']);
-        }
-        break;
+    String lessonKey = 'lesson-$lessonID';
+
+    if (jsonData.containsKey(lessonKey)) {
+      for (var character in jsonData[lessonKey]['characters']) {
+        tempCharacters.add(character['character']);
+        characterToDeftemp[character['character']] = character['definition'];
+        tempWords.add(character['definition']);
       }
     }
+
     setState(() {
       wordBank = tempWords;
       characterToDef = characterToDeftemp;
@@ -73,8 +97,8 @@ class MatchingPageState extends State<MatchingPage> {
       );
     }
 
-    return Container(
-      width: totalWidth, // Ensure it takes full screen width
+    return SizedBox(
+      width: totalWidth,
       child: SingleChildScrollView(
         scrollDirection:
             Axis.horizontal, // Allows scrolling if too many columns
@@ -90,10 +114,20 @@ class MatchingPageState extends State<MatchingPage> {
                 child: Column(
                   children: chunk
                       .map((character) => MatchRow(
-                            chineseCharacter: character,
-                            characterToDef: characterToDef,
-                            matchRowWidth: matchRowWidth,
-                          ))
+                          chineseCharacter: character,
+                          characterToDef: characterToDef,
+                          matchRowWidth: matchRowWidth,
+                          onLoseLife: () {
+                            setState(() {
+                              lives--;
+                              print('Lives remaining: $lives');
+                              if (lives == 0) {
+                                // Game over
+                                showEndGamePopup(context, false);
+                                print('Game over');
+                              }
+                            });
+                          }))
                       .toList(),
                 ),
               ),
@@ -114,7 +148,7 @@ class MatchingPageState extends State<MatchingPage> {
           children: [
             GameStatusBar(
               currentLesson: lessonID,
-              difficulty: GameDifficulty.easy, // Set initial difficulty
+              difficulty: difficulty,
               lives: lives,
               onLessonChange: (newLesson) {
                 setState(() {
@@ -129,8 +163,12 @@ class MatchingPageState extends State<MatchingPage> {
               onDifficultyChange: (newDifficulty) {
                 setState(() {
                   difficulty = newDifficulty;
+                  print('new difficulty = $newDifficulty');
                   // Handle difficulty change
                 });
+              },
+              onGameOver: () {
+                showEndGamePopup(context, false);
               },
             ),
 
