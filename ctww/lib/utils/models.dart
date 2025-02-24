@@ -40,7 +40,6 @@ class Character {
   final String unicode;
   final String pinyin;
   final String definition;
-  final String story;
   final int strokeNum;
   final List<Part> parts;
 
@@ -49,7 +48,6 @@ class Character {
     required this.unicode,
     required this.pinyin,
     required this.definition,
-    required this.story,
     required this.strokeNum,
     required this.parts,
   });
@@ -59,7 +57,6 @@ class Character {
     unicode: json['unicode'] as String,
     pinyin: json['pinyin'] as String,
     definition: json['definition'] as String,
-    story: json['story'] as String,
     strokeNum: json['strokeNum'] as int,
     parts: (json['parts'] as List)
         .map((partJson) => Part.fromJson(partJson))
@@ -71,7 +68,6 @@ class Character {
     'unicode': unicode,
     'pinyin': pinyin,
     'definition': definition,
-    'story': story,
     'strokeNum': strokeNum,
     'parts': parts.map((part) => part.toJson()).toList(),
   };

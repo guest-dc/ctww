@@ -6,20 +6,18 @@
         "unicode": "U+4E00",
         "pinyin": "yī",
         "definition": "one",
-        "story": "placeholder",
         "strokeNum": 1,
-        "parts": [{ "partID": 0, "strokeNums": [0], "story": "placeholder" }]
+        "parts": [{ "partID": 0, "strokeNums": [0], "story": "placeholder 一 a" }]
       },
       {
         "character": "二",
         "unicode": "U+4E8C",
         "pinyin": "èr",
         "definition": "two",
-        "story": "placeholder",
         "strokeNum": 2,
         "parts": [
-          { "partID": 0, "strokeNums": [0], "story": "placeholder" },
-          { "partID": 1, "strokeNums": [1], "story": "placeholder" }
+          { "partID": 0, "strokeNums": [0], "story": "placeholder 二 a" },
+          { "partID": 1, "strokeNums": [1], "story": "placeholder 二 b" }
         ]
       },
       {
@@ -27,12 +25,11 @@
         "unicode": "U+4E09",
         "pinyin": "sān",
         "definition": "three",
-        "story": "placeholder",
         "strokeNum": 3,
         "parts": [
-          { "partID": 0, "strokeNums": [0], "story": "placeholder" },
-          { "partID": 1, "strokeNums": [1], "story": "placeholder" },
-          { "partID": 2, "strokeNums": [2], "story": "placeholder" }
+          { "partID": 0, "strokeNums": [0], "story": "placeholder 三 a" },
+          { "partID": 1, "strokeNums": [1], "story": "placeholder 三 b" },
+          { "partID": 2, "strokeNums": [2], "story": "placeholder 三 c" }
         ]
       },
       {
@@ -40,12 +37,11 @@
         "unicode": "U+56DB",
         "pinyin": "sì",
         "definition": "four",
-        "story": "placeholder",
         "strokeNum": 5,
         "parts": [
-          { "partID": 0, "strokeNums": [0, 1], "story": "placeholder" },
-          { "partID": 1, "strokeNums": [2, 3], "story": "placeholder" },
-          { "partID": 2, "strokeNums": [4], "story": "placeholder" }
+          { "partID": 0, "strokeNums": [0, 1], "story": "placeholder 四 a" },
+          { "partID": 1, "strokeNums": [2, 3], "story": "placeholder 四 b" },
+          { "partID": 2, "strokeNums": [4], "story": "placeholder 四 c" }
         ]
       },
       {
@@ -53,13 +49,12 @@
         "unicode": "U+4E94",
         "pinyin": "wǔ",
         "definition": "five",
-        "story": "placeholder",
         "strokeNum": 4,
         "parts": [
-          { "partID": 0, "strokeNums": [0], "story": "placeholder" },
-          { "partID": 1, "strokeNums": [1], "story": "placeholder" },
-          { "partID": 2, "strokeNums": [2], "story": "placeholder" },
-          { "partID": 3, "strokeNums": [3], "story": "placeholder" }
+          { "partID": 0, "strokeNums": [0], "story": "placeholder 五 a" },
+          { "partID": 1, "strokeNums": [1], "story": "placeholder 五 b" },
+          { "partID": 2, "strokeNums": [2], "story": "placeholder 五 c" },
+          { "partID": 3, "strokeNums": [3], "story": "placeholder 五 d" }
         ]
       },
       {
@@ -67,11 +62,10 @@
         "unicode": "U+516D",
         "pinyin": "liù",
         "definition": "six",
-        "story": "placeholder",
         "strokeNum": 4,
         "parts": [
-          { "partID": 0, "strokeNums": [0], "story": "placeholder" },
-          { "partID": 1, "strokeNums": [1], "story": "placeholder" }
+          { "partID": 0, "strokeNums": [0], "story": "placeholder 六" },
+          { "partID": 1, "strokeNums": [1], "story": "placeholder 六" }
         ]
       },
       {
@@ -79,11 +73,10 @@
         "unicode": "U+4E03",
         "pinyin": "qī",
         "definition": "seven",
-        "story": "placeholder",
         "strokeNum": 2,
         "parts": [
-          { "partID": 0, "strokeNums": [0], "story": "placeholder" },
-          { "partID": 1, "strokeNums": [1], "story": "placeholder" }
+          { "partID": 0, "strokeNums": [0], "story": "placeholder 七" },
+          { "partID": 1, "strokeNums": [1], "story": "placeholder 七" }
         ]
       },
       {
@@ -91,11 +84,10 @@
         "unicode": "U+516B",
         "pinyin": "bā",
         "definition": "eight",
-        "story": "placeholder",
         "strokeNum": 2,
         "parts": [
-          { "partID": 0, "strokeNums": [0], "story": "placeholder" },
-          { "partID": 1, "strokeNums": [1], "story": "placeholder" }
+          { "partID": 0, "strokeNums": [0], "story": "placeholder 八" },
+          { "partID": 1, "strokeNums": [1], "story": "placeholder 八" }
         ]
       },
       {
@@ -103,11 +95,10 @@
         "unicode": "U+4E5D",
         "pinyin": "jiǔ",
         "definition": "nine",
-        "story": "placeholder",
         "strokeNum": 2,
         "parts": [
-          { "partID": 0, "strokeNums": [0], "story": "placeholder" },
-          { "partID": 1, "strokeNums": [1], "story": "placeholder" }
+          { "partID": 0, "strokeNums": [0], "story": "placeholder 九" },
+          { "partID": 1, "strokeNums": [1], "story": "placeholder 九" }
         ]
       },
       {
@@ -115,11 +106,10 @@
         "unicode": "U+5341",
         "pinyin": "shí",
         "definition": "ten",
-        "story": "placeholder",
         "strokeNum": 2,
         "parts": [
-          { "partID": 0, "strokeNums": [0], "story": "placeholder" },
-          { "partID": 1, "strokeNums": [1], "story": "placeholder" }
+          { "partID": 0, "strokeNums": [0], "story": "placeholder 十" },
+          { "partID": 1, "strokeNums": [1], "story": "placeholder 十" }
         ]
       }
     ]

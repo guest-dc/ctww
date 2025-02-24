@@ -81,6 +81,13 @@ class _StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateM
       charPart = -1;
       maxPartNum = character.parts.length;
       selectedCharacter = character;
+
+      print("selected character: ${character.character}");
+
+      for (var i = 0; i < (selectedCharacter!.parts.length); i++) {
+        print('Part ${i + 1}: ${selectedCharacter!.parts[i].story}');
+      }
+
       _animationController = _loadStrokeOrder(character.character);
       _animationController!.then((a) => _completedController = a);
     });
@@ -116,14 +123,14 @@ class _StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateM
                         textAlign: TextAlign.left,
                       ),
 
-                      SizedBox(height: 15),
+                      // SizedBox(height: 15),
 
-                      // Overall character story
-                      Text(
-                        selectedCharacter?.story ?? '',
-                        style: TextStyle(fontSize: 16),
-                        textAlign: TextAlign.left,
-                      ),
+                      // // Overall character story
+                      // Text(
+                      //   selectedCharacter?.story ?? '',
+                      //   style: TextStyle(fontSize: 16),
+                      //   textAlign: TextAlign.left,
+                      // ),
 
                       SizedBox(height: 30),
                     ],
@@ -146,13 +153,17 @@ class _StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateM
 
                   // Bottom section, not centered horizontally
                   Column(
-                    children: [
-                      Text(
-                        selectedCharacter?.story ?? '',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    children: List.generate(
+                      selectedCharacter?.parts.length ?? 0,
+                      (index) => Text(
+                        'Part ${index + 1}: ${selectedCharacter!.parts[index].story}',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
                         textAlign: TextAlign.center,
                       ),
-                    ],
+                    ),
                   )
                 ],
               ),
@@ -281,8 +292,6 @@ class _StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateM
                   }
                   else {
                     previousPart(controller);
-                    // controller.previousStroke();
-                    // charPart--;
                   }
 
                 },
@@ -306,7 +315,6 @@ class _StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateM
                 child: Icon(Icons.arrow_forward_ios, size: 25, color: colorGOLD)
               ),
 
-
             ],
           ),
         );
@@ -325,7 +333,6 @@ class _StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateM
 
   // Performs .previousStroke() based on the amount of strokes a part has.
   void previousPart(StrokeOrderAnimationController controller) {
-    // int previousPart = charPart - 1;
     int partDelta = selectedCharacter!.parts[charPart].strokeNums.length;
 
     for (int i = 0; i < partDelta; i++) {
@@ -336,9 +343,8 @@ class _StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateM
   }
 
 
-
+  // Performs .nextStroke() based on the amount of strokes the next part has.
   void nextPart(StrokeOrderAnimationController controller) {
-
     int nextPart = charPart + 1; 
     int partDelta = selectedCharacter!.parts[nextPart].strokeNums.length;
 
