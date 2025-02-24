@@ -9,10 +9,10 @@ import 'package:stroke_order_animator/stroke_order_animator.dart';
 
 class StoryWalkPage extends StatefulWidget {
   @override
-  _StoryWalkPageState createState() => _StoryWalkPageState();
+  StoryWalkPageState createState() => StoryWalkPageState();
 }
 
-class _StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMixin {
+class StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMixin {
   bool _isLessonBarVisible = true;
   Character? selectedCharacter;
   int charPart = -1;

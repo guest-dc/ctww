@@ -22,12 +22,12 @@ class LessonBar extends StatefulWidget {
 
 
   @override
-  _LessonBarState createState() => _LessonBarState();
+  LessonBarState createState() => LessonBarState();
 }
 
 
 
-class _LessonBarState extends State<LessonBar> {
+class LessonBarState extends State<LessonBar> {
   late Future<List<Lesson>> lessons;
 
 

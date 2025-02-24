@@ -7,10 +7,10 @@ import '../utils/matching_page/match_row.dart';
 
 class MatchingPage extends StatefulWidget {
   @override
-  _MatchingPageState createState() => _MatchingPageState();
+  MatchingPageState createState() => MatchingPageState();
 }
 
-class _MatchingPageState extends State<MatchingPage> {
+class MatchingPageState extends State<MatchingPage> {
   List<String> wordBank = [];
   List<String> chineseCharacters = [];
 
