@@ -34685,7 +34685,7 @@ return new A.zK(new A.Q5(new s.AbortController()),null,null)}}
 A.zK.prototype={
 aq(){var s,r=this
 r.aT()
-s=r.rE("")
+s=r.rE("\u4e00")
 r.y=s
 s.be(new A.ab6(r),t.Q9)},
 m(){var s=this.w
