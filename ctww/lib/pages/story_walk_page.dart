@@ -106,70 +106,62 @@ class StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMi
             Padding(
               padding: const EdgeInsets.fromLTRB(50, 20, 50, 20),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
 
-                  // Top section, not centered horizontally
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-
-                      // Selected character and definition (ex.  "一   one")
-                      Text(
+                  // Character : definition
+                  Center(
+                    child: Container(
+                      width: 500,
+                      alignment: Alignment.centerLeft,
+                      child: Text(
                         selectedCharacter != null
-                            ? '${selectedCharacter!.character}   ${selectedCharacter!.definition}'
+                            ? '${selectedCharacter!.character}  :  ${selectedCharacter!.definition}'
                             : '',
                         style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.left,
                       ),
-
-                      // SizedBox(height: 15),
-
-                      // // Overall character story
-                      // Text(
-                      //   selectedCharacter?.story ?? '',
-                      //   style: TextStyle(fontSize: 16),
-                      //   textAlign: TextAlign.left,
-                      // ),
-
-                      SizedBox(height: 30),
-                    ],
-                  ),
-
-                  // Middle section, centered horizontally
-                  Column(
-                    children: [
-                      Container(
-                        height: 400,
-                        width: 500,
-                        alignment: Alignment.center,
-                        child: _buildStrokeOrderAnimationAndControls(),
-                      ),
-
-                      SizedBox(height: 15),
-
-                    ],
-                  ),
-
-                  // Bottom section, not centered horizontally
-                  Column(
-                    children: List.generate(
-                      selectedCharacter?.parts.length ?? 0,
-                      (index) => Text(
-                        'Part ${index + 1}: ${selectedCharacter!.parts[index].story}',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
                     ),
+                  ),
+
+                  SizedBox(height: 30),
+
+                  // Stroke animation and controls
+                  Container(
+                    height: 400,
+                    width: 500,
+                    alignment: Alignment.center,
+                    child: _buildStrokeOrderAnimationAndControls(),
+                  ),
+
+                  SizedBox(height: 15),
+
+                  // Part stories
+                  Center(
+                    child: Container(
+                      width: 500,
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                        children: List.generate(
+                          selectedCharacter?.parts.length ?? 0,
+                          (index) => Text(
+                            'Part ${index + 1}: ${selectedCharacter!.parts[index].story}',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      )
+                    )
                   )
+
                 ],
               ),
             ),
 
-            // Lesson bar on the right side of the screen
+            // Lesson bar (Right side)
             Positioned(
               right: 0,
               top: 0,
@@ -185,7 +177,7 @@ class StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMi
         ),
       ),
 
-      // Floating button in bottom right corner to toggle lesson bar
+      // Lesson Bar Toggle Button (bottom right corner)
       floatingActionButton: FloatingActionButton(
         onPressed: _toggleLessonBar,
         backgroundColor: colorGOLD,
