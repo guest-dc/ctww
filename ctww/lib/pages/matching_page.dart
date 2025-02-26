@@ -28,7 +28,7 @@ class MatchingPageState extends State<MatchingPage> {
     loadCharacters();
   }
 
-  void showEndGamePopup(BuildContext context, bool isVictory) {
+  void showEndGamePopup(BuildContext context, bool isVictory, bool isTimeOut) {
     showDialog(
       context: context,
       barrierDismissible:
@@ -38,7 +38,9 @@ class MatchingPageState extends State<MatchingPage> {
           title: Text(isVictory ? "Victory!" : "Game Over"),
           content: Text(isVictory
               ? "Congratulations! You completed the game!"
-              : "You ran out of lives. Try again!"),
+              : (isTimeOut)
+                  ? "You ran out of time. Try again!"
+                  : "You ran out of lives. Try again!"),
           actions: [
             TextButton(
               onPressed: () {
@@ -123,7 +125,7 @@ class MatchingPageState extends State<MatchingPage> {
                               print('Lives remaining: $lives');
                               if (lives == 0) {
                                 // Game over
-                                showEndGamePopup(context, false);
+                                showEndGamePopup(context, false, false);
                                 print('Game over');
                               }
                             });
@@ -168,7 +170,7 @@ class MatchingPageState extends State<MatchingPage> {
                 });
               },
               onGameOver: () {
-                showEndGamePopup(context, false);
+                showEndGamePopup(context, false, true);
               },
             ),
 
