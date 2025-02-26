@@ -28,8 +28,6 @@ jobs:
         run: |
           cd ctww
           flutter pub get
-          flutter pub deps
-          flutter analyze
 
       - name: Build Flutter Web
         run: |

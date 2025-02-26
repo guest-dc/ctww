@@ -109,11 +109,9 @@ class LessonsPageState extends State<LessonsPage> {
                                       children: lesson.characters.map((character) {
                                         return Padding(
                                           padding: const EdgeInsets.only(right: 20.0), // Space between characters
-                                          child: Container(
-                                            child: Text(
-                                              character.character,
-                                              style: TextStyle(fontSize: 20),
-                                            ),
+                                          child: Text(
+                                            character.character,
+                                            style: TextStyle(fontSize: 20),
                                           ),
                                         );
                                       }).toList(),
