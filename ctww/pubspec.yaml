@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
   http: ^1.3.0
   stroke_order_animator: ^3.3.0
+  lottie: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -25,3 +26,4 @@ flutter:
     - assets/charset.json
     - assets/images/ctww_icon.png
     - assets/images/ctww_icon_char.png
+    - assets/animations/dragAnimation.json
