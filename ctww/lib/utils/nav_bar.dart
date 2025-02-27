@@ -28,8 +28,6 @@ class NavBarButton extends StatelessWidget {
   }
 }
 
-
-
 class NavBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
@@ -67,7 +65,6 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
                 NavBarButton(
                     title: 'Lessons',
                     onTap: () {
@@ -81,9 +78,7 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                       );
                     }),
-
                 SizedBox(width: 20),
-
                 NavBarButton(
                     title: 'Story Walkthrough',
                     onTap: () {
@@ -97,9 +92,7 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                       );
                     }),
-
                 SizedBox(width: 20),
-
                 NavBarButton(
                     title: 'Anatomy Lab',
                     onTap: () {
@@ -113,9 +106,7 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                       );
                     }),
-
                 SizedBox(width: 20),
-
                 NavBarButton(
                     title: 'Matching Game',
                     onTap: () {
@@ -128,7 +119,6 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                             transitionDuration: Duration(seconds: 0),
                           ));
                     }),
-
               ],
             ),
           ),
@@ -140,7 +130,6 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            
             // Image widget for the logo
             Container(
               padding: EdgeInsets.only(right: 5.0),
@@ -159,7 +148,6 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
                 fontSize: 24,
               ),
             ),
-
           ],
         ),
         actions: [

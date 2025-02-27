@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 
 import '../utils/nav_bar.dart';
 import '../utils/matching_page/match_row.dart';
+import 'package:lottie/lottie.dart';
 
 class MatchingPage extends StatefulWidget {
   @override
@@ -20,15 +21,19 @@ class MatchingPageState extends State<MatchingPage> {
   int lessonID = 1;
   int score = 0;
   int lives = 3;
+  bool isGameStarted = false;
   GameDifficulty difficulty = GameDifficulty.easy;
-
+  List<String> shuffledWordBank = [];
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showLandingPopup(context);
+    });
     loadCharacters();
   }
 
-  void showEndGamePopup(BuildContext context, bool isVictory) {
+  void showEndGamePopup(BuildContext context, bool isVictory, bool isTimeOut) {
     showDialog(
       context: context,
       barrierDismissible:
@@ -38,11 +43,14 @@ class MatchingPageState extends State<MatchingPage> {
           title: Text(isVictory ? "Victory!" : "Game Over"),
           content: Text(isVictory
               ? "Congratulations! You completed the game!"
-              : "You ran out of lives. Try again!"),
+              : (isTimeOut)
+                  ? "You ran out of time. Try again!"
+                  : "You ran out of lives. Try again!"),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Closes the popup
+                resetGame();
               },
               child: Text("Play Again"),
             ),
@@ -50,6 +58,18 @@ class MatchingPageState extends State<MatchingPage> {
         );
       },
     );
+  }
+
+  void resetGame() {
+    setState(() {
+      score = 0;
+      lives = 3;
+      isGameStarted = false;
+      loadCharacters();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showLandingPopup(context);
+      });
+    });
   }
 
   Future<void> loadCharacters() async {
@@ -74,6 +94,7 @@ class MatchingPageState extends State<MatchingPage> {
       wordBank = tempWords;
       characterToDef = characterToDeftemp;
       chineseCharacters = tempCharacters;
+      shuffledWordBank = List.from(wordBank)..shuffle();
     });
   }
 
@@ -117,16 +138,20 @@ class MatchingPageState extends State<MatchingPage> {
                           chineseCharacter: character,
                           characterToDef: characterToDef,
                           matchRowWidth: matchRowWidth,
+                          isStarted: isGameStarted,
                           onLoseLife: () {
                             setState(() {
                               lives--;
                               print('Lives remaining: $lives');
                               if (lives == 0) {
                                 // Game over
-                                showEndGamePopup(context, false);
+                                showEndGamePopup(context, false, false);
                                 print('Game over');
                               }
                             });
+                          },
+                          onCorrectAnswer: () {
+                            onCorrectMatch();
                           }))
                       .toList(),
                 ),
@@ -150,6 +175,7 @@ class MatchingPageState extends State<MatchingPage> {
               currentLesson: lessonID,
               difficulty: difficulty,
               lives: lives,
+              isStarted: isGameStarted,
               onLessonChange: (newLesson) {
                 setState(() {
                   lessonID = newLesson;
@@ -164,11 +190,12 @@ class MatchingPageState extends State<MatchingPage> {
                 setState(() {
                   difficulty = newDifficulty;
                   print('new difficulty = $newDifficulty');
+                  resetGame();
                   // Handle difficulty change
                 });
               },
               onGameOver: () {
-                showEndGamePopup(context, false);
+                showEndGamePopup(context, false, true);
               },
             ),
 
@@ -209,7 +236,7 @@ class MatchingPageState extends State<MatchingPage> {
         alignment: WrapAlignment.center,
         spacing: 8,
         runSpacing: 8,
-        children: wordBank
+        children: shuffledWordBank
             .map((word) => buildWordCard(word, cardWidth, cardHeight))
             .toList(),
       ),
@@ -252,6 +279,77 @@ class MatchingPageState extends State<MatchingPage> {
           textAlign: TextAlign.center,
         ),
       ),
+    );
+  }
+
+  void onCorrectMatch() {
+    setState(() {
+      score++;
+      print('Score: $score');
+      if (score == chineseCharacters.length) {
+        showEndGamePopup(context, true, false);
+      }
+    });
+  }
+
+  void showLandingPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Prevents clicking outside to dismiss
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Example Animation (Replace with Lottie.asset() if needed)
+              Container(
+                height: 200,
+                width: 200,
+                child: Lottie.asset(
+                  'assets/animations/dragAnimation.json',
+                  fit: BoxFit.fill,
+                ),
+              ),
+              SizedBox(height: 20),
+              Text(
+                "Welcome to the Matching Game!",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 10),
+              Text(
+                "Match the Chinese characters with their meanings by dragging the correct pairs together. Try to get them all right before running out of lives or time!",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16, color: Colors.black),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    isGameStarted = true;
+                  });
+                  Navigator.of(context).pop(); // Close the popup
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Text(
+                  "START",
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

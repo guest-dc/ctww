@@ -7,6 +7,7 @@ class GameStatusBar extends StatefulWidget {
   final int currentLesson;
   final GameDifficulty difficulty;
   final int lives;
+  final bool isStarted;
   final Function(int) onLessonChange;
   final Function(GameDifficulty) onDifficultyChange;
   final VoidCallback onGameOver;
@@ -16,6 +17,7 @@ class GameStatusBar extends StatefulWidget {
     required this.currentLesson,
     required this.difficulty,
     required this.lives,
+    required this.isStarted,
     required this.onLessonChange,
     required this.onDifficultyChange,
     required this.onGameOver,
@@ -29,11 +31,34 @@ class GameStatusBarState extends State<GameStatusBar> {
   final int maxLesson = 10; // the maximum number of lessons
   int _timeRemaining = 60; // 1 minute default time
   Timer? _timer;
+  bool _wasStarted = false;
+
+  @override
+  void didUpdateWidget(GameStatusBar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (!widget.isStarted && oldWidget.isStarted) {
+      _timer?.cancel();
+      setState(() {
+        _timeRemaining = 60; // Reset timer to 60 seconds
+        _wasStarted = false; // Reset the tracking flag
+      });
+    }
+
+    // Check if isStarted changed from false to true
+    if (widget.isStarted && !_wasStarted) {
+      startTimer();
+      _wasStarted = true;
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    startTimer();
+    if (widget.isStarted) {
+      startTimer();
+      _wasStarted = true;
+    }
   }
 
   @override
@@ -43,16 +68,18 @@ class GameStatusBarState extends State<GameStatusBar> {
   }
 
   void startTimer() {
+    _timer?.cancel();
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        if (_timeRemaining > 0) {
+      if (_timeRemaining > 0) {
+        setState(() {
           _timeRemaining--;
-        } else {
-          _timer?.cancel();
-          widget.onGameOver();
-        }
-      });
+        });
+      } else {
+        timer.cancel();
+        widget.onGameOver();
+      }
     });
+    print("Timer started!");
   }
 
   String formatTime(int seconds) {
@@ -166,6 +193,7 @@ class GameStatusBarState extends State<GameStatusBar> {
         setState(() {
           widget
               .onDifficultyChange(difficulty); // Update parent difficulty state
+          _timeRemaining = 60; // Reset timer
         });
 
         print("Difficulty changed to: $difficulty");

@@ -4,13 +4,17 @@ class MatchRow extends StatefulWidget {
   final String chineseCharacter;
   final Map<String, String> characterToDef;
   final double matchRowWidth;
+  final bool isStarted;
   final VoidCallback onLoseLife;
+  final VoidCallback onCorrectAnswer;
 
   MatchRow(
       {required this.chineseCharacter,
       required this.characterToDef,
       required this.matchRowWidth,
-      required this.onLoseLife});
+      required this.isStarted,
+      required this.onLoseLife,
+      required this.onCorrectAnswer});
 
   @override
   MatchRowState createState() => MatchRowState();
@@ -19,6 +23,24 @@ class MatchRow extends StatefulWidget {
 class MatchRowState extends State<MatchRow> {
   String? droppedWord;
   Color? answerColor = Colors.grey;
+  bool? _wasGameStarted;
+
+  @override
+  void initState() {
+    super.initState();
+    _wasGameStarted = widget.isStarted;
+  }
+
+  @override
+  void didUpdateWidget(MatchRow oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // Check if resetCounter changed
+    if (widget.isStarted != _wasGameStarted) {
+      resetRow();
+      _wasGameStarted = widget.isStarted;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +94,7 @@ class MatchRowState extends State<MatchRow> {
                     if (droppedWord ==
                         widget.characterToDef[widget.chineseCharacter]) {
                       answerColor = Colors.green;
+                      widget.onCorrectAnswer();
                     } else {
                       widget.onLoseLife();
                       answerColor = Colors.red;
@@ -84,5 +107,12 @@ class MatchRowState extends State<MatchRow> {
         ),
       ),
     );
+  }
+
+  void resetRow() {
+    setState(() {
+      droppedWord = null;
+      answerColor = Colors.grey;
+    });
   }
 }
