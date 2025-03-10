@@ -2,38 +2,29 @@
 
 https://fluffingnewt.github.io/ctww/
 
-## Group Basic Information
-App code is in `ctww/lib`  
+## **Description**
+A brief description of what your project does and its purpose.
 
-Page code is housed within `ctww/lib/pages`
+## **Table of Contents**
+[Features](#features)
+[Resources](#resources)
+[Contributors](#contributors)
 
-Website utility files are housed within `ctww/lib/utils`  
-These files include global--site wide--variables (like colors) and any universal classes (like the nav_bar)
-
-
-## Useful websites
-Chinese Text Project  
-https://ctext.org/dictionary.pl?if=en
-
-stroke_order_animator Package Documentation  
-https://pub.dev/packages/stroke_order_animator
+## **Features**
+- List key features of the project
+- Highlight any unique functionalities
 
 
+## **Resources**
+[Chinese Text Project](https://ctext.org/dictionary.pl?if=en)  
+[stroke_order_animator Package Documentation](https://pub.dev/packages/stroke_order_animator)  
 
 
-<br><br>
-** -- ** -- ** -- ** -- ** -- ** -- ** -- ** -- ** -- ** -- ** -- ** -- ** -- ** -- ** -- ** -- ** -- ** -- ** -- ** -- **
-<br><br>
-
-
-
-
-## Dependencies
-To run the app on a desktop environment, make sure flutter is installed on your system.
-
-Else, the app can be accessed through this project's GitHub Pages webpage.
-
-## Running the web app
-1. clone and cd into repo
-2. cd into ctww/ctww
-3. run the command `flutter run`
+## Contributors
+<a href="https://github.com/guest-dc/ctww/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=guest-dc/ctww" />
+</a>
+<p style="font-size: 12px">
+     Made with 
+     <a href="https://contrib.rocks" target="_blank">contrib.rocks</a>.
+</p>
