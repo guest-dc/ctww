@@ -482,4 +482,521 @@
             }
         ]
     }
+"lesson-3": {
+        "characters": [
+            {
+                "character": "星",
+                "unicode": "U+661F",
+                "pinyin": "xīng",
+                "definition": "a star, planet; any point of light",
+                "strokeNum": 9,
+                "parts": [
+                    {
+                        "partID": 0,
+                        "strokeNums": [
+                            0
+                        ],
+                        "story": "placeholder 星"
+                    },
+                    {
+                        "partID": 1,
+                        "strokeNums": [
+                            1
+                        ],
+                        "story": "placeholder 星"
+                    },
+                    {
+                        "partID": 2,
+                        "strokeNums": [
+                            2
+                        ],
+                        "story": "placeholder 星"
+                    },
+                    {
+                        "partID": 3,
+                        "strokeNums": [
+                            3
+                        ],
+                        "story": "placeholder 星"
+                    },
+                    {
+                        "partID": 4,
+                        "strokeNums": [
+                            4
+                        ],
+                        "story": "placeholder 星"
+                    },
+                    {
+                        "partID": 5,
+                        "strokeNums": [
+                            5
+                        ],
+                        "story": "placeholder 星"
+                    },
+                    {
+                        "partID": 6,
+                        "strokeNums": [
+                            6
+                        ],
+                        "story": "placeholder 星"
+                    },
+                    {
+                        "partID": 7,
+                        "strokeNums": [
+                            7
+                        ],
+                        "story": "placeholder 星"
+                    },
+                    {
+                        "partID": 8,
+                        "strokeNums": [
+                            8
+                        ],
+                        "story": "placeholder 星"
+                    }
+                ]
+            },
+            {
+                "character": "期",
+                "unicode": "U+671F",
+                "pinyin": "qī",
+                "definition": "period of time; date; time limit",
+                "strokeNum": 12,
+                "parts": [
+                    {
+                        "partID": 0,
+                        "strokeNums": [
+                            0
+                        ],
+                        "story": "placeholder 期"
+                    },
+                    {
+                        "partID": 1,
+                        "strokeNums": [
+                            1
+                        ],
+                        "story": "placeholder 期"
+                    },
+                    {
+                        "partID": 2,
+                        "strokeNums": [
+                            2
+                        ],
+                        "story": "placeholder 期"
+                    },
+                    {
+                        "partID": 3,
+                        "strokeNums": [
+                            3
+                        ],
+                        "story": "placeholder 期"
+                    },
+                    {
+                        "partID": 4,
+                        "strokeNums": [
+                            4
+                        ],
+                        "story": "placeholder 期"
+                    },
+                    {
+                        "partID": 5,
+                        "strokeNums": [
+                            5
+                        ],
+                        "story": "placeholder 期"
+                    },
+                    {
+                        "partID": 6,
+                        "strokeNums": [
+                            6
+                        ],
+                        "story": "placeholder 期"
+                    },
+                    {
+                        "partID": 7,
+                        "strokeNums": [
+                            7
+                        ],
+                        "story": "placeholder 期"
+                    },
+                    {
+                        "partID": 8,
+                        "strokeNums": [
+                            8
+                        ],
+                        "story": "placeholder 期"
+                    },
+                    {
+                        "partID": 9,
+                        "strokeNums": [
+                            9
+                        ],
+                        "story": "placeholder 期"
+                    },
+                    {
+                        "partID": 10,
+                        "strokeNums": [
+                            10
+                        ],
+                        "story": "placeholder 期"
+                    },
+                    {
+                        "partID": 11,
+                        "strokeNums": [
+                            11
+                        ],
+                        "story": "placeholder 期"
+                    }
+                ]
+            },
+            {
+                "character": "其",
+                "unicode": "U+5176",
+                "pinyin": "qí",
+                "definition": "that",
+                "strokeNum": 8,
+                "parts": [
+                    {
+                        "partID": 0,
+                        "strokeNums": [
+                            0
+                        ],
+                        "story": "placeholder 其"
+                    },
+                    {
+                        "partID": 1,
+                        "strokeNums": [
+                            1
+                        ],
+                        "story": "placeholder 其"
+                    },
+                    {
+                        "partID": 2,
+                        "strokeNums": [
+                            2
+                        ],
+                        "story": "placeholder 其"
+                    },
+                    {
+                        "partID": 3,
+                        "strokeNums": [
+                            3
+                        ],
+                        "story": "placeholder 其"
+                    },
+                    {
+                        "partID": 4,
+                        "strokeNums": [
+                            4
+                        ],
+                        "story": "placeholder 其"
+                    },
+                    {
+                        "partID": 5,
+                        "strokeNums": [
+                            5
+                        ],
+                        "story": "placeholder 其"
+                    },
+                    {
+                        "partID": 6,
+                        "strokeNums": [
+                            6
+                        ],
+                        "story": "placeholder 其"
+                    },
+                    {
+                        "partID": 7,
+                        "strokeNums": [
+                            7
+                        ],
+                        "story": "placeholder 其"
+                    }
+                ]
+            },
+            {
+                "character": "日",
+                "unicode": "U+65E5",
+                "pinyin": "rì",
+                "definition": "day, sun",
+                "strokeNum": 4,
+                "parts": [
+                    {
+                        "partID": 0,
+                        "strokeNums": [
+                            0
+                        ],
+                        "story": "placeholder 日"
+                    },
+                    {
+                        "partID": 1,
+                        "strokeNums": [
+                            1
+                        ],
+                        "story": "placeholder 日"
+                    },
+                    {
+                        "partID": 2,
+                        "strokeNums": [
+                            2
+                        ],
+                        "story": "placeholder 日"
+                    },
+                    {
+                        "partID": 3,
+                        "strokeNums": [
+                            3
+                        ],
+                        "story": "placeholder 日"
+                    }
+                ]
+            },
+            {
+                "character": "星",
+                "unicode": "U+661F",
+                "pinyin": "xing",
+                "definition": "star",
+                "strokeNum": 9,
+                "parts": [
+                    {
+                        "partID": 0,
+                        "strokeNums": [
+                            0
+                        ],
+                        "story": "placeholder 星"
+                    },
+                    {
+                        "partID": 1,
+                        "strokeNums": [
+                            1
+                        ],
+                        "story": "placeholder 星"
+                    },
+                    {
+                        "partID": 2,
+                        "strokeNums": [
+                            2
+                        ],
+                        "story": "placeholder 星"
+                    },
+                    {
+                        "partID": 3,
+                        "strokeNums": [
+                            3
+                        ],
+                        "story": "placeholder 星"
+                    },
+                    {
+                        "partID": 4,
+                        "strokeNums": [
+                            4
+                        ],
+                        "story": "placeholder 星"
+                    },
+                    {
+                        "partID": 5,
+                        "strokeNums": [
+                            5
+                        ],
+                        "story": "placeholder 星"
+                    },
+                    {
+                        "partID": 6,
+                        "strokeNums": [
+                            6
+                        ],
+                        "story": "placeholder 星"
+                    },
+                    {
+                        "partID": 7,
+                        "strokeNums": [
+                            7
+                        ],
+                        "story": "placeholder 星"
+                    },
+                    {
+                        "partID": 8,
+                        "strokeNums": [
+                            8
+                        ],
+                        "story": "placeholder 星"
+                    }
+                ]
+            },
+            {
+                "character": "月",
+                "unicode": "U+6708",
+                "pinyin": "yuè",
+                "definition": "month, moon",
+                "strokeNum": 4,
+                "parts": [
+                    {
+                        "partID": 0,
+                        "strokeNums": [
+                            0
+                        ],
+                        "story": "placeholder 月"
+                    },
+                    {
+                        "partID": 1,
+                        "strokeNums": [
+                            1
+                        ],
+                        "story": "placeholder 月"
+                    },
+                    {
+                        "partID": 2,
+                        "strokeNums": [
+                            2
+                        ],
+                        "story": "placeholder 月"
+                    },
+                    {
+                        "partID": 3,
+                        "strokeNums": [
+                            3
+                        ],
+                        "story": "placeholder 月"
+                    }
+                ]
+            },
+            {
+                "character": "期",
+                "unicode": "U+671F",
+                "pinyin": "qi",
+                "definition": "period",
+                "strokeNum": 12,
+                "parts": [
+                    {
+                        "partID": 0,
+                        "strokeNums": [
+                            0
+                        ],
+                        "story": "placeholder 期"
+                    },
+                    {
+                        "partID": 1,
+                        "strokeNums": [
+                            1
+                        ],
+                        "story": "placeholder 期"
+                    },
+                    {
+                        "partID": 2,
+                        "strokeNums": [
+                            2
+                        ],
+                        "story": "placeholder 期"
+                    },
+                    {
+                        "partID": 3,
+                        "strokeNums": [
+                            3
+                        ],
+                        "story": "placeholder 期"
+                    },
+                    {
+                        "partID": 4,
+                        "strokeNums": [
+                            4
+                        ],
+                        "story": "placeholder 期"
+                    },
+                    {
+                        "partID": 5,
+                        "strokeNums": [
+                            5
+                        ],
+                        "story": "placeholder 期"
+                    },
+                    {
+                        "partID": 6,
+                        "strokeNums": [
+                            6
+                        ],
+                        "story": "placeholder 期"
+                    },
+                    {
+                        "partID": 7,
+                        "strokeNums": [
+                            7
+                        ],
+                        "story": "placeholder 期"
+                    },
+                    {
+                        "partID": 8,
+                        "strokeNums": [
+                            8
+                        ],
+                        "story": "placeholder 期"
+                    },
+                    {
+                        "partID": 9,
+                        "strokeNums": [
+                            9
+                        ],
+                        "story": "placeholder 期"
+                    },
+                    {
+                        "partID": 10,
+                        "strokeNums": [
+                            10
+                        ],
+                        "story": "placeholder 期"
+                    },
+                    {
+                        "partID": 11,
+                        "strokeNums": [
+                            11
+                        ],
+                        "story": "placeholder 期"
+                    }
+                ]
+            },
+            {
+                "character": "生",
+                "unicode": "U+751F",
+                "pinyin": "sheng",
+                "definition": "born, grow",
+                "strokeNum": 5,
+                "parts": [
+                    {
+                        "partID": 0,
+                        "strokeNums": [
+                            0
+                        ],
+                        "story": "placeholder 生"
+                    },
+                    {
+                        "partID": 1,
+                        "strokeNums": [
+                            1
+                        ],
+                        "story": "placeholder 生"
+                    },
+                    {
+                        "partID": 2,
+                        "strokeNums": [
+                            2
+                        ],
+                        "story": "placeholder 生"
+                    },
+                    {
+                        "partID": 3,
+                        "strokeNums": [
+                            3
+                        ],
+                        "story": "placeholder 生"
+                    },
+                    {
+                        "partID": 4,
+                        "strokeNums": [
+                            4
+                        ],
+                        "story": "placeholder 生"
+                    }
+                ]
+            }
+        ]
+    }
 }
