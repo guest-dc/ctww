@@ -3,7 +3,7 @@ import 'dart:async';
 
 enum GameDifficulty { easy, medium, hard }
 
-class GameStatusBar extends StatefulWidget {
+class GameStatusBar extends StatefulWidget implements PreferredSizeWidget {
   final int currentLesson;
   final GameDifficulty difficulty;
   final int lives;
@@ -11,6 +11,8 @@ class GameStatusBar extends StatefulWidget {
   final Function(int) onLessonChange;
   final Function(GameDifficulty) onDifficultyChange;
   final VoidCallback onGameOver;
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  final int score;
 
   const GameStatusBar({
     super.key,
@@ -21,14 +23,23 @@ class GameStatusBar extends StatefulWidget {
     required this.onLessonChange,
     required this.onDifficultyChange,
     required this.onGameOver,
+    required this.scaffoldKey,
+    required this.score,
   });
 
   @override
   GameStatusBarState createState() => GameStatusBarState();
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
 
 class GameStatusBarState extends State<GameStatusBar> {
   final int maxLesson = 10; // the maximum number of lessons
+  int get timeRemaining => _timeRemaining;
+  final int easyTime = 60;
+  final int mediumTime = 45;
+  final int hardTime = 30;
   int _timeRemaining = 60; // 1 minute default time
   Timer? _timer;
   bool _wasStarted = false;
@@ -40,7 +51,13 @@ class GameStatusBarState extends State<GameStatusBar> {
     if (!widget.isStarted && oldWidget.isStarted) {
       _timer?.cancel();
       setState(() {
-        _timeRemaining = 60; // Reset timer to 60 seconds
+        if (widget.difficulty == GameDifficulty.easy) {
+          _timeRemaining = easyTime;
+        } else if (widget.difficulty == GameDifficulty.medium) {
+          _timeRemaining = mediumTime;
+        } else {
+          _timeRemaining = hardTime;
+        }
         _wasStarted = false; // Reset the tracking flag
       });
     }
@@ -90,72 +107,103 @@ class GameStatusBarState extends State<GameStatusBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 60,
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            offset: Offset(0, 2),
-            blurRadius: 4,
-          ),
-        ],
+    return AppBar(
+      backgroundColor: Colors.grey[200],
+      elevation: 4,
+      leading: IconButton(
+        icon: Icon(Icons.arrow_drop_down_circle, color: Colors.black87),
+        onPressed: () {
+          print("Lesson Selector Tapped");
+          widget.scaffoldKey.currentState?.openDrawer();
+        },
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // Previous Lesson Button
-          IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            onPressed: () => widget.onLessonChange(widget.currentLesson - 1 > 0
-                ? widget.currentLesson - 1
-                : widget.currentLesson),
+      title: Row(children: [
+        IconButton(
+          icon: Icon(Icons.arrow_back_ios, size: 18, color: Colors.black87),
+          onPressed: () {
+            if (widget.currentLesson > 1) {
+              widget.onLessonChange(widget.currentLesson - 1);
+            }
+          },
+        ),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15),
+            border: Border.all(color: Colors.grey[300]!),
           ),
-
-          Flexible(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-                border: Border.all(color: Colors.grey[300]!),
-              ),
-              child: Text(
-                'Lesson ${widget.currentLesson}',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                overflow: TextOverflow.ellipsis, // Prevents text overflow
-              ),
-            ),
+          child: Text(
+            'Lesson ${widget.currentLesson}',
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87),
           ),
-          // Difficulty Buttons
-          Row(
+        ),
+        IconButton(
+          icon: Icon(Icons.arrow_forward_ios, size: 18, color: Colors.black87),
+          onPressed: () {
+            if (widget.currentLesson < maxLesson) {
+              widget.onLessonChange(widget.currentLesson + 1);
+            }
+          },
+        ),
+      ]),
+      actions: [
+        // Score Display
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              _buildDifficultyButton('Easy', Colors.green, GameDifficulty.easy),
-              SizedBox(width: 8),
-              _buildDifficultyButton(
-                  'Medium', Colors.yellow[700]!, GameDifficulty.medium),
-              SizedBox(width: 8),
-              _buildDifficultyButton('Hard', Colors.red, GameDifficulty.hard),
+              Text(
+                "Score: ${widget.score}",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              ),
             ],
           ),
-
-          // Lives Display
-          Row(
+        ),
+        // Lives Display
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: List.generate(
               3,
               (index) => Icon(
                 index < widget.lives ? Icons.favorite : Icons.favorite_border,
                 color: Colors.red,
-                size: 24,
+                size: 20,
               ),
             ),
           ),
+        ),
 
-          // Timer Display
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        // Difficulty Buttons
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _buildDifficultyButton('E', Colors.green, GameDifficulty.easy),
+              SizedBox(width: 4),
+              _buildDifficultyButton(
+                  'M', Colors.yellow[700]!, GameDifficulty.medium),
+              SizedBox(width: 4),
+              _buildDifficultyButton('H', Colors.red, GameDifficulty.hard),
+            ],
+          ),
+        ),
+        // Timer Display
+        Padding(
+          padding: const EdgeInsets.only(right: 16),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(15),
@@ -164,45 +212,41 @@ class GameStatusBarState extends State<GameStatusBar> {
             child: Text(
               formatTime(_timeRemaining),
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: _timeRemaining < 60 ? Colors.red : Colors.black,
+                color: _timeRemaining < 15
+                    ? Colors.red
+                    : _timeRemaining < 30
+                        ? Colors.orange
+                        : Colors.black,
               ),
             ),
           ),
-
-          // Next Lesson Button
-          IconButton(
-            icon: Icon(Icons.arrow_forward_ios),
-            onPressed: () => widget.currentLesson + 1 < maxLesson
-                ? widget.onLessonChange(widget.currentLesson + 1)
-                : widget.onLessonChange(widget.currentLesson),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget _buildDifficultyButton(
       String text, Color color, GameDifficulty difficulty) {
-    bool isSelected =
-        widget.difficulty == difficulty; // Derived from widget state
+    bool isSelected = widget.difficulty == difficulty;
 
     return GestureDetector(
       onTap: () {
+        if (isSelected) return;
+
         setState(() {
-          widget
-              .onDifficultyChange(difficulty); // Update parent difficulty state
+          widget.onDifficultyChange(difficulty);
           _timeRemaining = 60; // Reset timer
         });
 
         print("Difficulty changed to: $difficulty");
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
           color: isSelected ? color : color.withAlpha((0.3 * 255).toInt()),
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isSelected ? color.darker() : Colors.grey[300]!,
           ),
@@ -210,12 +254,9 @@ class GameStatusBarState extends State<GameStatusBar> {
         child: Text(
           text,
           style: TextStyle(
-            color: isSelected
-                ? Colors.white
-                : Colors.black, // Text color updates correctly
-            fontWeight: isSelected
-                ? FontWeight.bold
-                : FontWeight.normal, // Font weight updates correctly
+            fontSize: 12,
+            color: isSelected ? Colors.white : Colors.black,
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
           ),
         ),
       ),

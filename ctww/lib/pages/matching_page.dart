@@ -15,6 +15,7 @@ class MatchingPage extends StatefulWidget {
 }
 
 class MatchingPageState extends State<MatchingPage> {
+  int maxLessons = 20;
   List<String> wordBank = [];
   List<String> chineseCharacters = [];
   Map<String, String> characterToDef = {};
@@ -24,6 +25,9 @@ class MatchingPageState extends State<MatchingPage> {
   bool isGameStarted = false;
   GameDifficulty difficulty = GameDifficulty.easy;
   List<String> shuffledWordBank = [];
+  Map<int, bool> completedLessons = {};
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
@@ -32,6 +36,13 @@ class MatchingPageState extends State<MatchingPage> {
     });
     loadCharacters();
   }
+
+  bool isLessonCompleted(int lessonID) {
+    return completedLessons.containsKey(lessonID) &&
+        completedLessons[lessonID]!;
+  }
+
+  void loadLessonProgress() {}
 
   void showEndGamePopup(BuildContext context, bool isVictory, bool isTimeOut) {
     showDialog(
@@ -163,64 +174,110 @@ class MatchingPageState extends State<MatchingPage> {
     );
   }
 
+  void goToLesson(int newLessonID) {
+    setState(() {
+      lessonID = newLessonID;
+      loadCharacters();
+      Navigator.of(context).pop(); // Close the drawer
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: NavBar(),
       body: Container(
         color: colorGOLD,
-        child: Column(
-          children: [
-            GameStatusBar(
-              currentLesson: lessonID,
-              difficulty: difficulty,
-              lives: lives,
-              isStarted: isGameStarted,
-              onLessonChange: (newLesson) {
-                setState(() {
-                  lessonID = newLesson;
-                  print('New lesson: $lessonID');
-                  loadCharacters();
-                  for (var i = 0; i < chineseCharacters.length; i++) {
-                    print(chineseCharacters[i]);
-                  }
-                });
-              },
-              onDifficultyChange: (newDifficulty) {
-                setState(() {
-                  difficulty = newDifficulty;
-                  print('new difficulty = $newDifficulty');
-                  resetGame();
-                  // Handle difficulty change
-                });
-              },
-              onGameOver: () {
-                showEndGamePopup(context, false, true);
-              },
-            ),
-
-            Container(
-              height: MediaQuery.of(context).size.height * .15,
-              decoration: BoxDecoration(color: Colors.red, boxShadow: [
-                BoxShadow(
-                  color: Colors.black,
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3),
+        child: Scaffold(
+          backgroundColor: colorGOLD,
+          key: _scaffoldKey,
+          drawer: Drawer(
+            backgroundColor: Colors.grey[800],
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                DrawerHeader(
+                  decoration: BoxDecoration(color: colorGOLD),
+                  child: Text('Lessons',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold)),
                 ),
-              ]),
-              child: Center(
-                child: buildWordBank(),
-              ),
+                for (int i = 1; i < maxLessons; i++)
+                  ListTile(
+                    title: Text(
+                      'Lesson ${i}',
+                      style: TextStyle(
+                        color: isLessonCompleted(i) ? Colors.green : colorWHITE,
+                        fontWeight: isLessonCompleted(i)
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                      ),
+                    ),
+                    trailing: isLessonCompleted(i)
+                        ? Icon(Icons.check, color: Colors.green)
+                        : null,
+                    onTap: () => goToLesson(i),
+                  ),
+              ],
             ),
-            // Matching rows (Scrollable)
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: buildMatchRows(),
+          ),
+          appBar: GameStatusBar(
+            currentLesson: lessonID,
+            difficulty: difficulty,
+            lives: lives,
+            isStarted: isGameStarted,
+            onLessonChange: (newLesson) {
+              setState(() {
+                lessonID = newLesson;
+                print('New lesson: $lessonID');
+                loadCharacters();
+                for (var i = 0; i < chineseCharacters.length; i++) {
+                  print(chineseCharacters[i]);
+                }
+                resetGame();
+              });
+            },
+            onDifficultyChange: (newDifficulty) {
+              setState(() {
+                difficulty = newDifficulty;
+                print('new difficulty = $newDifficulty');
+                resetGame();
+                // Handle difficulty change
+              });
+            },
+            onGameOver: () {
+              showEndGamePopup(context, false, true);
+            },
+            scaffoldKey: _scaffoldKey,
+            score: score,
+          ),
+          body: Column(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height * .15,
+                decoration: BoxDecoration(color: Colors.red, boxShadow: [
+                  BoxShadow(
+                    color: Colors.black,
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 3),
+                  ),
+                ]),
+                child: Center(
+                  child: buildWordBank(),
+                ),
               ),
-            ),
-          ],
+              // Matching rows (Scrollable)
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: buildMatchRows(),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -288,6 +345,7 @@ class MatchingPageState extends State<MatchingPage> {
       print('Score: $score');
       if (score == chineseCharacters.length) {
         showEndGamePopup(context, true, false);
+        completedLessons[lessonID] = true;
       }
     });
   }
