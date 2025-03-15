@@ -999,4 +999,251 @@
             }
         ]
     }
+   "lesson-4": {
+        "characters": [
+            {
+                "character": "火",
+                "unicode": "U+706B",
+                "pinyin": "huǒ",
+                "definition": "fire, flame; burn; anger, rage",
+                "strokeNum": 4,
+                "parts": [
+                    {
+                        "partID": 0,
+                        "strokeNums": [
+                            0
+                        ],
+                        "story": "placeholder 火"
+                    },
+                    {
+                        "partID": 1,
+                        "strokeNums": [
+                            1
+                        ],
+                        "story": "placeholder 火"
+                    },
+                    {
+                        "partID": 2,
+                        "strokeNums": [
+                            2
+                        ],
+                        "story": "placeholder 火"
+                    },
+                    {
+                        "partID": 3,
+                        "strokeNums": [
+                            3
+                        ],
+                        "story": "placeholder 火"
+                    }
+                ]
+            },
+            {
+                "character": "土",
+                "unicode": "U+571F",
+                "pinyin": "tu",
+                "definition": "earth, soil",
+                "strokeNum": 3,
+                "parts": [
+                    {
+                        "partID": 0,
+                        "strokeNums": [
+                            0
+                        ],
+                        "story": "placeholder 土"
+                    },
+                    {
+                        "partID": 1,
+                        "strokeNums": [
+                            1
+                        ],
+                        "story": "placeholder 土"
+                    },
+                    {
+                        "partID": 2,
+                        "strokeNums": [
+                            2
+                        ],
+                        "story": "placeholder 土"
+                    }
+                ]
+            },
+            {
+                "character": "木",
+                "unicode": "U+6728",
+                "pinyin": "mù",
+                "definition": "wood, tree",
+                "strokeNum": 4,
+                "parts": [
+                    {
+                        "partID": 0,
+                        "strokeNums": [
+                            0
+                        ],
+                        "story": "placeholder 木"
+                    },
+                    {
+                        "partID": 1,
+                        "strokeNums": [
+                            1
+                        ],
+                        "story": "placeholder 木"
+                    },
+                    {
+                        "partID": 2,
+                        "strokeNums": [
+                            2
+                        ],
+                        "story": "placeholder 木"
+                    },
+                    {
+                        "partID": 3,
+                        "strokeNums": [
+                            3
+                        ],
+                        "story": "placeholder 木"
+                    }
+                ]
+            },
+            {
+                "character": "水",
+                "unicode": "U+6C34",
+                "pinyin": "shui",
+                "definition": "water",
+                "strokeNum": 4,
+                "parts": [
+                    {
+                        "partID": 0,
+                        "strokeNums": [
+                            0
+                        ],
+                        "story": "placeholder 水"
+                    },
+                    {
+                        "partID": 1,
+                        "strokeNums": [
+                            1
+                        ],
+                        "story": "placeholder 水"
+                    },
+                    {
+                        "partID": 2,
+                        "strokeNums": [
+                            2
+                        ],
+                        "story": "placeholder 水"
+                    },
+                    {
+                        "partID": 3,
+                        "strokeNums": [
+                            3
+                        ],
+                        "story": "placeholder 水"
+                    }
+                ]
+            },
+            {
+                "character": "火",
+                "unicode": "U+706B",
+                "pinyin": "huo",
+                "definition": "fire",
+                "strokeNum": 4,
+                "parts": [
+                    {
+                        "partID": 0,
+                        "strokeNums": [
+                            0
+                        ],
+                        "story": "placeholder 火"
+                    },
+                    {
+                        "partID": 1,
+                        "strokeNums": [
+                            1
+                        ],
+                        "story": "placeholder 火"
+                    },
+                    {
+                        "partID": 2,
+                        "strokeNums": [
+                            2
+                        ],
+                        "story": "placeholder 火"
+                    },
+                    {
+                        "partID": 3,
+                        "strokeNums": [
+                            3
+                        ],
+                        "story": "placeholder 火"
+                    }
+                ]
+            },
+            {
+                "character": "金",
+                "unicode": "U+91D1",
+                "pinyin": "jin",
+                "definition": "metal, gold",
+                "strokeNum": 8,
+                "parts": [
+                    {
+                        "partID": 0,
+                        "strokeNums": [
+                            0
+                        ],
+                        "story": "placeholder 金"
+                    },
+                    {
+                        "partID": 1,
+                        "strokeNums": [
+                            1
+                        ],
+                        "story": "placeholder 金"
+                    },
+                    {
+                        "partID": 2,
+                        "strokeNums": [
+                            2
+                        ],
+                        "story": "placeholder 金"
+                    },
+                    {
+                        "partID": 3,
+                        "strokeNums": [
+                            3
+                        ],
+                        "story": "placeholder 金"
+                    },
+                    {
+                        "partID": 4,
+                        "strokeNums": [
+                            4
+                        ],
+                        "story": "placeholder 金"
+                    },
+                    {
+                        "partID": 5,
+                        "strokeNums": [
+                            5
+                        ],
+                        "story": "placeholder 金"
+                    },
+                    {
+                        "partID": 6,
+                        "strokeNums": [
+                            6
+                        ],
+                        "story": "placeholder 金"
+                    },
+                    {
+                        "partID": 7,
+                        "strokeNums": [
+                            7
+                        ],
+                        "story": "placeholder 金"
+                    }
+                ]
+            }
+        ]
+    }
 }
