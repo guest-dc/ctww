@@ -10,7 +10,7 @@ class LessonsPage extends StatefulWidget {
   // final Function(Character) onCharacterSelected;
 
   // LessonsPage({
-  //   required this.onCharacterSelected,
+  //   required this.onCha racterSelected,
   // });
 
   @override
