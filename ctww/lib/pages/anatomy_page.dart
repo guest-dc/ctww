@@ -6,11 +6,11 @@ import '../utils/models.dart';
 
 class AnatomyPage extends StatefulWidget {
   @override
-  _AnatomyPageState createState() => _AnatomyPageState();
+  AnatomyPageState createState() => AnatomyPageState();
 }
 
-class _AnatomyPageState extends State<AnatomyPage> {
-  bool _isLessonBarVisible = false;
+class AnatomyPageState extends State<AnatomyPage> {
+  bool _isLessonBarVisible = true;
   Character? selectedCharacter;
 
 
@@ -36,31 +36,67 @@ class _AnatomyPageState extends State<AnatomyPage> {
     });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: NavBar(),
-      body: Stack(
-        children: [
-          Center(
-            child: Text(
-              'Anatomy page stuff goes here',
-              style: TextStyle(fontSize: 20),
+      body: SizedBox.expand(
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(50, 20, 50, 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+
+                  Center(
+                    child: Container(
+                      width: 500,
+                      alignment: Alignment.centerLeft, // Align text to the left within the container
+                      child: Text(
+                        selectedCharacter != null
+                            ? '${selectedCharacter!.character}  :  ${selectedCharacter!.definition}'
+                            : '',
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 5),
+
+                  // Middle section, centered horizontally
+                  Container(
+                    height: 500,
+                    width: 500,
+                    alignment: Alignment.center,
+                    color: Colors.grey,
+                    // child: _buildStrokeOrderAnimationAndControls(),
+                  ),
+
+                ],
+              ),
             ),
-          ),
-          Positioned(
-            right: 0,
-            top: 0,
-            bottom: 0,
-            child: LessonBar(
-              isVisible: _isLessonBarVisible,
-              toggleVisibility: _toggleLessonBar,
-              onCharacterSelected: _onCharacterSelected,
-              onLessonsLoaded: _onLessonsLoaded,
+
+            // Lesson bar (Right side)
+            Positioned(
+              right: 0,
+              top: 0,
+              bottom: 0,
+              child: LessonBar(
+                isVisible: _isLessonBarVisible,
+                toggleVisibility: _toggleLessonBar,
+                onCharacterSelected: _onCharacterSelected,
+                onLessonsLoaded: _onLessonsLoaded,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
+
+      // Lesson Bar Toggle Button (bottom right corner)
       floatingActionButton: FloatingActionButton(
         onPressed: _toggleLessonBar,
         backgroundColor: colorGOLD,

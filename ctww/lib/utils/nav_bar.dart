@@ -33,18 +33,17 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
 
-    if (screenWidth > 850) {
+    if (screenWidth > 960) {
       return AppBar(
         backgroundColor: colorRED,
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            
             // Image widget for the logo
             Container(
               padding: EdgeInsets.only(right: 5.0),
               child: Image.asset(
-                '../assets/images/ctww_icon_char.png',
+                'assets/images/ctww_icon_char.png',
                 height: 60,
               ),
             ),
@@ -128,13 +127,28 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
     } else {
       return AppBar(
         backgroundColor: colorRED,
-        title: Text(
-          'CtWW',
-          style: TextStyle(
-            color: colorGOLD,
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-          ),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Image widget for the logo
+            Container(
+              padding: EdgeInsets.only(right: 5.0),
+              child: Image.asset(
+                'assets/images/ctww_icon_char.png',
+                height: 60,
+              ),
+            ),
+
+            // Text widget for the title
+            Text(
+              'CtWW',
+              style: TextStyle(
+                color: colorGOLD,
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+              ),
+            ),
+          ],
         ),
         actions: [
           PopupMenuButton<String>(

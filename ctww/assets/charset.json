@@ -113,7 +113,8 @@
         ]
       }
     ]
-  }
+  },
+  
   "lesson-2": {
         "characters": [
             {
@@ -481,8 +482,9 @@
                 ]
             }
         ]
-    }
-"lesson-3": {
+    },
+    
+    "lesson-3": {
         "characters": [
             {
                 "character": "星",
@@ -998,7 +1000,8 @@
                 ]
             }
         ]
-    }
+    },
+  
    "lesson-4": {
         "characters": [
             {
