@@ -173,16 +173,21 @@ class StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMi
                 onLessonsLoaded: _onLessonsLoaded,
               ),
             ),
+
+            // Floating Action Button
+            Positioned(
+              right: _isLessonBarVisible ? 90 + 16 : 16,
+              bottom: 16,
+              child: FloatingActionButton(
+                onPressed: _toggleLessonBar,
+                backgroundColor: colorGOLD,
+                foregroundColor: colorWHITE,
+                child: Icon(Icons.menu_book),
+              ),
+            )
+
           ],
         ),
-      ),
-
-      // Lesson Bar Toggle Button (bottom right corner)
-      floatingActionButton: FloatingActionButton(
-        onPressed: _toggleLessonBar,
-        backgroundColor: colorGOLD,
-        foregroundColor: colorWHITE,
-        child: Icon(Icons.menu_book),
       ),
     );
   }

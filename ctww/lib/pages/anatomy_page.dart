@@ -92,16 +92,20 @@ class AnatomyPageState extends State<AnatomyPage> {
                 onLessonsLoaded: _onLessonsLoaded,
               ),
             ),
+
+            Positioned(
+              right: _isLessonBarVisible ? 90 + 16 : 16,
+              bottom: 16,
+              child: FloatingActionButton(
+                onPressed: _toggleLessonBar,
+                backgroundColor: colorGOLD,
+                foregroundColor: colorWHITE,
+                child: Icon(Icons.menu_book),
+              ),
+            )
+
           ],
         ),
-      ),
-
-      // Lesson Bar Toggle Button (bottom right corner)
-      floatingActionButton: FloatingActionButton(
-        onPressed: _toggleLessonBar,
-        backgroundColor: colorGOLD,
-        foregroundColor: colorWHITE,
-        child: Icon(Icons.menu_book),
       ),
     );
   }

@@ -86,11 +86,21 @@ class Part {
     required this.story
   });
 
+  // factory Part.fromJson(Map<String, dynamic> json) => Part(
+  //   partID: json['partID'] as int,
+  //   strokeNums: List<int>.from(json['strokeNums'] as List),
+  //   story: json['story'] as String,
+  // );
+
   factory Part.fromJson(Map<String, dynamic> json) => Part(
     partID: json['partID'] as int,
-    strokeNums: List<int>.from(json['strokeNums'] as List),
+    strokeNums: (json['strokeNums'] as List)
+        .map((e) => int.parse(e.toString())) // handles both "3" and 3 safely
+        .toList(),
     story: json['story'] as String,
   );
+
+  
 
   Map<String, dynamic> toJson() => {
     'partID': partID,

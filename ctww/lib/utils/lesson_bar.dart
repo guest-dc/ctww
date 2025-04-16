@@ -86,39 +86,38 @@ class LessonBarState extends State<LessonBar> {
                 } else {
                   final lessons = snapshot.data!;
 
-                  return Column(
-                    children: lessons.map((lesson) {
-                      return Column(
-                        children: [
-
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text('Lesson ${int.parse(lesson.lessonName.replaceAll(RegExp(r'[^0-9]'), ''))}',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: colorGOLD)),
-                          ),
-
-                          ...lesson.characters.map((character) {
-                            return ListTile(
-                              title: Align(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  character.character,
-                                  style:
-                                      TextStyle(fontSize: 18, color: colorGOLD),
-                                ),
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: lessons.map((lesson) {
+                        return Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Lesson ${int.parse(lesson.lessonName.replaceAll(RegExp(r'[^0-9]'), ''))}',
+                                style: TextStyle(fontWeight: FontWeight.bold, color: colorGOLD),
                               ),
-                              onTap: () {
-                                widget.onCharacterSelected(character);
-                              },
-                            );
-                          }),
-                          
-                        ],
-                      );
-                    }).toList(),
+                            ),
+                            ...lesson.characters.map((character) {
+                              return ListTile(
+                                title: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    character.character,
+                                    style: TextStyle(fontSize: 18, color: colorGOLD),
+                                  ),
+                                ),
+                                onTap: () {
+                                  widget.onCharacterSelected(character);
+                                },
+                              );
+                            }),
+                          ],
+                        );
+                      }).toList(),
+                    ),
                   );
+
                 }
               },
             )
