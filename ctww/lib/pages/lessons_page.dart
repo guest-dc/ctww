@@ -4,6 +4,7 @@ import 'dart:convert';
 import '../utils/colors.dart';
 import '../utils/models.dart';
 import '../utils/nav_bar.dart';
+import '../pages/story_walk_page.dart';
 
 class LessonsPage extends StatefulWidget {
   const LessonsPage({Key? key}) : super(key: key);
@@ -15,6 +16,9 @@ class LessonsPage extends StatefulWidget {
 class LessonsPageState extends State<LessonsPage> {
   bool showSecondButton = false;
   late Future<List<Lesson>> lessons;
+
+  int? selectedLessonIndex;
+
 
   @override
   void initState() {
@@ -31,6 +35,7 @@ class LessonsPageState extends State<LessonsPage> {
     }).toList();
   }
 
+  //build the webpage
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,29 +50,33 @@ class LessonsPageState extends State<LessonsPage> {
                 return Container(
                   color: colorRED,
                   alignment: Alignment.center,
-                  width: 500.0,
+                  width: 700.0,
                   height: 500.0,
-                  child: Column(
-                    children: <Widget>[
-                      Flexible(
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.topLeft,
                         child: ListView(
                           shrinkWrap: true,
                           children: <Widget>[
-                            const Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                'Lessons',
+                        const Text(
+                                'Tap on a lesson to display characters',
                                 style: TextStyle(
                                   fontSize: 30,
                                   fontWeight: FontWeight.bold,
                                   color: colorGOLD,
                                 ),
                               ),
-                            ),
-                            Buttons(),
+                            Buttons(), //displays buttons
                           ],
                         ),
                       ),
+                // displays the character
+                if (selectedLessonIndex != null)
+                Align(
+                alignment: Alignment.topRight,
+                child: buildCharacterButtons(snapshot.data![selectedLessonIndex!]),
+                ),
                     ],
                   ),
                 );
@@ -79,142 +88,119 @@ class LessonsPageState extends State<LessonsPage> {
     );
   }
 
+  //build buttons and handle error
   Widget Buttons() {
-    return OverflowBar(
-      alignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        ElevatedButton(
-          child: const Text('Lesson1'),
-          onPressed: () {
-            setState(() {
-              showSecondButton = !showSecondButton;
-            });
-          },
-        ),
-        if (showSecondButton) Lesson1(), // Displays lesson button
-      ],
-    );
-  }
-
-  Widget Lesson1() {
     return FutureBuilder<List<Lesson>>(
       future: lessons,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return CircularProgressIndicator();
         } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
+          return Text('Error: ${snapshot.error}');
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No lessons available'));
-        } else {
-          final lessons = snapshot.data!;
+          return Text('No lessons available');
+        }
 
-        /**  return Column(
-            children: lessons.map((lesson) {
-              return Column(
-                children: [
-                  SizedBox(height: 10), */
+        final loadedLessons = snapshot.data!;
 
-                  // Character Buttons
-              /**    Right(
-                    alignment: Alignment.centerRight, // Align to the right
-                    //crossAxisAlignment: CrossAxisAlignment.end,
-                    child: SizedBox(
-                      width: 500,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center, // Align to center
-                        children: lesson.characters.map((character) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 10.0), // Space between characters
-                            child: TextButton(
-                              child: Text(
-                                character.character, // Import character from JSON
-                                style: TextStyle(fontSize: 20,  color: colorGOLD,),
-
-                              ),
-                              onPressed: () {
-                                showCharacterDetails(context, character); // Pops up a dialog bar containing character information
-                              },
-                            ),
-                          );
-                        }).toList(),
-                      ),
+        return Align(
+          alignment: Alignment.topLeft, //  Align vertically to the left
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start, // : Left align buttons
+            children: [
+              // Loop through lessons and create buttons
+              ...List.generate(loadedLessons.length, (index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                     backgroundColor: colorWHITE,
+                      foregroundColor: colorGOLD,
                     ),
+                    child: Text('Lesson ${index + 1}'),
+                    onPressed: () {
+                      setState(() {
+                        selectedLessonIndex = index;
+                      });
+                    },
                   ),
-                ],
-              );
-            }).toList(),
-          );
-        }
-      },
-    );
-  }*/
-          return Align(
-            alignment: Alignment.centerRight, // Align container to the right
-            child: Container(
-              width: 70,
-              height: 500, // Set a fixed width for the container
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: colorWHITE,
-                border: Border.all(color: colorGOLD),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center, // Center vertically
-                crossAxisAlignment: CrossAxisAlignment.center, // Center text inside
-                children: lessons.expand((lesson) {
-                  return lesson.characters.map((character) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: TextButton(
-                        onPressed: () {
-                          showCharacterDetails(context, character);
-                        },
-                        child: Text(
-                          character.character,
-                          style: TextStyle(fontSize: 20, color: colorGOLD),
-                        ),
-                      ),
-                    );
-                  }).toList();
-                }).toList(),
-              ),
-            ),
-          );
-        }
+                );
+              }),
+            ],
+          ),
+        );
       },
     );
   }
 
 
+//Design for each button
+  Widget buildCharacterButtons(Lesson lesson) {
+    return Align(
+      alignment: Alignment.topRight,
+      child: Container(
+        width: 70,
+        height: 500,
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: colorWHITE,
+          border: Border.all(color: colorGOLD),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: ListView(
+          children: lesson.characters.map((character) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: TextButton(
+                onPressed: () {
+                  showCharacterDetails(context, character);
+                },
+                child: Text(
+                  character.character,
+                  style: TextStyle(fontSize: 20, color: colorGOLD),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
+  //Displays character information in a Alert dialog box
   void showCharacterDetails(BuildContext context, Character character) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
-            character.character,
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          // when the character title is taped, it will navigate to the story Walkthrough page
+          title: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop(); // Close the dialog first
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => StoryWalkPage(initialCharacter: character),
+                ),
+              );
+            },
+
+            //information in the dialog box
+            child: Text(
+              '${character.character}       Tap character to view animation',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
           ),
-          content: SingleChildScrollView( // Ensures content doesn't overflow
+          content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-
-              // Displays all information
               children: [
-                Text("Character: ${character.character}",
-                    style: TextStyle(fontSize: 18)),
-                Text("Unicode: ${character.unicode}",
-                    style: TextStyle(fontSize: 18)),
-                Text("Pinyin: ${character.pinyin}",
-                    style: TextStyle(fontSize: 18)),
-                Text("Definition: ${character.definition}",
-                    style: TextStyle(fontSize: 18)),
-                Text("Strokes: ${character.strokeNum}",
-                    style: TextStyle(fontSize: 18)),
+                Text("Character: ${character.character}", style: TextStyle(fontSize: 18)),
+                Text("Unicode: ${character.unicode}", style: TextStyle(fontSize: 18)),
+                Text("Pinyin: ${character.pinyin}", style: TextStyle(fontSize: 18)),
+                Text("Definition: ${character.definition}", style: TextStyle(fontSize: 18)),
+                Text("Strokes: ${character.strokeNum}", style: TextStyle(fontSize: 18)),
                 SizedBox(height: 10),
                 Text("Parts", style: TextStyle(fontSize: 20)),
                 Column(
@@ -234,19 +220,11 @@ class LessonsPageState extends State<LessonsPage> {
           actions: [
             TextButton(
               child: Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: () => Navigator.of(context).pop(),
             ),
           ],
         );
       },
     );
-
-
-
-
-
-
-}
+  }
 }

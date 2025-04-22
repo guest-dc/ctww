@@ -8,6 +8,10 @@ import 'package:http/http.dart' as http;
 import 'package:stroke_order_animator/stroke_order_animator.dart';
 
 class StoryWalkPage extends StatefulWidget {
+  ////added
+  final Character? initialCharacter;
+  const StoryWalkPage({Key? key, this.initialCharacter}) : super(key: key);
+  /////
   @override
   StoryWalkPageState createState() => StoryWalkPageState();
 }
@@ -21,15 +25,22 @@ class StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMi
   final _httpClient = http.Client();
   StrokeOrderAnimationController? _completedController;
   late Future<StrokeOrderAnimationController>? _animationController;
+  bool _hasInitializedCharacter = false; //added
 
 
-
+//changed
   @override
   void initState() {
     super.initState();
-    _animationController = _loadStrokeOrder('一');
-    _animationController!.then((a) => _completedController = a);
+    if (widget.initialCharacter != null) {
+      _onCharacterSelected(widget.initialCharacter!);
+      _hasInitializedCharacter = true;
+      //(widget.initialCharacter!);
+    } else {
+    print("cannot navigate to characters");
+    }
   }
+
 
 
 
@@ -45,8 +56,8 @@ class StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMi
   Future<StrokeOrderAnimationController> _loadStrokeOrder(String character) async {
     return downloadStrokeOrder(character, _httpClient).then((value) {
       final controller = StrokeOrderAnimationController(
-        StrokeOrder(value),
-        this
+          StrokeOrder(value),
+          this
       );
       controller.setShowMedian(false);
       controller.setShowOutline(false);
@@ -59,6 +70,7 @@ class StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMi
 
 
   void _onLessonsLoaded(List<Lesson> lessons) {
+    if (_hasInitializedCharacter) return;//added
     if (lessons.isNotEmpty && lessons[0].characters.isNotEmpty) {
       _onCharacterSelected(lessons[0].characters[0]);
     }
@@ -138,23 +150,23 @@ class StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMi
 
                   // Part stories
                   Center(
-                    child: Container(
-                      width: 500,
-                      alignment: Alignment.centerLeft,
-                      child: Column(
-                        children: List.generate(
-                          selectedCharacter?.parts.length ?? 0,
-                          (index) => Text(
-                            'Part ${index + 1}: ${selectedCharacter!.parts[index].story}',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
+                      child: Container(
+                          width: 500,
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            children: List.generate(
+                              selectedCharacter?.parts.length ?? 0,
+                                  (index) => Text(
+                                'Part ${index + 1}: ${selectedCharacter!.parts[index].story}',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
+                          )
                       )
-                    )
                   )
 
                 ],
@@ -173,16 +185,21 @@ class StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMi
                 onLessonsLoaded: _onLessonsLoaded,
               ),
             ),
+
+            // Floating Action Button
+            Positioned(
+              right: _isLessonBarVisible ? 90 + 16 : 16,
+              bottom: 16,
+              child: FloatingActionButton(
+                onPressed: _toggleLessonBar,
+                backgroundColor: colorGOLD,
+                foregroundColor: colorWHITE,
+                child: Icon(Icons.menu_book),
+              ),
+            )
+
           ],
         ),
-      ),
-
-      // Lesson Bar Toggle Button (bottom right corner)
-      floatingActionButton: FloatingActionButton(
-        onPressed: _toggleLessonBar,
-        backgroundColor: colorGOLD,
-        foregroundColor: colorWHITE,
-        child: Icon(Icons.menu_book),
       ),
     );
   }
@@ -231,32 +248,32 @@ class StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMi
       builder: (context, child) {
 
         return Stack(
-          children: [
+            children: [
 
-            Row(
-              children: <Widget>[
+              Row(
+                children: <Widget>[
 
-                Text(charPart != -1 ? 'Part: ${(charPart + 1)}' : 'Part: FULL',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                  textAlign: TextAlign.left,
-                ),
+                  Text(charPart != -1 ? 'Part: ${(charPart + 1)}' : 'Part: FULL',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    textAlign: TextAlign.left,
+                  ),
 
-              ],
-            ),
+                ],
+              ),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
 
-                ElevatedButton(
-                  onPressed: () { fullReset(controller); },
-                  child: Icon(Icons.refresh, size: 25, color: colorGOLD)
-                ),
+                  ElevatedButton(
+                      onPressed: () { fullReset(controller); },
+                      child: Icon(Icons.refresh, size: 25, color: colorGOLD)
+                  ),
 
-              ],
-            ),
+                ],
+              ),
 
-          ]
+            ]
         );
       },
     );
@@ -275,34 +292,34 @@ class StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMi
             children: <Widget>[
 
               ElevatedButton(
-                onPressed: () {
+                  onPressed: () {
 
-                  if (charPart == 0 || charPart == -1) {
-                    fullReset(controller);
-                  }
-                  else {
-                    previousPart(controller);
-                  }
+                    if (charPart == 0 || charPart == -1) {
+                      fullReset(controller);
+                    }
+                    else {
+                      previousPart(controller);
+                    }
 
-                },
-                child: Icon(Icons.arrow_back_ios, size: 25, color: colorGOLD)
+                  },
+                  child: Icon(Icons.arrow_back_ios, size: 25, color: colorGOLD)
               ),
 
               SizedBox(width: 50),
 
               ElevatedButton(
-                onPressed: () {
+                  onPressed: () {
 
-                  if (charPart == -1) {
-                    controller.reset();
-                  }
-                  else if (charPart == maxPartNum - 1) {
-                    return;
-                  }
-                  nextPart(controller);
+                    if (charPart == -1) {
+                      controller.reset();
+                    }
+                    else if (charPart == maxPartNum - 1) {
+                      return;
+                    }
+                    nextPart(controller);
 
-                },
-                child: Icon(Icons.arrow_forward_ios, size: 25, color: colorGOLD)
+                  },
+                  child: Icon(Icons.arrow_forward_ios, size: 25, color: colorGOLD)
               ),
 
             ],
@@ -335,7 +352,7 @@ class StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMi
 
   // Performs .nextStroke() based on the amount of strokes the next part has.
   void nextPart(StrokeOrderAnimationController controller) {
-    int nextPart = charPart + 1; 
+    int nextPart = charPart + 1;
     int partDelta = selectedCharacter!.parts[nextPart].strokeNums.length;
 
     for (int i = 0; i < partDelta; i++) {
