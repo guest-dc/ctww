@@ -8,6 +8,10 @@ import 'package:http/http.dart' as http;
 import 'package:stroke_order_animator/stroke_order_animator.dart';
 
 class StoryWalkPage extends StatefulWidget {
+
+  final Character? initialCharacter;
+  const StoryWalkPage({Key? key, this.initialCharacter}) : super(key: key);
+
   @override
   StoryWalkPageState createState() => StoryWalkPageState();
 }
@@ -27,7 +31,13 @@ class StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMi
   @override
   void initState() {
     super.initState();
-    _animationController = _loadStrokeOrder('一');
+
+    if (widget.initialCharacter != null) {
+      _animationController = _loadStrokeOrder(widget.initialCharacter!.character);
+    } else {
+      _animationController = _loadStrokeOrder('一');
+      
+    }
     _animationController!.then((a) => _completedController = a);
   }
 
@@ -59,7 +69,11 @@ class StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMi
 
 
   void _onLessonsLoaded(List<Lesson> lessons) {
-    if (lessons.isNotEmpty && lessons[0].characters.isNotEmpty) {
+    if (widget.initialCharacter != null) {
+      _onCharacterSelected(widget.initialCharacter!);
+    }
+
+    else if (lessons.isNotEmpty && lessons[0].characters.isNotEmpty) {
       _onCharacterSelected(lessons[0].characters[0]);
     }
   }
