@@ -13,19 +13,20 @@ class GameStatusBar extends StatefulWidget implements PreferredSizeWidget {
   final VoidCallback onGameOver;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final int score;
+  final int maxLesson;
 
-  const GameStatusBar({
-    super.key,
-    required this.currentLesson,
-    required this.difficulty,
-    required this.lives,
-    required this.isStarted,
-    required this.onLessonChange,
-    required this.onDifficultyChange,
-    required this.onGameOver,
-    required this.scaffoldKey,
-    required this.score,
-  });
+  const GameStatusBar(
+      {super.key,
+      required this.currentLesson,
+      required this.difficulty,
+      required this.lives,
+      required this.isStarted,
+      required this.onLessonChange,
+      required this.onDifficultyChange,
+      required this.onGameOver,
+      required this.scaffoldKey,
+      required this.score,
+      required this.maxLesson});
 
   @override
   GameStatusBarState createState() => GameStatusBarState();
@@ -118,14 +119,17 @@ class GameStatusBarState extends State<GameStatusBar> {
         },
       ),
       title: Row(children: [
-        IconButton(
-          icon: Icon(Icons.arrow_back_ios, size: 18, color: Colors.black87),
-          onPressed: () {
-            if (widget.currentLesson > 1) {
-              widget.onLessonChange(widget.currentLesson - 1);
-            }
-          },
-        ),
+        (widget.currentLesson == 1)
+            ? SizedBox(width: 8)
+            : IconButton(
+                icon:
+                    Icon(Icons.arrow_back_ios, size: 18, color: Colors.black87),
+                onPressed: () {
+                  if (widget.currentLesson > 1) {
+                    widget.onLessonChange(widget.currentLesson - 1);
+                  }
+                },
+              ),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
           decoration: BoxDecoration(
@@ -141,14 +145,17 @@ class GameStatusBarState extends State<GameStatusBar> {
                 color: Colors.black87),
           ),
         ),
-        IconButton(
-          icon: Icon(Icons.arrow_forward_ios, size: 18, color: Colors.black87),
-          onPressed: () {
-            if (widget.currentLesson < maxLesson) {
-              widget.onLessonChange(widget.currentLesson + 1);
-            }
-          },
-        ),
+        (widget.currentLesson == widget.maxLesson)
+            ? SizedBox(width: 8)
+            : IconButton(
+                icon: Icon(Icons.arrow_forward_ios,
+                    size: 18, color: Colors.black87),
+                onPressed: () {
+                  if (widget.currentLesson < maxLesson) {
+                    widget.onLessonChange(widget.currentLesson + 1);
+                  }
+                },
+              ),
       ]),
       actions: [
         // Score Display

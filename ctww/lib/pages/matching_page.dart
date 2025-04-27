@@ -4,10 +4,13 @@ import 'package:ctww/utils/colors.dart';
 import '../utils/matching_page/game_status_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/nav_bar.dart';
 import '../utils/matching_page/match_row.dart';
 import 'package:lottie/lottie.dart';
+import 'package:audioplayers/audioplayers.dart';
+
+final audioPlayer = AudioPlayer();
 
 class MatchingPage extends StatefulWidget {
   @override
@@ -15,10 +18,11 @@ class MatchingPage extends StatefulWidget {
 }
 
 class MatchingPageState extends State<MatchingPage> {
-  int maxLessons = 20;
+  int maxLessons = 4;
   List<String> wordBank = [];
   List<String> chineseCharacters = [];
   Map<String, String> characterToDef = {};
+  Set<String> matchedWords = {};
   int lessonID = 1;
   int score = 0;
   int lives = 3;
@@ -27,24 +31,93 @@ class MatchingPageState extends State<MatchingPage> {
   List<String> shuffledWordBank = [];
   Map<int, bool> completedLessons = {};
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  AudioPlayer audioPlayer = AudioPlayer();
+  bool isAudioPlaying = false;
+  Set<String> matchedCharacters = {};
+  static const String COMPLETED_LESSONS_KEY = 'completed_lessons';
+  bool isStorageReady = false;
+  late SharedPreferences prefs;
 
   @override
   void initState() {
     super.initState();
+    _initStorage();
+    loadCharacters();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       showLandingPopup(context);
     });
-    loadCharacters();
+  }
+
+  Future<void> _initStorage() async {
+    try {
+      prefs = await SharedPreferences.getInstance();
+      loadLessonProgress();
+    } catch (e) {
+      print('Error initializing SharedPreferences: $e');
+      setState(() {
+        completedLessons = {}; // Fallback to empty map if we get an error
+      });
+    }
   }
 
   bool isLessonCompleted(int lessonID) {
-    return completedLessons.containsKey(lessonID) &&
-        completedLessons[lessonID]!;
+    return completedLessons[lessonID] ?? false;
   }
 
-  void loadLessonProgress() {}
+  void loadLessonProgress() {
+    try {
+      final savedLessons = prefs.getString(COMPLETED_LESSONS_KEY);
+      if (savedLessons != null) {
+        // Decode JSON string to Map<String, dynamic>
+        final Map<String, dynamic> decodedLessons = json.decode(savedLessons);
+        // Convert to Map<int, bool>
+        final Map<int, bool> loadedLessons = {};
+        decodedLessons.forEach((key, value) {
+          loadedLessons[int.parse(key)] = value as bool;
+        });
+        setState(() {
+          completedLessons = loadedLessons;
+          print('Loaded lesson progress: $completedLessons');
+        });
+      } else {
+        // No data found, initialize empty map
+        setState(() {
+          completedLessons = {};
+          print('No lesson progress found, initialized empty map');
+        });
+      }
+    } catch (e) {
+      // Handle JSON parsing or other errors
+      print('Error loading lesson progress: $e');
+      setState(() {
+        completedLessons = {};
+      });
+    }
+  }
+
+  void saveLessonProgress() {
+    try {
+      final Map<String, bool> lessonMapForStorage = {};
+      completedLessons.forEach((key, value) {
+        lessonMapForStorage[key.toString()] = value;
+      });
+      prefs.setString(COMPLETED_LESSONS_KEY, json.encode(lessonMapForStorage));
+      print('Saved lesson progress: $completedLessons');
+    } catch (e) {
+      print('Error saving lesson progress: $e');
+    }
+  }
 
   void showEndGamePopup(BuildContext context, bool isVictory, bool isTimeOut) {
+    try {
+      isVictory
+          ? audioPlayer.play(AssetSource('sounds/win.mp3'))
+          : audioPlayer.play(AssetSource('sounds/failure.mp3'));
+    } catch (e) {
+      print('Audio playback error: $e');
+    }
+
     showDialog(
       context: context,
       barrierDismissible:
@@ -61,6 +134,7 @@ class MatchingPageState extends State<MatchingPage> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Closes the popup
+                audioPlayer.stop(); // Stop the audio
                 resetGame();
               },
               child: Text("Play Again"),
@@ -76,7 +150,9 @@ class MatchingPageState extends State<MatchingPage> {
       score = 0;
       lives = 3;
       isGameStarted = false;
+      matchedWords = {}; // Clear matched words
       loadCharacters();
+      matchedCharacters = {}; // Clear matched characters
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showLandingPopup(context);
       });
@@ -105,6 +181,7 @@ class MatchingPageState extends State<MatchingPage> {
       wordBank = tempWords;
       characterToDef = characterToDeftemp;
       chineseCharacters = tempCharacters;
+      matchedWords = {}; // Reset matched words
       shuffledWordBank = List.from(wordBank)..shuffle();
     });
   }
@@ -150,9 +227,19 @@ class MatchingPageState extends State<MatchingPage> {
                           characterToDef: characterToDef,
                           matchRowWidth: matchRowWidth,
                           isStarted: isGameStarted,
+                          isMatched: matchedCharacters.contains(character),
                           onLoseLife: () {
+                            lives--;
                             setState(() {
-                              lives--;
+                              if (lives > 0) {
+                                // Play incorrect sound
+                                try {
+                                  audioPlayer.play(AssetSource(
+                                      '../assets/sounds/incorrect.mp3'));
+                                } catch (e) {
+                                  print('Audio playback error: $e');
+                                }
+                              }
                               print('Lives remaining: $lives');
                               if (lives == 0) {
                                 // Game over
@@ -162,7 +249,7 @@ class MatchingPageState extends State<MatchingPage> {
                             });
                           },
                           onCorrectAnswer: () {
-                            onCorrectMatch();
+                            onCorrectMatch(character);
                           }))
                       .toList(),
                 ),
@@ -204,7 +291,7 @@ class MatchingPageState extends State<MatchingPage> {
                           fontSize: 20,
                           fontWeight: FontWeight.bold)),
                 ),
-                for (int i = 1; i < maxLessons; i++)
+                for (int i = 1; i < maxLessons + 1; i++)
                   ListTile(
                     title: Text(
                       'Lesson ${i}',
@@ -252,6 +339,7 @@ class MatchingPageState extends State<MatchingPage> {
             },
             scaffoldKey: _scaffoldKey,
             score: score,
+            maxLesson: maxLessons,
           ),
           body: Column(
             children: [
@@ -284,6 +372,10 @@ class MatchingPageState extends State<MatchingPage> {
   }
 
   Widget buildWordBank() {
+    // Filter out matched words
+    List<String> availableWords =
+        shuffledWordBank.where((word) => !matchedWords.contains(word)).toList();
+
     double screenWidth = MediaQuery.of(context).size.width;
     double cardWidth = screenWidth / 5 * 0.9; // 5 cards per row with padding
     double cardHeight = 50; // Fixed height
@@ -293,7 +385,7 @@ class MatchingPageState extends State<MatchingPage> {
         alignment: WrapAlignment.center,
         spacing: 8,
         runSpacing: 8,
-        children: shuffledWordBank
+        children: availableWords
             .map((word) => buildWordCard(word, cardWidth, cardHeight))
             .toList(),
       ),
@@ -339,13 +431,40 @@ class MatchingPageState extends State<MatchingPage> {
     );
   }
 
-  void onCorrectMatch() {
+  void onCorrectMatch(String character) {
+    // Get the definition that was matched
+    String matchedDefinition = characterToDef[character]!;
+
     setState(() {
+      // Add the definition to our matched words set
+      matchedWords.add(matchedDefinition);
+      matchedCharacters.add(character); // Track matched characters
+
+      // Play correct sound
+      try {
+        audioPlayer.play(AssetSource('sounds/correct.mp3'));
+      } catch (e) {
+        print('Audio playback error: $e');
+      }
+
       score++;
       print('Score: $score');
       if (score == chineseCharacters.length) {
-        showEndGamePopup(context, true, false);
         completedLessons[lessonID] = true;
+        saveLessonProgress(); // Save progress
+        showEndGamePopup(context, true, false);
+      }
+    });
+  }
+
+  void onIncorrectMatch() {
+    setState(() {
+      lives--;
+      print('Lives remaining: $lives');
+      if (lives == 0) {
+        // Game over
+        showEndGamePopup(context, false, false);
+        print('Game over');
       }
     });
   }
