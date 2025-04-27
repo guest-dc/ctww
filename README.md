@@ -1,30 +1,35 @@
 # CtWW - Chinese the "Write" Way
 
+## **Description**
+CtWW (Chinese the "Write" Way) is an educational web app that helps users learn Chinese characters by emphasizing correct stroke order in tandem with their unique stories.  
+
 https://guest-dc.github.io/ctww/
 
-## **Description**
-A brief description of what your project does and its purpose.
-
-## **Table of Contents**
-[Features](#features)
-[Resources](#resources)
-[Contributors](#contributors)
-
 ## **Features**
-- List key features of the project
-- Highlight any unique functionalities
+- Character stroke order animations
+
+- Character breakdowns of their respective "parts"
+
+- Practice mode with stroke-by-stroke guidance
+
+- Vocabulary matching game
 
 
 ## **Resources**
-[Chinese Text Project](https://ctext.org/dictionary.pl?if=en)  
-[stroke_order_animator Package Documentation](https://pub.dev/packages/stroke_order_animator)  
+- [Chinese Text Project](https://ctext.org/dictionary.pl?if=en)  
+  Used to obtain historical and structural information about Chinese characters, such as meanings, component parts, and dictionary references.
+
+- [stroke_order_animator 3.3.0](https://pub.dev/packages/stroke_order_animator)  
+  Used to animate the stroke order of Chinese characters, providing visual, step-by-step drawing guides for learners.
 
 
 ## Contributors
-<a href="https://github.com/guest-dc/ctww/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=guest-dc/ctww" />
-</a>
-<p style="font-size: 12px">
-     Made with 
-     <a href="https://contrib.rocks" target="_blank">contrib.rocks</a>.
-</p>
+- Davis Guest ([guest-dc](https://github.com/guest-dc))
+  
+- Riley Law ([lawrp](https://github.com/lawrp))
+  
+- Maryam Koya ([Maryam-maryam](https://github.com/Maryam-maryam))
+  
+- Ibrahim Ijaduola ([iijad](https://github.com/iijad))
+  
+- Brendan Hall ([bc-hall](https://github.com/bc-hall))
