@@ -5,11 +5,9 @@ import '../utils/lesson_bar.dart';
 import '../utils/models.dart';
 import 'package:http/http.dart' as http;
 import 'package:stroke_order_animator/stroke_order_animator.dart';
-
-
+//import 'package:fluttertoast/fluttertoast.dart';
 
 class AnatomyPage extends StatefulWidget {
-
   final Character? initialCharacter;
   const AnatomyPage({Key? key, this.initialCharacter}) : super(key: key);
 
@@ -19,7 +17,8 @@ class AnatomyPage extends StatefulWidget {
 
 
 
-class AnatomyPageState extends State<AnatomyPage> with TickerProviderStateMixin {
+class AnatomyPageState extends State<AnatomyPage>
+    with TickerProviderStateMixin {
   bool _isLessonBarVisible = true;
   Character? selectedCharacter;
 
@@ -29,6 +28,7 @@ class AnatomyPageState extends State<AnatomyPage> with TickerProviderStateMixin 
 
 
 
+  // Sets up the initial state of the page, loads the default character animation
   @override
   void initState() {
     super.initState();
@@ -37,13 +37,13 @@ class AnatomyPageState extends State<AnatomyPage> with TickerProviderStateMixin 
       _animationController = _loadStrokeOrder(widget.initialCharacter!.character);
     } else {
       _animationController = _loadStrokeOrder('一');
-      
     }
     _animationController!.then((a) => _completedController = a);
   }
 
 
 
+  // Closes the HTTP client and disposes animation controller resources
   @override
   void dispose() {
     _httpClient.close();
@@ -53,32 +53,30 @@ class AnatomyPageState extends State<AnatomyPage> with TickerProviderStateMixin 
 
 
 
+  // Downloads stroke order data and initializes the stroke order animation controller
   Future<StrokeOrderAnimationController> _loadStrokeOrder(String character) async {
     return downloadStrokeOrder(character, _httpClient).then((value) {
       final controller = StrokeOrderAnimationController(
         StrokeOrder(value),
         this,
-        // onQuizCompleteCallback: (summary) {
-        //   Fluttertoast.showToast(
-        //     msg: 'Quiz finished. ${summary.nTotalMistakes} mistakes',
-        //   );
-
-        //   setState(() {});
-        // },
+        onQuizCompleteCallback: (summary) {
+          showToast(context, summary.nTotalMistakes);
+          setState(() {});
+        },
       );
+
+      controller.setShowBackground(false);
 
       return controller;
     });
   }
 
 
-
-   void _onLessonsLoaded(List<Lesson> lessons) {
+  // Handles logic after the lessons are loaded, selects the default character
+  void _onLessonsLoaded(List<Lesson> lessons) {
     if (widget.initialCharacter != null) {
       _onCharacterSelected(widget.initialCharacter!);
-    }
-
-    else if (lessons.isNotEmpty && lessons[0].characters.isNotEmpty) {
+    } else if (lessons.isNotEmpty && lessons[0].characters.isNotEmpty) {
       _onCharacterSelected(lessons[0].characters[0]);
     }
   }
@@ -98,6 +96,7 @@ class AnatomyPageState extends State<AnatomyPage> with TickerProviderStateMixin 
   }
 
 
+
   // Toggles the visibility of the Lesson Bar.
   void _toggleLessonBar() {
     setState(() {
@@ -107,6 +106,7 @@ class AnatomyPageState extends State<AnatomyPage> with TickerProviderStateMixin 
 
 
 
+  // Builds the UI for the stroke order animation and the associated controls
   FutureBuilder<StrokeOrderAnimationController> _buildStrokeOrderAnimationAndControls() {
     return FutureBuilder(
       future: _animationController,
@@ -115,13 +115,11 @@ class AnatomyPageState extends State<AnatomyPage> with TickerProviderStateMixin 
           return CircularProgressIndicator();
         }
         if (snapshot.hasData) {
-          return Expanded(
-            child: Column(
-              children: [
-                _buildStrokeOrderAnimation(snapshot.data!),
-                _buildAnimationControls(snapshot.data!),
-              ],
-            ),
+          return Column(
+            children: [
+              _buildStrokeOrderAnimation(snapshot.data!),
+              _buildAnimationControls(snapshot.data!),
+            ],
           );
         }
 
@@ -134,6 +132,7 @@ class AnatomyPageState extends State<AnatomyPage> with TickerProviderStateMixin 
 
 
 
+  // Renders the stroke order animation widget
   Widget _buildStrokeOrderAnimation(StrokeOrderAnimationController controller) {
     return StrokeOrderAnimator(
       controller,
@@ -143,7 +142,7 @@ class AnatomyPageState extends State<AnatomyPage> with TickerProviderStateMixin 
   }
 
 
-
+  // Builds the UI for the animation control buttons
   Widget _buildAnimationControls(StrokeOrderAnimationController controller) {
     return ListenableBuilder(
       listenable: controller,
@@ -156,16 +155,7 @@ class AnatomyPageState extends State<AnatomyPage> with TickerProviderStateMixin 
           ),
           primary: false,
           children: <Widget>[
-            MaterialButton(
-              onPressed: controller.isQuizzing
-                  ? null
-                  : (controller.isAnimating
-                      ? controller.stopAnimation
-                      : controller.startAnimation),
-              child: controller.isAnimating
-                  ? Text('Stop animation')
-                  : Text('Start animation'),
-            ),
+
             MaterialButton(
               onPressed: controller.isQuizzing
                   ? controller.stopQuiz
@@ -174,24 +164,40 @@ class AnatomyPageState extends State<AnatomyPage> with TickerProviderStateMixin 
                   ? Text('Stop quiz')
                   : Text('Start quiz'),
             ),
+
             MaterialButton(
-              onPressed: controller.isQuizzing ? null : controller.nextStroke,
-              child: Text('Next stroke'),
+              onPressed: controller.reset,
+              child: Text('Reset'),
             ),
+
             MaterialButton(
-              onPressed:
-                  controller.isQuizzing ? null : controller.previousStroke,
-              child: Text('Previous stroke'),
+              onPressed: controller.isQuizzing
+                  ? null
+                  : (controller.isAnimating
+                      ? controller.stopAnimation
+                      : controller.startAnimation),
+              child: controller.isAnimating
+                  ? Text('Stop animation')
+                  : Text('Play animation'),
             ),
+
             MaterialButton(
               onPressed:
                   controller.isQuizzing ? null : controller.showFullCharacter,
               child: Text('Show full character'),
             ),
+
             MaterialButton(
-              onPressed: controller.reset,
-              child: Text('Reset'),
+              onPressed: controller.isQuizzing ? null : controller.nextStroke,
+              child: Text('Next stroke'),
             ),
+
+            MaterialButton(
+              onPressed:
+                  controller.isQuizzing ? null : controller.previousStroke,
+              child: Text('Previous stroke'),
+            ),
+            
             MaterialButton(
               onPressed: () {
                 controller.setShowOutline(!controller.showOutline);
@@ -200,14 +206,7 @@ class AnatomyPageState extends State<AnatomyPage> with TickerProviderStateMixin 
                   ? Text('Hide outline')
                   : Text('Show outline'),
             ),
-            MaterialButton(
-              onPressed: () {
-                controller.setShowBackground(!controller.showBackground);
-              },
-              child: controller.showBackground
-                  ? Text('Hide background')
-                  : Text('Show background'),
-            ),
+
             MaterialButton(
               onPressed: () {
                 controller.setShowMedian(!controller.showMedian);
@@ -216,6 +215,7 @@ class AnatomyPageState extends State<AnatomyPage> with TickerProviderStateMixin 
                   ? Text('Hide medians')
                   : Text('Show medians'),
             ),
+
             MaterialButton(
               onPressed: () {
                 controller.setHighlightRadical(!controller.highlightRadical);
@@ -224,6 +224,7 @@ class AnatomyPageState extends State<AnatomyPage> with TickerProviderStateMixin 
                   ? Text('Unhighlight radical')
                   : Text('Highlight radical'),
             ),
+
             MaterialButton(
               onPressed: () {
                 controller.setShowUserStroke(!controller.showUserStroke);
@@ -239,7 +240,7 @@ class AnatomyPageState extends State<AnatomyPage> with TickerProviderStateMixin 
   }
 
 
-
+  // Builds the main page layout
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -252,7 +253,6 @@ class AnatomyPageState extends State<AnatomyPage> with TickerProviderStateMixin 
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-
                   Center(
                     child: Container(
                       width: 500,
@@ -261,21 +261,19 @@ class AnatomyPageState extends State<AnatomyPage> with TickerProviderStateMixin 
                         selectedCharacter != null
                             ? '${selectedCharacter!.character}  :  ${selectedCharacter!.definition}'
                             : '',
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.left,
                       ),
                     ),
                   ),
-
                   SizedBox(height: 5),
-
                   Container(
-                    height: 500,
+                    height: 1000,
                     width: 500,
                     alignment: Alignment.center,
                     child: _buildStrokeOrderAnimationAndControls(),
                   ),
-
                 ],
               ),
             ),
@@ -303,12 +301,69 @@ class AnatomyPageState extends State<AnatomyPage> with TickerProviderStateMixin 
                 child: Icon(Icons.menu_book),
               ),
             )
-
           ],
         ),
       ),
     );
   }
 
-  
+
+
+  // Displays the completion toast
+  void showToast(BuildContext context, int mistakeNum) {
+    Color backgroundColor;
+    String message;
+
+    switch(mistakeNum) {
+      case 0:
+        backgroundColor = Colors.green;
+        message = 'Quiz finished, $mistakeNum mistakes. Perfect!';
+      case 1:
+      case 2:
+        backgroundColor = Colors.yellow[700]!;
+        message = 'Quiz finished, $mistakeNum mistakes. Not bad!';
+      default:
+        backgroundColor = Colors.red;
+        message = 'Quiz finished, $mistakeNum mistakes. Try again!';
+    }
+    
+    final overlay = Overlay.of(context);
+
+    final overlayEntry = OverlayEntry(
+      builder: (context) => Center(
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.circular(12.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 10.0,
+                  offset: Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Text(
+              message,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    overlay.insert(overlayEntry);
+
+    Future.delayed(const Duration(seconds: 2), () {
+      overlayEntry.remove();
+    });
+  }
+
 }
