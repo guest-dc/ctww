@@ -15,7 +15,6 @@ dependencies:
   stroke_order_animator: ^3.3.0
   lottie: ^3.3.1
   audioplayers: ^6.4.0
-  localstorage: ^6.0.0
   shared_preferences: ^2.5.3
 
 dev_dependencies:

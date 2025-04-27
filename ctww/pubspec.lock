@@ -216,14 +216,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.1.1"
-  localstorage:
-    dependency: "direct main"
-    description:
-      name: localstorage
-      sha256: e037e1db61f846e007206ef27f37d1d0cf53f9e25db5de983034803dd3356734
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.0.0"
   lottie:
     dependency: "direct main"
     description:
