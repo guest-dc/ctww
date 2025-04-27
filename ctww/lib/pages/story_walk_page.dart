@@ -3,18 +3,21 @@ import '../utils/colors.dart';
 import '../utils/nav_bar.dart';
 import '../utils/lesson_bar.dart';
 import '../utils/models.dart';
-
 import 'package:http/http.dart' as http;
 import 'package:stroke_order_animator/stroke_order_animator.dart';
+import '../pages/anatomy_page.dart';
+
+
 
 class StoryWalkPage extends StatefulWidget {
-
   final Character? initialCharacter;
-  const StoryWalkPage({Key? key, this.initialCharacter}) : super(key: key);
+  const StoryWalkPage({super.key, this.initialCharacter});
 
   @override
   StoryWalkPageState createState() => StoryWalkPageState();
 }
+
+
 
 class StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMixin {
   bool _isLessonBarVisible = true;
@@ -28,6 +31,7 @@ class StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMi
 
 
 
+  // Sets up the initial state of the page, loads the default character animation
   @override
   void initState() {
     super.initState();
@@ -43,6 +47,7 @@ class StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMi
 
 
 
+  // Closes the HTTP client and disposes animation controller resources
   @override
   void dispose() {
     _httpClient.close();
@@ -52,6 +57,7 @@ class StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMi
 
 
 
+  // Downloads stroke order data and initializes the stroke order animation controller
   Future<StrokeOrderAnimationController> _loadStrokeOrder(String character) async {
     return downloadStrokeOrder(character, _httpClient).then((value) {
       final controller = StrokeOrderAnimationController(
@@ -68,23 +74,13 @@ class StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMi
 
 
 
+  // Handles logic after the lessons are loaded, selects the default character
   void _onLessonsLoaded(List<Lesson> lessons) {
     if (widget.initialCharacter != null) {
       _onCharacterSelected(widget.initialCharacter!);
-    }
-
-    else if (lessons.isNotEmpty && lessons[0].characters.isNotEmpty) {
+    } else if (lessons.isNotEmpty && lessons[0].characters.isNotEmpty) {
       _onCharacterSelected(lessons[0].characters[0]);
     }
-  }
-
-
-
-  // Toggles the visibility of the Lesson Bar.
-  void _toggleLessonBar() {
-    setState(() {
-      _isLessonBarVisible = !_isLessonBarVisible;
-    });
   }
 
 
@@ -105,6 +101,202 @@ class StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMi
       _animationController = _loadStrokeOrder(character.character);
       _animationController!.then((a) => _completedController = a);
     });
+  }
+
+
+
+  // Toggles the visibility of the Lesson Bar.
+  void _toggleLessonBar() {
+    setState(() {
+      _isLessonBarVisible = !_isLessonBarVisible;
+    });
+  }
+
+
+
+  // Builds the UI for the stroke order animation and the associated controls
+  FutureBuilder<StrokeOrderAnimationController> _buildStrokeOrderAnimationAndControls() {
+    return FutureBuilder(
+      future: _animationController,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return CircularProgressIndicator();
+        }
+        if (snapshot.hasData) {
+          return Column(
+            children: [
+              _buildAnimationControlsTop(snapshot.data!),
+              _buildStrokeOrderAnimation(snapshot.data!),
+              _buildAnimationControlsBottom(snapshot.data!),
+            ],
+          );
+        }
+
+        if (snapshot.hasError) return Text(snapshot.error.toString());
+
+        return SizedBox.shrink();
+      },
+    );
+  }
+
+
+
+  // Renders the stroke order animation widget
+  Widget _buildStrokeOrderAnimation(StrokeOrderAnimationController controller) {
+    return StrokeOrderAnimator(
+      controller,
+      size: Size(300, 300),
+      key: UniqueKey(),
+    );
+  }
+
+
+
+  // Builds the UI for the top animation control buttons
+  Widget _buildAnimationControlsTop(StrokeOrderAnimationController controller) {
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, child) {
+
+        return Stack(
+          children: [
+
+            // Left
+            Row(
+              children: <Widget>[
+
+                Text(charPart != -1 ? 'Part: ${(charPart + 1)}' : 'Part: FULL',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  textAlign: TextAlign.left,
+                ),
+
+              ],
+            ),
+
+            // Middle
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+
+                ElevatedButton(
+                  onPressed: () { fullReset(controller); },
+                  child: Icon(Icons.refresh, size: 25, color: colorGOLD)
+                ),
+
+              ],
+            ),
+
+            // Right
+            Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AnatomyPage(
+                        initialCharacter: selectedCharacter
+                      ),
+                    ),
+                  );
+                },
+                child: Icon(Icons.draw, size: 25, color: colorGOLD),
+              ),
+            ],
+          ),
+
+          ]
+        );
+      },
+    );
+  }
+
+
+
+  // Builds the UI for the bottom animation control buttons
+  Widget _buildAnimationControlsBottom(StrokeOrderAnimationController controller) {
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, child) {
+
+        return Flexible(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+
+              ElevatedButton(
+                onPressed: () {
+
+                  if (charPart == 0 || charPart == -1) {
+                    fullReset(controller);
+                  }
+                  else {
+                    previousPart(controller);
+                  }
+
+                },
+                child: Icon(Icons.arrow_back_ios, size: 25, color: colorGOLD)
+              ),
+
+              SizedBox(width: 50),
+
+              ElevatedButton(
+                onPressed: () {
+
+                  if (charPart == -1) {
+                    controller.reset();
+                  }
+                  else if (charPart == maxPartNum - 1) {
+                    return;
+                  }
+                  nextPart(controller);
+
+                },
+                child: Icon(Icons.arrow_forward_ios, size: 25, color: colorGOLD)
+              ),
+
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+
+
+  // Resets controller, starts the animation again, and sets the charPart back to -1.
+  void fullReset(StrokeOrderAnimationController controller) {
+    controller.reset();
+    controller.startAnimation();
+    charPart = -1;
+  }
+
+
+
+  // Performs .previousStroke() based on the amount of strokes a part has.
+  void previousPart(StrokeOrderAnimationController controller) {
+    int partDelta = selectedCharacter!.parts[charPart].strokeNums.length;
+
+    for (int i = 0; i < partDelta; i++) {
+      controller.previousStroke();
+    }
+
+    charPart--;
+  }
+
+
+
+  // Performs .nextStroke() based on the amount of strokes the next part has.
+  void nextPart(StrokeOrderAnimationController controller) {
+    int nextPart = charPart + 1; 
+    int partDelta = selectedCharacter!.parts[nextPart].strokeNums.length;
+
+    for (int i = 0; i < partDelta; i++) {
+      controller.nextStroke();
+    }
+
+    charPart++;
   }
 
 
@@ -204,164 +396,6 @@ class StoryWalkPageState extends State<StoryWalkPage> with TickerProviderStateMi
         ),
       ),
     );
-  }
-
-
-
-  FutureBuilder<StrokeOrderAnimationController> _buildStrokeOrderAnimationAndControls() {
-    return FutureBuilder(
-      future: _animationController,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) {
-          return CircularProgressIndicator();
-        }
-        if (snapshot.hasData) {
-          return Column(
-            children: [
-              _buildAnimationControlsTop(snapshot.data!),
-              _buildStrokeOrderAnimation(snapshot.data!),
-              _buildAnimationControlsBottom(snapshot.data!),
-            ],
-          );
-        }
-
-        if (snapshot.hasError) return Text(snapshot.error.toString());
-
-        return SizedBox.shrink();
-      },
-    );
-  }
-
-
-
-  Widget _buildStrokeOrderAnimation(StrokeOrderAnimationController controller) {
-    return StrokeOrderAnimator(
-      controller,
-      size: Size(300, 300),
-      key: UniqueKey(),
-    );
-  }
-
-
-
-  Widget _buildAnimationControlsTop(StrokeOrderAnimationController controller) {
-    return ListenableBuilder(
-      listenable: controller,
-      builder: (context, child) {
-
-        return Stack(
-          children: [
-
-            Row(
-              children: <Widget>[
-
-                Text(charPart != -1 ? 'Part: ${(charPart + 1)}' : 'Part: FULL',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                  textAlign: TextAlign.left,
-                ),
-
-              ],
-            ),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-
-                ElevatedButton(
-                  onPressed: () { fullReset(controller); },
-                  child: Icon(Icons.refresh, size: 25, color: colorGOLD)
-                ),
-
-              ],
-            ),
-
-          ]
-        );
-      },
-    );
-  }
-
-
-
-  Widget _buildAnimationControlsBottom(StrokeOrderAnimationController controller) {
-    return ListenableBuilder(
-      listenable: controller,
-      builder: (context, child) {
-
-        return Flexible(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-
-              ElevatedButton(
-                onPressed: () {
-
-                  if (charPart == 0 || charPart == -1) {
-                    fullReset(controller);
-                  }
-                  else {
-                    previousPart(controller);
-                  }
-
-                },
-                child: Icon(Icons.arrow_back_ios, size: 25, color: colorGOLD)
-              ),
-
-              SizedBox(width: 50),
-
-              ElevatedButton(
-                onPressed: () {
-
-                  if (charPart == -1) {
-                    controller.reset();
-                  }
-                  else if (charPart == maxPartNum - 1) {
-                    return;
-                  }
-                  nextPart(controller);
-
-                },
-                child: Icon(Icons.arrow_forward_ios, size: 25, color: colorGOLD)
-              ),
-
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-
-  // Resets controller, starts the animation again, and sets the charPart back to -1.
-  void fullReset(StrokeOrderAnimationController controller) {
-    controller.reset();
-    controller.startAnimation();
-    charPart = -1;
-  }
-
-
-  // Performs .previousStroke() based on the amount of strokes a part has.
-  void previousPart(StrokeOrderAnimationController controller) {
-    int partDelta = selectedCharacter!.parts[charPart].strokeNums.length;
-
-    for (int i = 0; i < partDelta; i++) {
-      controller.previousStroke();
-    }
-
-    charPart--;
-  }
-
-
-  // Performs .nextStroke() based on the amount of strokes the next part has.
-  void nextPart(StrokeOrderAnimationController controller) {
-    int nextPart = charPart + 1; 
-    int partDelta = selectedCharacter!.parts[nextPart].strokeNums.length;
-
-    for (int i = 0; i < partDelta; i++) {
-      controller.nextStroke();
-    }
-
-    charPart++;
   }
 
 }
