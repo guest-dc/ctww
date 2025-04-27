@@ -1,5 +1,5 @@
 name: ctww
-description: "A new Flutter project."
+description: "A Chinese character teaching app that helps users learn Chinese characters through interactive games and animations."
 
 version: 0.1.0
 
@@ -13,7 +13,10 @@ dependencies:
     sdk: flutter
   http: ^1.3.0
   stroke_order_animator: ^3.3.0
-  lottie: ^2.0.0
+  lottie: ^3.3.1
+  audioplayers: ^6.4.0
+  localstorage: ^6.0.0
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:
@@ -27,3 +30,7 @@ flutter:
     - assets/images/ctww_icon.png
     - assets/images/ctww_icon_char.png
     - assets/animations/dragAnimation.json
+    - assets/sounds/correct.mp3
+    - assets/sounds/incorrect.mp3
+    - assets/sounds/win.mp3
+    - assets/sounds/failure.mp3
