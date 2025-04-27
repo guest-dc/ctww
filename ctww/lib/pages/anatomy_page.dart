@@ -5,11 +5,12 @@ import '../utils/lesson_bar.dart';
 import '../utils/models.dart';
 import 'package:http/http.dart' as http;
 import 'package:stroke_order_animator/stroke_order_animator.dart';
-//import 'package:fluttertoast/fluttertoast.dart';
+
+
 
 class AnatomyPage extends StatefulWidget {
   final Character? initialCharacter;
-  const AnatomyPage({Key? key, this.initialCharacter}) : super(key: key);
+  const AnatomyPage({super.key, this.initialCharacter});
 
   @override
   AnatomyPageState createState() => AnatomyPageState();
@@ -17,8 +18,7 @@ class AnatomyPage extends StatefulWidget {
 
 
 
-class AnatomyPageState extends State<AnatomyPage>
-    with TickerProviderStateMixin {
+class AnatomyPageState extends State<AnatomyPage> with TickerProviderStateMixin {
   bool _isLessonBarVisible = true;
   Character? selectedCharacter;
 
@@ -70,6 +70,7 @@ class AnatomyPageState extends State<AnatomyPage>
       return controller;
     });
   }
+
 
 
   // Handles logic after the lessons are loaded, selects the default character
@@ -140,6 +141,7 @@ class AnatomyPageState extends State<AnatomyPage>
       key: UniqueKey(),
     );
   }
+
 
 
   // Builds the UI for the animation control buttons
@@ -240,6 +242,66 @@ class AnatomyPageState extends State<AnatomyPage>
   }
 
 
+
+  // Displays the completion toast
+  void showToast(BuildContext context, int mistakeNum) {
+    Color backgroundColor;
+    String message;
+
+    switch(mistakeNum) {
+      case 0:
+        backgroundColor = Colors.green;
+        message = 'Quiz finished, $mistakeNum mistakes. Perfect!';
+      case 1:
+      case 2:
+        backgroundColor = Colors.yellow[700]!;
+        message = 'Quiz finished, $mistakeNum mistakes. Not bad!';
+      default:
+        backgroundColor = Colors.red;
+        message = 'Quiz finished, $mistakeNum mistakes. Try again!';
+    }
+    
+    final overlay = Overlay.of(context);
+
+    final overlayEntry = OverlayEntry(
+      builder: (context) => Center(
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.circular(12.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 10.0,
+                  offset: Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Text(
+              message,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    overlay.insert(overlayEntry);
+
+    Future.delayed(const Duration(seconds: 2), () {
+      overlayEntry.remove();
+    });
+  }
+
+
+
   // Builds the main page layout
   @override
   Widget build(BuildContext context) {
@@ -305,65 +367,6 @@ class AnatomyPageState extends State<AnatomyPage>
         ),
       ),
     );
-  }
-
-
-
-  // Displays the completion toast
-  void showToast(BuildContext context, int mistakeNum) {
-    Color backgroundColor;
-    String message;
-
-    switch(mistakeNum) {
-      case 0:
-        backgroundColor = Colors.green;
-        message = 'Quiz finished, $mistakeNum mistakes. Perfect!';
-      case 1:
-      case 2:
-        backgroundColor = Colors.yellow[700]!;
-        message = 'Quiz finished, $mistakeNum mistakes. Not bad!';
-      default:
-        backgroundColor = Colors.red;
-        message = 'Quiz finished, $mistakeNum mistakes. Try again!';
-    }
-    
-    final overlay = Overlay.of(context);
-
-    final overlayEntry = OverlayEntry(
-      builder: (context) => Center(
-        child: Material(
-          color: Colors.transparent,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-            decoration: BoxDecoration(
-              color: backgroundColor,
-              borderRadius: BorderRadius.circular(12.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 10.0,
-                  offset: Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Text(
-              message,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-
-    overlay.insert(overlayEntry);
-
-    Future.delayed(const Duration(seconds: 2), () {
-      overlayEntry.remove();
-    });
   }
 
 }
